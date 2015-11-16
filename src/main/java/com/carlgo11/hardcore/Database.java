@@ -9,11 +9,10 @@ import java.util.logging.Logger;
 
 public class Database {
 
-    private Hardcore plugin;
+    private Hardcore hc;
 
-    public Database(Hardcore plug)
-    {
-        this.plugin = plug;
+    public Database(Hardcore plug) {
+        this.hc = plug;
 
     }
 
@@ -23,22 +22,19 @@ public class Database {
     public String password;
     public String database;
 
-    public void updateConnection(String url, String port, String username, String password, String database)
-    {
-        this.url = url;
-        this.port = port;
-        this.username = username;
-        this.password = password;
-        this.database = database;
+    public void updateConnection(String[] info) {
+        this.url = info[0];
+        this.port = info[1];
+        this.username = info[2];
+        this.password = info[3];
+        this.database = info[4];
     }
 
-    private void createTables()
-    {
+    private void createTables() {
         //TODO
     }
 
-    public String getData(String name, String table)
-    {
+    public String getData(String name, String table) {
         Connection con;
         Statement st;
         ResultSet rs;
@@ -47,7 +43,7 @@ public class Database {
             st = con.createStatement();
             rs = st.executeQuery("SELECT * from " + table + "WHERE `name` = " + name);
 
-            return rs.getString(3).toString();
+            return rs.getString(3).toString();  // int = row
         } catch (Exception ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }

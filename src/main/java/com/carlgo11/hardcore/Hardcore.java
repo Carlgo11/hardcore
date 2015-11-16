@@ -14,6 +14,7 @@ public class Hardcore extends JavaPlugin {
     {
         config = new Config(this);
         database = new Database(this);
+        setupDatabase();
         
         final PluginManager pm = getServer().getPluginManager();
         registerListeners(pm);
@@ -21,7 +22,7 @@ public class Hardcore extends JavaPlugin {
 
     public void onDisable()
     {
-
+        
     }
 
     private void registerListeners(PluginManager pm)
@@ -30,11 +31,14 @@ public class Hardcore extends JavaPlugin {
         pm.registerEvents(new PlayerConnect(this), this);
     }
     
-    
-    public Database getSettingsd(){
+    public Database getSettings(){
         return database;
     }
     public Config getConf(){
         return config;
+    }
+    private void setupDatabase(){
+        String[] info = this.getConf().getDatabaseInfo();
+        this.getSettings().updateConnection(info);
     }
 }
