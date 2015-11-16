@@ -9,11 +9,14 @@ public class Hardcore extends JavaPlugin {
 
     private transient Database database;
     private transient Config config;
+    private transient Game game;
     
+
     public void onEnable()
     {
         config = new Config(this);
         database = new Database(this);
+        game = new Game(this);
         setupDatabase();
         
         final PluginManager pm = getServer().getPluginManager();
@@ -34,11 +37,17 @@ public class Hardcore extends JavaPlugin {
     public Database getSettings(){
         return database;
     }
+
     public Config getConf(){
         return config;
     }
+
     private void setupDatabase(){
         String[] info = this.getConf().getDatabaseInfo();
         this.getSettings().updateConnection(info);
+    }
+    
+    public Game game(){
+        return game;
     }
 }

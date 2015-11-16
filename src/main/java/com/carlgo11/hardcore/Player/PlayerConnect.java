@@ -1,4 +1,4 @@
-package com.carlgo11.hardcore.Player;
+package com.carlgo11.hardcore.player;
 
 import com.carlgo11.hardcore.Hardcore;
 import org.bukkit.event.Listener;
