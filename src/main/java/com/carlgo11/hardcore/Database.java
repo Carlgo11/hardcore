@@ -43,7 +43,7 @@ public class Database {
             st = con.createStatement();
             rs = st.executeQuery("SELECT * from " + table + "WHERE `name` = " + name);
 
-            return rs.getString(3).toString();  //@Usage: int = row
+            return rs.getString(3);  //@Usage: int = row
         } catch (Exception ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
