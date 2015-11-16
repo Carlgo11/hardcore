@@ -13,7 +13,6 @@ public class Database {
 
     public Database(Hardcore plug) {
         this.hc = plug;
-
     }
 
     public String url;

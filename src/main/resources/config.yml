@@ -1,0 +1,8 @@
+mysql:
+  username: "Lain"
+  password: "JAMUPsBMB7mrZNzx"
+  url: "jdbc:mysql://localhost:3306/"
+  database: "portalcraft"
+  motd-table: "motd"
+  rank-table: "ranks"
+  ext-table: "commands"

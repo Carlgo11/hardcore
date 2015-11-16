@@ -9,12 +9,12 @@ public class Config {
     }
 
     public String[] getDatabaseInfo() {
-        String[] info = {};
-        info[info.length] = hc.getConfig().getString("url");
-        info[info.length] = hc.getConfig().getString("port");
-        info[info.length] = hc.getConfig().getString("username");
-        info[info.length] = hc.getConfig().getString("password");
-        info[info.length] = hc.getConfig().getString("database");
+        String[] info = new String[5];
+        info[0] = hc.getConfig().getString("mysql.url");
+        info[1] = hc.getConfig().getString("mysql.port");
+        info[2] = hc.getConfig().getString("mysql.username");
+        info[3] = hc.getConfig().getString("mysql.password");
+        info[4] = hc.getConfig().getString("mysql.database");
         return info;
     }
 }
