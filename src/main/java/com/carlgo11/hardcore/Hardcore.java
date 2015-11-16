@@ -1,6 +1,6 @@
 package com.carlgo11.hardcore;
 
-import com.carlgo11.hardcore.Player.*;
+import com.carlgo11.hardcore.player.*;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
