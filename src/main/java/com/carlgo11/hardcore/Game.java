@@ -2,38 +2,44 @@ package com.carlgo11.hardcore;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 public class Game {
 
     private Hardcore hc;
     private Timer timer = new Timer();
     private int gamestate;
+    private Player[] players;
 
     public Game(Hardcore plug)
     {
         this.hc = plug;
     }
     private int difficulty;
-    
+
     public void startGame()
     {
-        setPlayers(null); //TODO: set value
+        int size = Bukkit.getOnlinePlayers().size();
+        Player[] Players = Bukkit.getOnlinePlayers().toArray(new Player[size]);
+        setPlayers(Players);
         loop();
     }
 
     private void loop()
     {
-        
-
         timer.schedule(new TimerTask() {
             public void run()
             {
-        nextDifficulty();         
+                nextDifficulty();
+                System.out.println("Next difficulty: " + getDifficulty());
             }
         }, 0, 5 * 60 * 1000); // M(5) * S(60) * MS(1000);
     }
-    private void nextDifficulty(){
-        difficulty=difficulty++;
+
+    private void nextDifficulty()
+    {
+        difficulty = difficulty + 1;
     }
 
     public void stopGame()
@@ -46,16 +52,18 @@ public class Game {
         return difficulty;
     }
 
-    public String[] getPlayers()
+    public Player[] getPlayers()
     {
-        return null; //TODO: set value
+        return players;
     }
 
-    public void setPlayers(String[] players)
+    public void setPlayers(Player[] players)
     {
-
+        this.players = players;
     }
-    public int getGameState(){
+
+    public int getGameState()
+    {
         return gamestate;
     }
 }

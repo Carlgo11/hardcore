@@ -1,6 +1,7 @@
 package com.carlgo11.hardcore.player;
 
 import com.carlgo11.hardcore.Hardcore;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
@@ -12,8 +13,9 @@ public class PlayerConnect implements Listener {
         this.hc = parent;
     }
 
+    @EventHandler
     public void onPlayerConnect(PlayerJoinEvent e) {
-
+        
     }
 
 }
