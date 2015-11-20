@@ -28,10 +28,11 @@ public class Game {
 
     private void loop()
     {
-        timer.schedule(new TimerTask() {
+        timer.schedule(new TimerTask() { //TODO: Change to bukkit's "scheduled task"
             public void run()
             {
                 nextDifficulty();
+                hc.itemDrop();
                 System.out.println("Next difficulty: " + getDifficulty());
             }
         }, 0, 5 * 60 * 1000); // M(5) * S(60) * MS(1000);

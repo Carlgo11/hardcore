@@ -10,6 +10,7 @@ public class Hardcore extends JavaPlugin {
     private transient Database database;
     private transient Config config;
     private transient Game game;
+    private transient ItemDrop itemdrop;
 
 
     @Override
@@ -18,12 +19,12 @@ public class Hardcore extends JavaPlugin {
         config = new Config(this);
         database = new Database(this);
         game = new Game(this);
+        itemdrop = new ItemDrop(this);
         setupDatabase();
 
         final PluginManager pm = getServer().getPluginManager();
         registerListeners(pm);
         game().startGame();
-        
     }
 
     @Override
@@ -55,5 +56,8 @@ public class Hardcore extends JavaPlugin {
 
     public Game game(){
         return game;
+    }
+    public void itemDrop(){
+        itemdrop.dropItems();
     }
 }

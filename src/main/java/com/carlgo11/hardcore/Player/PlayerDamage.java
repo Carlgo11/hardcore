@@ -19,7 +19,8 @@ public class PlayerDamage implements Listener {
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent e)
     {
-        if (!e.getCause().equals(DamageCause.FALL)) {
+        DamageCause cause = e.getCause();
+        if (!cause.equals(DamageCause.FALL)) {
             if (e.getEntity() instanceof Player) {
                 double damage = e.getDamage();
                 e.setDamage(damage * hc.game().getDifficulty());
