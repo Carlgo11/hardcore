@@ -1,5 +1,6 @@
 package com.carlgo11.hardcore;
 
+import java.util.ArrayList;
 import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -15,10 +16,9 @@ public class ItemDrop {
 
     public void dropItems()
     {
-        Player[] player = hc.game().getPlayers();
-        for (int i = 0; i < player.length; i++) {
-            String cmd = "give "+player[i].getName()+" "+getItem(); //TODO: Apparently Mojang changed the give command to not accepting IDs anymore. https://www.spigotmc.org/threads/getting-bukkit-material-from-minecraft-item-id.56684/
-            System.out.println(cmd);
+        ArrayList<Player> players = hc.game().getPlayers();
+        for (Player player : players) {
+            String cmd = "give " + player.getName() + " " + getItem();
             hc.getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd);
         }
     }

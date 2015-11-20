@@ -1,16 +1,17 @@
 package com.carlgo11.hardcore;
 
+import java.util.ArrayList;
 import java.util.Timer;
-import java.util.TimerTask;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class Game {
 
-    private Hardcore hc;
-    private Timer timer = new Timer();
-    private int gamestate;
-    private Player[] players;
+    private final Hardcore hc;
+    private final Timer timer = new Timer();
+    private int gamestate; // 0 = warmup, 1 = running, 2 starting
+    private ArrayList<Player> players = new ArrayList<>();
 
     public Game(Hardcore plug)
     {
@@ -20,22 +21,25 @@ public class Game {
 
     public void startGame()
     {
-        int size = Bukkit.getOnlinePlayers().size();
-        Player[] Players = Bukkit.getOnlinePlayers().toArray(new Player[size]);
-        setPlayers(Players);
+        ArrayList<Player> plyrs = new ArrayList<>(Bukkit.getOnlinePlayers());
+        setPlayers(plyrs);
+        setGameState(1);
         loop();
     }
 
     private void loop()
     {
-        timer.schedule(new TimerTask() { //TODO: Change to bukkit's "scheduled task"
+        hc.getServer().getScheduler().scheduleSyncRepeatingTask(hc, new Runnable() {
+            @Override
             public void run()
             {
                 nextDifficulty();
                 hc.itemDrop();
-                System.out.println("Next difficulty: " + getDifficulty());
+                if (getDifficulty() != 1) {
+                    hc.broadcastMessage(ChatColor.GOLD + "Next difficulty: " + getDifficulty());
+                }
             }
-        }, 0, 5 * 60 * 1000); // M(5) * S(60) * MS(1000);
+        }, 20L, 6000L);
     }
 
     private void nextDifficulty()
@@ -45,6 +49,7 @@ public class Game {
 
     public void stopGame()
     {
+        setGameState(0);
         timer.cancel();
     }
 
@@ -53,12 +58,12 @@ public class Game {
         return difficulty;
     }
 
-    public Player[] getPlayers()
+    public ArrayList<Player> getPlayers()
     {
         return players;
     }
 
-    public void setPlayers(Player[] players)
+    public void setPlayers(ArrayList<Player> players)
     {
         this.players = players;
     }
@@ -66,5 +71,10 @@ public class Game {
     public int getGameState()
     {
         return gamestate;
+    }
+
+    public void setGameState(int newstate)
+    {
+        gamestate = newstate;
     }
 }
