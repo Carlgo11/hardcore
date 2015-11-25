@@ -3,3 +3,6 @@ name: Hardcore
 version: 1.0
 author: Carlgo11
 website: https://github.com/Carlgo11/hardcore/
+commands:
+ difficulty:
+   usage: /<command> [set/get] (int)

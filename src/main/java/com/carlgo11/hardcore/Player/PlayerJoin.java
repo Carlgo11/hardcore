@@ -21,10 +21,9 @@ public class PlayerJoin implements Listener {
     {
         Player player = e.getPlayer();
         if (hc.game().getGameState() == 0) {
-            hc.sendMessagef(player, "Waiting for more players...");
+            hc.sendMessage(player, "Waiting for more players...");
         } else if (hc.game().getGameState() == 2) {
-            hc.sendMessagef(player, ChatColor.GOLD + "Game starting...");
+            hc.sendMessage(player, ChatColor.GOLD + "Game starting...");
         }
     }
-
 }

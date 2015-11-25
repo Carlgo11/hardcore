@@ -17,7 +17,7 @@ public class Game {
     {
         this.hc = plug;
     }
-    private int difficulty;
+    public int difficulty;
 
     public void startGame()
     {
@@ -33,10 +33,13 @@ public class Game {
             @Override
             public void run()
             {
-                nextDifficulty();
-                hc.itemDrop();
-                if (getDifficulty() != 1) {
-                    hc.broadcastMessage(ChatColor.GOLD + "Next difficulty: " + getDifficulty());
+                int max = hc.getConfig().getInt("difficulty.max");
+                if (max == -1 || difficulty < max) {
+                    nextDifficulty();
+                    hc.itemDrop();
+                    if (getDifficulty() != 1) {
+                        hc.broadcastMessage(ChatColor.GOLD + "Next difficulty: " + getDifficulty());
+                    }
                 }
             }
         }, 20L, 6000L);
@@ -44,7 +47,7 @@ public class Game {
 
     private void nextDifficulty()
     {
-        difficulty = difficulty + 1;
+        difficulty = difficulty + (hc.getConfig().getInt("difficulty.addition"));
     }
 
     public void stopGame()

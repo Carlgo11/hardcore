@@ -1,8 +1,11 @@
 package com.carlgo11.hardcore;
 
+import com.carlgo11.hardcore.commands.*;
 import com.carlgo11.hardcore.player.*;
+import java.io.File;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
@@ -11,14 +14,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Hardcore extends JavaPlugin {
 
     private transient Database database;
-    private transient Config config;
     private transient Game game;
     private transient ItemDrop itemdrop;
 
     @Override
     public void onEnable()
     {
-        config = new Config(this);
+        loadConfig();
         database = new Database(this);
         game = new Game(this);
         itemdrop = new ItemDrop(this);
@@ -28,12 +30,13 @@ public class Hardcore extends JavaPlugin {
         registerListeners(pm);
         game().startGame();
         setStartBorder();
+        loadCommands();
     }
 
     @Override
     public void onDisable()
     {
-        
+
     }
 
     private void registerListeners(PluginManager pm)
@@ -46,19 +49,19 @@ public class Hardcore extends JavaPlugin {
         pm.registerEvents(new PlayerRegainHealth(this), this);
     }
 
+    private void loadCommands()
+    {
+        getCommand("difficulty").setExecutor(new CommandDifficulty(this));
+    }
+
     public Database getSettings()
     {
         return database;
     }
 
-    public Config getConf()
-    {
-        return config;
-    }
-
     private void setupDatabase()
     {
-        String[] info = this.getConf().getDatabaseInfo();
+        String[] info = this.database.getDatabaseInfo();
         this.getSettings().updateConnection(info);
     }
 
@@ -78,10 +81,21 @@ public class Hardcore extends JavaPlugin {
         getServer().broadcastMessage(ChatColor.GREEN + prefix + ChatColor.YELLOW + message);
     }
 
-    public void sendMessagef(Player player, String message)
+    public void sendMessage(Player player, String message)
     {
         String prefix = getConfig().getString("prefix");
         player.sendMessage(ChatColor.GREEN + prefix + ChatColor.YELLOW + message);
+    }
+
+    public void sendMessage(CommandSender player, String message)
+    {
+        String prefix = getConfig().getString("prefix");
+        player.sendMessage(ChatColor.GREEN + prefix + ChatColor.YELLOW + message);
+    }
+
+    public void badPermissions(CommandSender player)
+    {
+        sendMessage(player, ChatColor.RED + "You don't have permission to use that command");
     }
 
     private void setStartBorder()
@@ -101,4 +115,17 @@ public class Hardcore extends JavaPlugin {
         System.out.println("CMD:" + cmd);
         getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd);
     }
+
+    public void loadConfig()
+    {
+        File config = new File(getDataFolder(), "config.yml");
+        if (!config.exists()) {
+            saveDefaultConfig();
+            getConfig().options().copyHeader(true);
+            String prefix = getConfig().getString("prefix");
+
+            System.out.println(prefix + "No config.yml detected, config.yml created");
+        }
+    }
+
 }
