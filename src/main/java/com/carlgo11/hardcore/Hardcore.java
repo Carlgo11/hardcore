@@ -3,8 +3,12 @@ package com.carlgo11.hardcore;
 import com.carlgo11.hardcore.commands.*;
 import com.carlgo11.hardcore.player.*;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bukkit.Bukkit;
+import static org.bukkit.Bukkit.getWorlds;
 import org.bukkit.ChatColor;
+import org.bukkit.Difficulty;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -16,27 +20,37 @@ public class Hardcore extends JavaPlugin {
     private transient Database database;
     private transient Game game;
     private transient ItemDrop itemdrop;
+    private Logger log;
 
     @Override
     public void onEnable()
     {
+        log = getLogger();
         loadConfig();
         database = new Database(this);
         game = new Game(this);
         itemdrop = new ItemDrop(this);
         setupDatabase();
+        loadCommands();
 
         final PluginManager pm = getServer().getPluginManager();
         registerListeners(pm);
         game().startGame();
         setStartBorder();
-        loadCommands();
+        setDifficulty();
+
     }
 
     @Override
     public void onDisable()
     {
 
+    }
+
+    private void setDifficulty()
+    {
+        getWorlds().get(0).setDifficulty(Difficulty.getByValue(getConfig().getInt("difficulty.mode")));
+        outputInfo("World difficulty set to " + getWorlds().get(0).getDifficulty());
     }
 
     private void registerListeners(PluginManager pm)
@@ -112,7 +126,6 @@ public class Hardcore extends JavaPlugin {
 
     public void executeCommand(String cmd)
     {
-        System.out.println("CMD:" + cmd);
         getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd);
     }
 
@@ -124,8 +137,18 @@ public class Hardcore extends JavaPlugin {
             getConfig().options().copyHeader(true);
             String prefix = getConfig().getString("prefix");
 
-            System.out.println(prefix + "No config.yml detected, config.yml created");
+            outputWarning("No config.yml detected, config.yml created");
         }
+    }
+
+    public void outputInfo(String msg)
+    {
+        log.log(Level.INFO, msg);
+    }
+
+    public void outputWarning(String msg)
+    {
+        log.log(Level.WARNING, msg);
     }
 
 }

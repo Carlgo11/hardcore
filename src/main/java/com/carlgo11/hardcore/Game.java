@@ -29,6 +29,8 @@ public class Game {
 
     private void loop()
     {
+        int time = hc.getConfig().getInt("difficulty.delay");
+        long t = 20 * 60 * time;
         hc.getServer().getScheduler().scheduleSyncRepeatingTask(hc, new Runnable() {
             @Override
             public void run()
@@ -42,7 +44,7 @@ public class Game {
                     }
                 }
             }
-        }, 20L, 6000L);
+        }, 20L, t);
     }
 
     private void nextDifficulty()

@@ -12,9 +12,12 @@ border:
   start-distance: 2000
   end-distance: 200
   time: 1000
-  
+
 difficulty:
   # Value that the difficulty adds every time a new difficulty level is due to be set.
   addition: 1
   # Max difficulty. Set value to -1 if no max value should be set.
-  max: -1  
+  max: -1
+  #Delay between difficulty levels. Time in minutes
+  delay: 5
+  mode: 3
