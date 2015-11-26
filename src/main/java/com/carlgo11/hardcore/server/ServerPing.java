@@ -1,6 +1,7 @@
 package com.carlgo11.hardcore.server;
 
 import com.carlgo11.hardcore.Hardcore;
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerListPingEvent;
@@ -17,18 +18,14 @@ public class ServerPing implements Listener {
     @EventHandler
     public void onMOTD(ServerListPingEvent event)
     {
-        /*  if (hc.first == true) {
-         if (hc.starting) {
-         event.setMotd(event.getMotd() + ChatColor.GOLD + "Starting");
-         } else {
-         event.setMotd(event.getMotd() + ChatColor.GREEN + "Warmup");
-         }
-         } else if (hc.ending) {
-         event.setMotd(event.getMotd() + ChatColor.DARK_RED + "Ending");
-         } else {
-         event.setMotd(event.getMotd() + ChatColor.RED + "In Game");
-         }
-         */
+        int state = hc.game().getGameState();
+        String motd = event.getMotd()+" ";
+        if (state == 2) {
+            event.setMotd(motd + ChatColor.GOLD + "Starting");
+        } else if (state == 0) {
+            event.setMotd(motd + ChatColor.GREEN + "Warmup");
+        } else if (state == 1) {
+            event.setMotd(motd + ChatColor.RED + "In Game");
+        }
     }
-
 }
