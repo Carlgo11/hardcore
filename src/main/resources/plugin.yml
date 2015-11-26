@@ -4,5 +4,8 @@ version: 1.0
 author: Carlgo11
 website: https://github.com/Carlgo11/hardcore/
 commands:
+
  difficulty:
-   usage: /<command> [set/get] (int)
+   description: Get/Set game-difficulty
+   usage: /<command> [set/get] (number)
+   aliases: [diff]
