@@ -29,8 +29,7 @@ public class Game {
 
     private void loop()
     {
-        int time = hc.getConfig().getInt("difficulty.delay");
-        long t = 20 * 60 * time;
+        long time = 20 * 60 * hc.getConfig().getInt("difficulty.delay");
         hc.getServer().getScheduler().scheduleSyncRepeatingTask(hc, new Runnable() {
             @Override
             public void run()
@@ -44,7 +43,7 @@ public class Game {
                     }
                 }
             }
-        }, 20L, t);
+        }, 20L, time);
     }
 
     private void nextDifficulty()
@@ -79,6 +78,7 @@ public class Game {
             ArrayList<Player> plyrs = getPlayers();
             plyrs.remove(player);
             this.setPlayers(plyrs);
+            hc.broadcastMessage(ChatColor.GREEN + "Only " + plyrs.size() + " players left!");
         }
     }
 
