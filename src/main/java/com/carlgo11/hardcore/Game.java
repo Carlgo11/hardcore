@@ -14,9 +14,9 @@ public class Game {
     private ArrayList<Player> players = new ArrayList<>();
     public int difficulty;
 
-    public Game(Hardcore plug)
+    public Game(Hardcore parent)
     {
-        this.hc = plug;
+        this.hc = parent;
     }
 
     public void startGame()
@@ -60,17 +60,26 @@ public class Game {
 
     public int getDifficulty()
     {
-        return difficulty;
+        return this.difficulty;
     }
 
     public ArrayList<Player> getPlayers()
     {
-        return players;
+        return this.players;
     }
 
     public void setPlayers(ArrayList<Player> players)
     {
         this.players = players;
+    }
+
+    public void removePlayer(Player player)
+    {
+        if (this.players.contains(player)) {
+            ArrayList<Player> plyrs = getPlayers();
+            plyrs.remove(player);
+            this.setPlayers(plyrs);
+        }
     }
 
     public int getGameState()
