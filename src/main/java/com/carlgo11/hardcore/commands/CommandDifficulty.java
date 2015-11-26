@@ -11,9 +11,9 @@ public class CommandDifficulty implements CommandExecutor {
 
     private Hardcore hc;
 
-    public CommandDifficulty(Hardcore plug)
+    public CommandDifficulty(Hardcore parent)
     {
-        this.hc = plug;
+        this.hc = parent;
     }
 
     @Override

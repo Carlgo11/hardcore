@@ -9,9 +9,9 @@ public class ItemDrop {
 
     private final Hardcore hc;
 
-    public ItemDrop(Hardcore plug)
+    public ItemDrop(Hardcore parent)
     {
-        this.hc = plug;
+        this.hc = parent;
     }
 
     public void dropItems()
@@ -27,7 +27,7 @@ public class ItemDrop {
     {
         /*
         * TODO: Move to external file. Json, YML, XML, SQL?
-        */
+         */
         String[] items = {"4 32", "5 20", "50 10", "297 5", "264 1", "264 2", "322 1", "322 1 1", "323 1", "332 10", "354 1", "368 1", "391 4", "393 1", "392 1", "319 1", "320 1", "261 1", "262 5"};
         int r = new Random().nextInt(items.length);
         return items[r];

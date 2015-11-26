@@ -11,9 +11,9 @@ public class Database {
 
     private Hardcore hc;
 
-    public Database(Hardcore plug)
+    public Database(Hardcore parent)
     {
-        this.hc = plug;
+        this.hc = parent;
     }
 
     public String[] getDatabaseInfo()

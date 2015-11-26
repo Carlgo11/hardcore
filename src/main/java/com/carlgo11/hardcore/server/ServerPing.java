@@ -10,9 +10,9 @@ public class ServerPing implements Listener {
 
     private Hardcore hc;
 
-    public ServerPing(Hardcore plug)
+    public ServerPing(Hardcore parent)
     {
-        this.hc = plug;
+        this.hc = parent;
     }
 
     @EventHandler
