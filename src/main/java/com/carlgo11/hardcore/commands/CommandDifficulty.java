@@ -16,6 +16,7 @@ public class CommandDifficulty implements CommandExecutor {
         this.hc = plug;
     }
 
+    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
     {
         if (sender.hasPermission("Hardcore.difficulty")) {

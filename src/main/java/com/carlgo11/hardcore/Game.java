@@ -12,12 +12,12 @@ public class Game {
     private final Timer timer = new Timer();
     private int gamestate; // 0 = warmup, 1 = running, 2 starting
     private ArrayList<Player> players = new ArrayList<>();
+    public int difficulty;
 
     public Game(Hardcore plug)
     {
         this.hc = plug;
     }
-    public int difficulty;
 
     public void startGame()
     {

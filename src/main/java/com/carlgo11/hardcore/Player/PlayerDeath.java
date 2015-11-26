@@ -16,9 +16,10 @@ public class PlayerDeath implements Listener {
     {
         this.hc = parent;
     }
-    
+
     @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent e){
+    public void onPlayerDeath(PlayerDeathEvent e)
+    {
         Player player = e.getEntity().getPlayer();
         player.setGameMode(GameMode.SPECTATOR);
         ArrayList<Player> players = hc.game().getPlayers();
