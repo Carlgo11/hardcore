@@ -19,7 +19,7 @@ public class ServerPing implements Listener {
     public void onMOTD(ServerListPingEvent event)
     {
         int state = hc.game().getGameState();
-        String motd = event.getMotd()+" ";
+        String motd = event.getMotd()+"";
         if (state == 2) {
             event.setMotd(motd + ChatColor.GOLD + "Starting");
         } else if (state == 0) {
