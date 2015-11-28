@@ -1,7 +1,6 @@
 package com.carlgo11.hardcore.player;
 
 import com.carlgo11.hardcore.Hardcore;
-import java.util.ArrayList;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
