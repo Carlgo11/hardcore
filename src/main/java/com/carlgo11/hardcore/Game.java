@@ -82,6 +82,13 @@ public class Game {
         }
     }
 
+    public void addPlayer(Player player)
+    {
+        ArrayList<Player> plyrs = getPlayers();
+        plyrs.add(player);
+        this.setPlayers(plyrs);
+    }
+
     public int getGameState()
     {
         return gamestate;

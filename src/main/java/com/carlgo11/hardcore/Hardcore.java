@@ -55,6 +55,7 @@ public class Hardcore extends JavaPlugin {
         pm.registerEvents(new PlayerDisconnect(this), this);
         pm.registerEvents(new PlayerInteract(this), this);
         pm.registerEvents(new PlayerJoin(this), this);
+        pm.registerEvents(new PlayerLogin(this), this);
         pm.registerEvents(new PlayerRegainHealth(this), this);
         pm.registerEvents(new ServerPing(this), this);
     }
