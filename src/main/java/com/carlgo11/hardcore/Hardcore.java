@@ -36,7 +36,6 @@ public class Hardcore extends JavaPlugin {
 
         final PluginManager pm = getServer().getPluginManager();
         registerListeners(pm);
-        game().startGame();
         setStartBorder();
         setDifficulty();
     }
@@ -58,6 +57,7 @@ public class Hardcore extends JavaPlugin {
         pm.registerEvents(new PlayerLogin(this), this);
         pm.registerEvents(new PlayerRegainHealth(this), this);
         pm.registerEvents(new ServerPing(this), this);
+        pm.registerEvents(new Warmup(this), this);
     }
 
     public void loadConfig()

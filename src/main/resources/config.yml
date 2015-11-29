@@ -15,7 +15,19 @@ difficulty:
   addition: 1
   # Max difficulty. Set value to -1 if no max value should be set.
   max: -1
-  #Delay between difficulty levels. Time in minutes
+  # Delay between difficulty levels. Time in minutes
   delay: 5
-  #Difficulty mode. (0 = Peaceful, 1 = Easy, 2 = Normal, 3 = Hard)
+  # Difficulty mode. (0 = Peaceful, 1 = Easy, 2 = Normal, 3 = Hard)
   mode: 3
+  # Should the game ignore multiplying damage when it's caused by a player to another player.
+  ignore-player-damage: true
+
+game:
+  # End the game when x players are alive.
+  end-players: 1
+  # Start the game when x players have joined.
+  start-players: 3
+  # Time between the last death and the server restarting. (In seconds)
+  end-delay: 10
+  # Wheter a new player can join an already started game or not.
+  can-join-game: true
