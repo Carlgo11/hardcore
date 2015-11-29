@@ -41,7 +41,7 @@ public class Game {
             {
                 if (gamestate == 1) {
                     int max = hc.getConfig().getInt("difficulty.max");
-                    if (max == -1 || difficulty < max) {
+                    if (max == -1 || difficulty <= max) {
                         nextDifficulty();
                         hc.itemDrop();
                         if (getDifficulty() != 1) {
