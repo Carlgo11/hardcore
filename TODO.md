@@ -1,6 +1,7 @@
 ## Things left to do
 
 - [x] Make game finish when x players have died/left
+- [ ] Add 'start game' command
 - [ ] Add ability to add [teams](http://minecraft.gamepedia.com/Scoreboard#teams)
 - [ ] Add broadcast-message customization
 - [ ] Add vote feature _(ability to change map, kick players, mute players etc)_
