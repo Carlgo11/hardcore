@@ -87,6 +87,7 @@ public class Hardcore extends JavaPlugin {
     private void loadCommands()
     {
         getCommand("difficulty").setExecutor(new CommandDifficulty(this));
+        getCommand("game").setExecutor(new CommandGame(this));
     }
 
     public Database getSettings()
