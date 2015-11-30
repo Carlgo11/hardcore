@@ -21,12 +21,14 @@ public class CommandGame implements CommandExecutor {
             if (args[0].equalsIgnoreCase("start")) {
                 if (sender.hasPermission("hardcore.game.start")) {
                     hc.game().startGame();
+                    return true;
                 } else {
                     hc.badPermissions(sender);
                 }
             } else if (args[0].equalsIgnoreCase("end")) {
                 if (sender.hasPermission("hardcore.game.end")) {
                     hc.game().stopGame();
+                    return true;
                 } else {
                     hc.badPermissions(sender);
                 }
