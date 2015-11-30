@@ -53,6 +53,7 @@ public class CommandDifficulty implements CommandExecutor {
             if (StringUtils.isNumeric(args[1])) {
                 hc.game().difficulty = Integer.valueOf(args[1]);
                 hc.sendMessage(sender, ChatColor.GREEN + "Difficulty set to: " + hc.game().getDifficulty());
+                return true;
             }
         } else {
             hc.badPermissions(sender);
