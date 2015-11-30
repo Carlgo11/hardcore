@@ -83,7 +83,7 @@ public class Game {
     {
         if (this.players.contains(player)) {
             ArrayList<Player> p = getPlayers();
-            if ((p.size()-1) >= hc.getConfig().getInt("game.game-end")) {
+            if ((p.size()-1) > hc.getConfig().getInt("game.game-end")) {
                 ArrayList<Player> plyrs = getPlayers();
                 plyrs.remove(player);
                 this.setPlayers(plyrs);
