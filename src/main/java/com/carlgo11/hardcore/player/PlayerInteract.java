@@ -32,13 +32,13 @@ public class PlayerInteract implements Listener {
         if (material.equals(Material.COMPASS)) {
             itemCompass(player, item, material, action, block);
         } else if (material.equals(Material.WATCH)) {
-
+            itemWatch(player, item, material, action, block);
         }
     }
 
     private void itemCompass(Player player, ItemStack item, Material material, Action action, Block block)
     {
-
+        
     }
 
     private void itemWatch(Player player, ItemStack item, Material material, Action action, Block block)
