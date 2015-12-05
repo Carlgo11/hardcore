@@ -1,7 +1,6 @@
 package com.carlgo11.hardcore;
 
 import java.util.ArrayList;
-import java.util.Timer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -10,7 +9,6 @@ import org.bukkit.entity.Player;
 public class Game {
 
     private final Hardcore hc;
-    private final Timer timer = new Timer();
     private int gamestate; // 0 = warmup, 1 = running, 2 starting, 3 ending
     private ArrayList<Player> players = new ArrayList<>();
     public int difficulty;
@@ -20,20 +18,27 @@ public class Game {
         this.hc = parent;
     }
 
+    /**
+     * Set the gamestate to 1 = Running and start the {@link #loop loop}.
+     */
     public void startGame()
     {
         ArrayList<Player> plyrs = new ArrayList<>(Bukkit.getOnlinePlayers());
         setPlayers(plyrs);
-        for(Player p: plyrs){
+        for (Player p : plyrs) {
             p.setGameMode(GameMode.SURVIVAL);
         }
         setGameState(1);
         loop();
     }
 
+    /**
+     * Change the difficulty and give {@link #getPlayers() alive players} an
+     * item every x minutes
+     */
     private void loop()
     {
-        hc.broadcastMessage(ChatColor.GREEN+"Game started!");
+        hc.broadcastMessage(ChatColor.GREEN + "Game started!");
         long time = 20 * 60 * hc.getConfig().getInt("difficulty.delay");
         hc.getServer().getScheduler().scheduleSyncRepeatingTask(hc, new Runnable() {
             @Override
@@ -53,22 +58,48 @@ public class Game {
         }, 20L, time);
     }
 
+    /**
+     * Change the difficulty to the next level
+     */
     private void nextDifficulty()
     {
         difficulty = difficulty + (hc.getConfig().getInt("difficulty.addition"));
     }
 
+    /**
+     * Stop the game, kick all players and stop the server.
+     */
     public void stopGame()
     {
-        setGameState(0);
-        timer.cancel();
+        setGameState(3);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(hc, new Runnable() {
+            @Override
+            public void run()
+            {
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    p.kickPlayer("Game restarting...");
+                }
+                Bukkit.getServer().shutdown();
+            }
+        }, (hc.getConfig().getInt("game.end-delay") * 20));
     }
 
+    /**
+     * Returns current game difficulty
+     *
+     * @return Current difficulty in int value
+     * @see #difficulty
+     */
     public int getDifficulty()
     {
         return this.difficulty;
     }
 
+    /**
+     * Get the players that are currently alive.
+     *
+     * @return The alive players. If non are alive then null.
+     */
     public ArrayList<Player> getPlayers()
     {
         return this.players;
@@ -79,31 +110,31 @@ public class Game {
         this.players = players;
     }
 
+    /**
+     * Remove a single player from the game.
+     *
+     * @param player Player to remove from the game
+     */
     public void removePlayer(Player player)
     {
         if (this.players.contains(player)) {
-            ArrayList<Player> p = getPlayers();
-            if ((p.size()-1) > hc.getConfig().getInt("game.game-end")) {
-                ArrayList<Player> plyrs = getPlayers();
-                plyrs.remove(player);
+            ArrayList<Player> plyrs = getPlayers();
+            plyrs.remove(player);
+            if (plyrs.size() > (hc.getConfig().getInt("game.game-end") + 1)) {
                 this.setPlayers(plyrs);
-                hc.broadcastMessage(ChatColor.YELLOW + "Only " + p.size() + " players left!");
+                hc.broadcastMessage(ChatColor.YELLOW + "Only " + plyrs.size() + " players left!");
             } else if (gamestate == 1) {
                 hc.broadcastMessage(ChatColor.GREEN + "GAME ENDED! The Winner is " + player.getName() + "!");
-                gamestate = 3;
-                Bukkit.getScheduler().scheduleSyncDelayedTask(hc, new Runnable() {
-                    @Override
-                    public void run()
-                    {
-                        for (Player p : Bukkit.getOnlinePlayers()) {
-                            p.kickPlayer("Game restarting...");
-                        }
-                    }
-                }, (hc.getConfig().getInt("game.end-delay") * 20));
+                stopGame();
             }
         }
     }
 
+    /**
+     * Add a new player to the game.
+     *
+     * @param player New player
+     */
     public void addPlayer(Player player)
     {
         ArrayList<Player> plyrs = getPlayers();
@@ -111,11 +142,22 @@ public class Game {
         this.setPlayers(plyrs);
     }
 
+    /**
+     * Get the current game state.
+     *
+     * @return Current game state. 0 = Warmup, 1 = Running, 2 = Starting, 3 =
+     * Ending
+     */
     public int getGameState()
     {
         return gamestate;
     }
 
+    /**
+     * Set the current game state.
+     *
+     * @param newstate The new game state
+     */
     public void setGameState(int newstate)
     {
         gamestate = newstate;

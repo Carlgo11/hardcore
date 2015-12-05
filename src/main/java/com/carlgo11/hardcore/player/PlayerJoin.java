@@ -31,7 +31,7 @@ public class PlayerJoin implements Listener {
                 hc.game().startGame();
             } else {
                 player.setGameMode(GameMode.ADVENTURE);
-                hc.sendMessage(player, "Waiting for "+players+"more players...");
+                hc.sendMessage(player, "Waiting for "+players+" more players...");
             }
         } else if (state == 2) {
             hc.sendMessage(player, ChatColor.GOLD + "Game starting...");

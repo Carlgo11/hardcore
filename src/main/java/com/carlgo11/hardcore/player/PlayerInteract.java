@@ -36,11 +36,17 @@ public class PlayerInteract implements Listener {
         }
     }
 
+    /**
+     * {@link Player} uses a compass.
+     */
     private void itemCompass(Player player, ItemStack item, Material material, Action action, Block block)
     {
         
     }
 
+    /**
+     * {@link Player} uses a watch.
+     */
     private void itemWatch(Player player, ItemStack item, Material material, Action action, Block block)
     {
 

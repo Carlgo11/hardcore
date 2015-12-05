@@ -15,18 +15,22 @@ public class ServerPing implements Listener {
         this.hc = parent;
     }
 
+    /**
+     * Display the server's MOTD. This is done every time someone pings the
+     * server.
+     */
     @EventHandler
     public void onMOTD(ServerListPingEvent event)
     {
         int state = hc.game().getGameState();
-        String motd = event.getMotd()+"";
+        String motd = event.getMotd() + "";
         if (state == 0) {
             event.setMotd(motd + ChatColor.GREEN + "Warmup...");
         } else if (state == 1) {
-             event.setMotd(motd + ChatColor.RED + "Running...");
+            event.setMotd(motd + ChatColor.RED + "Running...");
         } else if (state == 2) {
             event.setMotd(motd + ChatColor.GOLD + "Starting...");
-        } else if (state == 3){
+        } else if (state == 3) {
             event.setMotd(motd + ChatColor.YELLOW + "Ending...");
         }
     }

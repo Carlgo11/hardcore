@@ -18,7 +18,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Hardcore extends JavaPlugin {
 
-    private transient Database database;
     private transient Game game;
     private transient ItemDrop itemdrop;
     private Logger log;
@@ -28,10 +27,8 @@ public class Hardcore extends JavaPlugin {
     {
         log = getLogger();
         loadConfig();
-        database = new Database(this);
         game = new Game(this);
         itemdrop = new ItemDrop(this);
-        setupDatabase();
         loadCommands();
 
         final PluginManager pm = getServer().getPluginManager();
@@ -90,24 +87,22 @@ public class Hardcore extends JavaPlugin {
         getCommand("game").setExecutor(new CommandGame(this));
     }
 
-    public Database getSettings()
-    {
-        return database;
-    }
-
     public Game game()
     {
         return game;
     }
 
-    public void itemDrop()
-    {
-        itemdrop.dropItems();
-    }
-
     public void executeCommand(String cmd)
     {
         getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd);
+    }
+
+    /**
+     * Give all the alive players a new item.
+     */
+    public void itemDrop()
+    {
+        itemdrop.dropItems();
     }
 
     public void outputInfo(String msg)
@@ -120,35 +115,56 @@ public class Hardcore extends JavaPlugin {
         log.log(Level.WARNING, msg);
     }
 
+    /**
+     * Send a "no permissions" error-message to a player
+     *
+     * @param player Player to send error-message to.
+     */
     public void badPermissions(CommandSender player)
     {
         sendMessage(player, ChatColor.RED + "You don't have permission to use that command");
     }
 
-    private void setupDatabase()
-    {
-        String[] info = this.database.getDatabaseInfo();
-        this.getSettings().updateConnection(info);
-    }
-
+    /**
+     * Broadcast a message to all players on the server using the official
+     * styling of the plugin.
+     *
+     * @param message Message to broadcast
+     */
     public void broadcastMessage(String message)
     {
         String prefix = getConfig().getString("prefix");
         getServer().broadcastMessage(ChatColor.GREEN + prefix + ChatColor.YELLOW + message);
     }
 
+    /**
+     * Send a message to a specific player.
+     *
+     * @param player Player to send message to.
+     * @param message Message to send.
+     */
     public void sendMessage(Player player, String message)
     {
         String prefix = getConfig().getString("prefix");
         player.sendMessage(ChatColor.GREEN + prefix + ChatColor.YELLOW + message);
     }
 
+    /**
+     * Send a message to a specific player.
+     *
+     * @param player Player to send message to.
+     * @param message Message to send.
+     */
     public void sendMessage(CommandSender player, String message)
     {
         String prefix = getConfig().getString("prefix");
         player.sendMessage(ChatColor.GREEN + prefix + ChatColor.YELLOW + message);
     }
 
+    /**
+     * Set <a href="http://minecraft.gamepedia.com/Difficulty">Minecraft
+     * difficulty</a>. Not the same as game difficulty!
+     */
     private void setDifficulty()
     {
         getWorlds().get(0).setDifficulty(Difficulty.getByValue(getConfig().getInt("difficulty.mode")));
