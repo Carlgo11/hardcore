@@ -22,6 +22,5 @@ public class PlayerDeath implements Listener {
         Player player = e.getEntity().getPlayer();
         player.setGameMode(GameMode.SPECTATOR);
         hc.game().removePlayer(player);
-        System.out.println("Players: "+hc.game().getPlayers().size());
     }
 }

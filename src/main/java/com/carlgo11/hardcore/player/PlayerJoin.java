@@ -22,11 +22,9 @@ public class PlayerJoin implements Listener {
     {
         Player player = e.getPlayer();
         int state = hc.game().getGameState();
-        hc.broadcastMessage("gamestate:"+state);
         if (state == 0) {
             hc.game().addPlayer(player);
             int players = hc.getConfig().getInt("game.start-players")-hc.game().getPlayers().size();
-            hc.broadcastMessage("players:"+players);
             if (players <= 0) {
                 hc.game().startGame();
             } else {
