@@ -21,6 +21,8 @@ difficulty:
   mode: 3
   # Should the game ignore multiplying damage when it's caused by a player to another player.
   ignore-player-damage: true
+  # Should player-to-player damage be ignored under the first level? (Helps the game move forward.)
+  peaceful-first-level: true
 
 game:
   # End the game when x players are alive.
