@@ -17,6 +17,10 @@ public class Warmup implements Listener {
         this.hc = parent;
     }
 
+    /**
+     * Game state is in "warmup" mode.
+     * @return Warmup state
+     */
     public boolean isWarmup()
     {
         if (hc.game().getGameState() == 0) {

@@ -91,14 +91,18 @@ public class Hardcore extends JavaPlugin {
     {
         return game;
     }
-
+    
+    /**
+     * Execute a command as the console.
+     * @param cmd Command to execute
+     */
     public void executeCommand(String cmd)
     {
         getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd);
     }
 
     /**
-     * Give all the alive players a new item.
+     * Give all the alive players a new random item.
      */
     public void itemDrop()
     {
