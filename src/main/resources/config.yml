@@ -11,6 +11,8 @@ border:
   time: 1000
 
 difficulty:
+  # Starting difficulty
+  start-difficulty: 1
   # Value that the difficulty adds every time a new difficulty level is due to be set.
   addition: 1
   # Max difficulty. Set value to -1 if no max value should be set.

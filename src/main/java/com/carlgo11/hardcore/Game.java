@@ -19,7 +19,7 @@ public class Game {
     }
 
     /**
-     * Set the gamestate to 1 = Running and start the {@link #loop loop}.
+     * Set the game state to 1 = Running and start the {@link #loop loop}.
      */
     public void startGame()
     {
@@ -47,9 +47,11 @@ public class Game {
                 if (gamestate == 1) {
                     int max = hc.getConfig().getInt("difficulty.max");
                     if (max == -1 || difficulty <= max) {
-                        nextDifficulty();
                         hc.itemDrop();
-                        if (getDifficulty() != 1) {
+                        if (getDifficulty() == 1) {
+                            difficulty = hc.getConfig().getInt("difficulty.start-difficulty");
+                        } else {
+                            nextDifficulty();
                             hc.broadcastMessage(ChatColor.GOLD + "Next difficulty: " + getDifficulty());
                         }
                     }
@@ -105,6 +107,12 @@ public class Game {
         return this.players;
     }
 
+    /**
+     * Set alive players.
+     * Should not be used for adding or removing a single player!
+     * 
+     * @param players Alive players
+     */
     public void setPlayers(ArrayList<Player> players)
     {
         this.players = players;
