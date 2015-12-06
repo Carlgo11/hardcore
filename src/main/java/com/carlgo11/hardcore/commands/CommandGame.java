@@ -20,17 +20,17 @@ public class CommandGame implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
     {
-            if (args[0].equalsIgnoreCase("start")) {
-                return subCommandStart(sender);
-            } else if (args[0].equalsIgnoreCase("end")) {
-                return subCommandEnd(sender);
-            } else if (args[0].equalsIgnoreCase("debug")) {
-                return subCommandDebug(sender);
-            } else if (args[0].equalsIgnoreCase("add")) {
-                return subCommandAdd(sender, args, commandLabel);
-            } else if (args[0].equalsIgnoreCase("remove")) {
-                return subCommandRemove(sender, args, commandLabel);
-            }
+        if (args[0].equalsIgnoreCase("start")) {
+            return subCommandStart(sender);
+        } else if (args[0].equalsIgnoreCase("end")) {
+            return subCommandEnd(sender);
+        } else if (args[0].equalsIgnoreCase("debug")) {
+            return subCommandDebug(sender);
+        } else if (args[0].equalsIgnoreCase("add")) {
+            return subCommandAdd(sender, args, commandLabel);
+        } else if (args[0].equalsIgnoreCase("remove")) {
+            return subCommandRemove(sender, args, commandLabel);
+        }
         return false;
     }
 
@@ -74,7 +74,7 @@ public class CommandGame implements CommandExecutor {
                     Player player = Bukkit.getPlayer(args[1]);
                     if (!hc.game().getPlayers().contains(player)) {
                         hc.game().addPlayer(player);
-                        hc.broadcastMessage(ChatColor.GREEN + sender.getName() + " added "+player.getName());
+                        hc.broadcastMessage(ChatColor.GREEN + sender.getName() + " added " + player.getName());
                     } else {
                         hc.sendMessage(sender, ChatColor.RED + "Player is already alive");
                     }
@@ -99,7 +99,7 @@ public class CommandGame implements CommandExecutor {
                     Player player = Bukkit.getPlayer(args[1]);
                     if (hc.game().getPlayers().contains(player)) {
                         hc.game().removePlayer(player);
-                        hc.broadcastMessage(ChatColor.YELLOW + sender.getName() + " removed "+player.getName());
+                        hc.broadcastMessage(ChatColor.YELLOW + sender.getName() + " removed " + player.getName());
                     } else {
                         hc.sendMessage(sender, ChatColor.RED + "Player is not alive");
                     }
