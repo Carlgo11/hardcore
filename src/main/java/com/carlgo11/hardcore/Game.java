@@ -109,9 +109,9 @@ public class Game {
     }
 
     /**
-     * Set alive players.
-     * Should not be used for adding or removing a single player!
-     * 
+     * Set alive players. Should not be used for adding or removing a single
+     * player!
+     *
      * @param players Alive players
      */
     public void setPlayers(ArrayList<Player> players)
@@ -127,6 +127,7 @@ public class Game {
     public void removePlayer(Player player)
     {
         if (this.players.contains(player)) {
+            player.setGameMode(GameMode.SPECTATOR);
             ArrayList<Player> plyrs = getPlayers();
             plyrs.remove(player);
             if (plyrs.size() > (hc.getConfig().getInt("game.game-end") + 1)) {
@@ -149,6 +150,9 @@ public class Game {
         ArrayList<Player> plyrs = getPlayers();
         plyrs.add(player);
         this.setPlayers(plyrs);
+        if (getGameState() == 1) {
+            player.setGameMode(GameMode.SURVIVAL);
+        }
     }
 
     /**
