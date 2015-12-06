@@ -18,6 +18,7 @@ public class ServerPing implements Listener {
     /**
      * Display the server's MOTD. This is done every time someone pings the
      * server.
+     *
      * @param event ServerListPingEvent
      */
     @EventHandler
