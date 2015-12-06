@@ -9,8 +9,8 @@ I decided to completely redesign the plugin from scratch and publish the source 
 
 ## Can I use the code?
 
-Yes, this project is licensed under GPLv3.
-For more information on GPLv3, see [tldrlegal](https://www.tldrlegal.com/l/gpl-3.0) or [LICENSE](LICENSE.md).
+Yes, this project is licensed under CC Attribution-NonCommercial 4.0 International Public License.
+For more information on this license, see [creativecommons.org](https://creativecommons.org/licenses/by-nc/4.0/legalcode), [tldrlegal.com](https://tldrlegal.com/license/creative-commons-attribution-noncommercial-4.0-international-%28cc-by-nc-4.0%29#summary) or [LICENSE](LICENSE.md).
 
 For a short summery,
 * You may run my code.
