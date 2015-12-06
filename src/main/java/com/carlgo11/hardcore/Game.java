@@ -48,8 +48,9 @@ public class Game {
                     int max = hc.getConfig().getInt("difficulty.max");
                     if (max == -1 || difficulty <= max) {
                         hc.itemDrop();
-                        if (getDifficulty() == 1) {
+                        if (getDifficulty() == 0) {
                             difficulty = hc.getConfig().getInt("difficulty.start-difficulty");
+                            hc.broadcastMessage(ChatColor.GOLD + "Next difficulty: " + getDifficulty());
                         } else {
                             nextDifficulty();
                             hc.broadcastMessage(ChatColor.GOLD + "Next difficulty: " + getDifficulty());

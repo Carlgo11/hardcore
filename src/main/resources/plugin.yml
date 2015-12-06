@@ -9,7 +9,9 @@ commands:
    description: Get/Set game-difficulty
    usage: /<command> [set/get] (number)
    aliases: [diff]
+   permission: hardcore.difficulty
 
  game:
    description: Start/stop game.
    usage: /<command> [set/get]
+   permission: hardcore.game
