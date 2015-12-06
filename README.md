@@ -14,8 +14,9 @@ For more information on this license, see [creativecommons.org](https://creative
 
 For a short summery,
 * You may run my code.
-* You may make changes to my code as long as you give me credit for the contributions I have done.
-* You may __not__ claim that my code is your own or use any other license than GPLv3.
+* You may make changes to my code as long as you give me credit for the contributions I have made.
+* You may __not__ claim that my code is your own or use any other license than CC Attribution-NonCommercial 4.0 International Public License.
+* You may __not__ make any economic profit on my code.
 
 
 ## Requirements
