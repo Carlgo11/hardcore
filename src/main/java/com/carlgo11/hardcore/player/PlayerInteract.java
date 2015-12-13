@@ -2,7 +2,6 @@ package com.carlgo11.hardcore.player;
 
 import com.carlgo11.hardcore.Hardcore;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -22,11 +21,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class PlayerInteract implements Listener {
 
-    private Hardcore hardCore;
+    private Hardcore hc;
 
     public PlayerInteract(Hardcore parent)
     {
-        this.hardCore = parent;
+        this.hc = parent;
     }
 
     public static Map<Player, Integer> findMap = new HashMap<Player, Integer>();
@@ -54,7 +53,7 @@ public class PlayerInteract implements Listener {
      */
     private void itemCompass(Player player, ItemStack item, Action action)
     {
-        List<String> playerList = hardCore.game().getPlayers()
+        List<String> playerList = hc.game().getPlayers()
                 .stream()
                 .map(Player::getName)
                 .collect(Collectors.toList());
@@ -69,16 +68,15 @@ public class PlayerInteract implements Listener {
         if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
             if (playerList.size() >= currentIndex + 1 && playerList.size() > 1) {
                 int nextPlayer = nextPlayer(player, currentIndex, playerList);
-                selectPlayer(player, item, hardCore.getServer().getPlayer(playerList.get(nextPlayer)));
+                selectPlayer(player, item, hc.getServer().getPlayer(playerList.get(nextPlayer)));
                 findMap.put(player, nextPlayer);
             }
         }
 
         // Get previous player
         if (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) {
-
             int prevPlayer = prevPlayer(player, currentIndex, playerList);
-            selectPlayer(player, item, hardCore.getServer().getPlayer(playerList.get(prevPlayer)));
+            selectPlayer(player, item, hc.getServer().getPlayer(playerList.get(prevPlayer)));
             findMap.put(player, prevPlayer);
 
             // System.out.println("(left not >= 0) currentIndex: "+currentIndex);
