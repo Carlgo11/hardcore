@@ -107,8 +107,18 @@ public class PlayerInteract implements Listener {
      */
     private int nextPlayer(Player player, int currentIndex, List<String> playerList)
     {
-        if (playerList.size() > (currentIndex + 1)) {
-            return currentIndex + 1;
+        int newIndex = currentIndex + 1;
+        if (playerList.size() > newIndex) {
+            if (playerList.get(newIndex).equals(player.getName())) {
+                if (playerList.size() > newIndex + 1) {
+                    return newIndex + 1;
+                }
+            } else {
+                return newIndex;
+            }
+        }
+        if (playerList.get(0).equals(player.getName())) {
+            return 1;
         }
         return 0;
     }
@@ -120,9 +130,20 @@ public class PlayerInteract implements Listener {
      */
     private int prevPlayer(Player player, int currentIndex, List<String> playerList)
     {
-        if ((currentIndex - 1) >= 0) {
-            return currentIndex - 1;
+        int newIndex = currentIndex - 1;
+        int size = playerList.size();
+        if (newIndex >= 0) {
+            if (playerList.get(newIndex).equals(player.getName())) {
+                if (newIndex - 1 >= 0) {
+                    return newIndex - 1;
+                }
+            } else {
+                return newIndex;
+            }
         }
-        return playerList.size() - 1;
+        if (playerList.get(size - 1).equals(player.getName())) {
+            return size - 2;
+        }
+        return size - 1;
     }
 }
