@@ -44,8 +44,6 @@ public class PlayerDamage implements Listener {
     {
         if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) {
             if (hc.getConfig().getBoolean("difficulty.ignore-player-damage")) {
-                Player damager = (Player) e.getDamager();
-                Player entity = (Player) e.getEntity();
                 e.setDamage(e.getDamage()*0.5);
             }
             if (hc.getConfig().getBoolean("difficulty.peaceful-first-level") && hc.game().getDifficulty() ==hc.getConfig().getInt("difficulty.start-difficulty")) {                e.setCancelled(true);
