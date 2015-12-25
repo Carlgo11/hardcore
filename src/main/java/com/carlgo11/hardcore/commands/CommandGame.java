@@ -21,10 +21,10 @@ public class CommandGame implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
     {
         if (args[0].equalsIgnoreCase("start")) {
-            return subCommandStart(sender);
+            return subCommandStart(sender, args);
         } else if (args[0].equalsIgnoreCase("end")) {
-            return subCommandEnd(sender);
-        } else if (args[0].equalsIgnoreCase("debug")) {
+            return subCommandEnd(sender, args);
+        } else if (args[0].equalsIgnoreCase("debug") || args[0].equalsIgnoreCase("info")) {
             return subCommandDebug(sender);
         } else if (args[0].equalsIgnoreCase("add")) {
             return subCommandAdd(sender, args, commandLabel);
@@ -34,9 +34,9 @@ public class CommandGame implements CommandExecutor {
         return false;
     }
 
-    private boolean subCommandStart(CommandSender sender)
+    private boolean subCommandStart(CommandSender sender, String[] args)
     {
-        if (sender.hasPermission("hardcore.game.start")) {
+        if (sender.hasPermission("hardcore.game." + args[0])) {
             hc.game().startGame();
         } else {
             hc.badPermissions(sender);
@@ -44,9 +44,9 @@ public class CommandGame implements CommandExecutor {
         return true;
     }
 
-    private boolean subCommandEnd(CommandSender sender)
+    private boolean subCommandEnd(CommandSender sender, String[] args)
     {
-        if (sender.hasPermission("hardcore.game.end")) {
+        if (sender.hasPermission("hardcore.game." + args[0])) {
             hc.game().stopGame();
             hc.broadcastMessage(ChatColor.YELLOW + sender.getName() + " stopped the game.");
         } else {
@@ -68,7 +68,7 @@ public class CommandGame implements CommandExecutor {
     private boolean subCommandAdd(CommandSender sender, String[] args, String commandLabel)
     {
 
-        if (sender.hasPermission("hardcore.game.add")) {
+        if (sender.hasPermission("hardcore.game." + args[0])) {
             if (args.length == 2) {
                 if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline()) {
                     Player player = Bukkit.getPlayer(args[1]);
@@ -93,7 +93,7 @@ public class CommandGame implements CommandExecutor {
     private boolean subCommandRemove(CommandSender sender, String[] args, String commandLabel)
     {
 
-        if (sender.hasPermission("hardcore.game.remove")) {
+        if (sender.hasPermission("hardcore.game." + args[0])) {
             if (args.length == 2) {
                 if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline()) {
                     Player player = Bukkit.getPlayer(args[1]);

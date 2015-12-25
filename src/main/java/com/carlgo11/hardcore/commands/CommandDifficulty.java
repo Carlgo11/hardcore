@@ -38,7 +38,7 @@ public class CommandDifficulty implements CommandExecutor {
 
     private boolean subCommandGet(CommandSender sender, Command cmd, String commandLabel, String[] args)
     {
-        if (sender.hasPermission("Hardcore.difficulty.get")) {
+        if (sender.hasPermission("Hardcore.difficulty."+args[0])) {
             sender.sendMessage(ChatColor.GREEN + "Difficulty: " + hc.game().getDifficulty());
             return true;
         } else {
@@ -49,7 +49,7 @@ public class CommandDifficulty implements CommandExecutor {
 
     private boolean subCommandSet(CommandSender sender, Command cmd, String commandLabel, String[] args)
     {
-        if (sender.hasPermission("Hardcore.difficulty.set")) {
+        if (sender.hasPermission("Hardcore.difficulty."+args[0])) {
             if (StringUtils.isNumeric(args[1])) {
                 hc.game().difficulty = Integer.valueOf(args[1]);
                 hc.sendMessage(sender, ChatColor.GREEN + "Difficulty set to: " + hc.game().getDifficulty());
