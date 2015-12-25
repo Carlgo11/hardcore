@@ -1,9 +1,4 @@
 prefix: "[Hardcore] "
-mysql:
-  username: "Hardcore"
-  password: "password"
-  url: "jdbc:mysql://localhost:3306/"
-  database: "hardcore"
 
 border:
   start-distance: 2000
