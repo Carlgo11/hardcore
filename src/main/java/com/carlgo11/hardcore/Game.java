@@ -7,12 +7,12 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 public class Game {
-
+    
     private final Hardcore hc;
     private int gamestate; // 0 = warmup, 1 = running, 2 starting, 3 ending
     private ArrayList<Player> players = new ArrayList<>();
     public int difficulty;
-
+    
     public Game(Hardcore parent)
     {
         this.hc = parent;
@@ -134,7 +134,7 @@ public class Game {
                 this.setPlayers(plyrs);
                 hc.broadcastMessage(ChatColor.YELLOW + "Only " + plyrs.size() + " players left!");
             } else if (gamestate == 1) {
-                hc.broadcastMessage(ChatColor.GREEN + "GAME ENDED! The Winner is " + player.getName() + "!");
+                getGameEndMessage(players);
                 stopGame();
             }
         }
@@ -174,5 +174,22 @@ public class Game {
     public void setGameState(int newstate)
     {
         gamestate = newstate;
+    }
+    
+    private void getGameEndMessage(ArrayList<Player> players)
+    {
+        if (players.size() > 1) {
+            String aliveplayers = null;
+            for (Player p : players) {
+                if (aliveplayers == null) {
+                    aliveplayers += p.getName();
+                } else {
+                    aliveplayers += ", " + p.getName();
+                }
+            }
+            hc.broadcastMessage(ChatColor.GREEN + "GAME ENDED! The Winners are " + aliveplayers + "!");
+        } else {
+            hc.broadcastMessage(ChatColor.GREEN + "GAME ENDED! The Winner is " + players.get(0).getName() + "!");
+        }
     }
 }
