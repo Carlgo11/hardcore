@@ -134,7 +134,7 @@ public class Game {
                 this.setPlayers(plyrs);
                 hc.broadcastMessage(ChatColor.YELLOW + "Only " + plyrs.size() + " players left!");
             } else if (gamestate == 1) {
-                getGameEndMessage(players);
+                getGameEndMessage(players, player);
                 stopGame();
             }
         }
@@ -176,9 +176,9 @@ public class Game {
         gamestate = newstate;
     }
     
-    private void getGameEndMessage(ArrayList<Player> players)
+    private void getGameEndMessage(ArrayList<Player> players, Player player)
     {
-        if (players.size() > 1) {
+        if (players.size() >= 1) {
             String aliveplayers = null;
             for (Player p : players) {
                 if (aliveplayers == null) {
@@ -189,7 +189,7 @@ public class Game {
             }
             hc.broadcastMessage(ChatColor.GREEN + "GAME ENDED! The Winners are " + aliveplayers + "!");
         } else {
-            hc.broadcastMessage(ChatColor.GREEN + "GAME ENDED! The Winner is " + players.get(0).getName() + "!");
+            hc.broadcastMessage(ChatColor.GREEN + "GAME ENDED! The Winner is " + player.getName() + "!");
         }
     }
 }
