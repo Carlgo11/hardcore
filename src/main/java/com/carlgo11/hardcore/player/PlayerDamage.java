@@ -35,8 +35,10 @@ public class PlayerDamage implements Listener {
     }
 
     /**
-    * Disables player damage being multiplied with the difficulty.
-    * The function only disables the multiplication if ignore-player-damage is set to true in the config.
+     * Disables player damage being multiplied with the difficulty. The function
+     * only disables the multiplication if ignore-player-damage is set to true
+     * in the config.
+     *
      * @param e EntityDamageByEntityEvent
      */
     @EventHandler(priority = EventPriority.NORMAL)
@@ -44,9 +46,10 @@ public class PlayerDamage implements Listener {
     {
         if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) {
             if (hc.getConfig().getBoolean("difficulty.ignore-player-damage")) {
-                e.setDamage(e.getDamage()*0.5);
+                e.setDamage(e.getDamage() * 0.5);
             }
-            if (hc.getConfig().getBoolean("difficulty.peaceful-first-level") && hc.game().getDifficulty() ==hc.getConfig().getInt("difficulty.start-difficulty")) {                e.setCancelled(true);
+            if (hc.getConfig().getBoolean("difficulty.peaceful-first-level") && hc.game().getDifficulty() == hc.getConfig().getInt("difficulty.start-difficulty")) {
+                e.setCancelled(true);
             }
         }
     }
