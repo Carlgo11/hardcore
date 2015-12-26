@@ -30,3 +30,11 @@ game:
   end-delay: 10
   # Wheter a new player can join an already started game or not.
   can-join-game: true
+
+# Items to randomly give players every {difficulty.delay} minutes
+# Material, quantity, data value (optional)
+items:
+  - [GOLDEN_APPLE, 1, 1]
+  - [GOLDEN_APPLE, 1]
+  - [SIGN, 1]
+  - [COBBLESTONE, 32]
