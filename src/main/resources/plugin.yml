@@ -15,3 +15,8 @@ commands:
    description: Start/stop game.
    usage: /<command> [set/get]
    permission: hardcore.game
+
+ vote:
+   description: Vote on things.
+   usage: /<command>
+   permission: hardcore.vote
