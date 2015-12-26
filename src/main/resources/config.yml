@@ -38,3 +38,8 @@ items:
   - [GOLDEN_APPLE, 1]
   - [SIGN, 1]
   - [COBBLESTONE, 32]
+  - [DIAMOND, 1]
+  - [IRON_INGOT, 2]
+  - [BREAD, 5]
+  - [TORCH, 10]
+  - [CAKE, 1]
