@@ -31,6 +31,9 @@ public class CommandVote implements CommandExecutor {
                         subCommandKick(sender, cmd, commandLabel, args);
                         return true;
                     }
+                    if(args[0].equalsIgnoreCase("start")){
+                        subCommandStart(sender,cmd,commandLabel,args);
+                    }
                     if (args[0].equalsIgnoreCase("yes") || args[0].equalsIgnoreCase("no")) {
                         subCommandYesNo(sender, cmd, commandLabel, args);
                         return true;
@@ -69,6 +72,17 @@ public class CommandVote implements CommandExecutor {
         }
     }
 
+    private void subCommandStart(CommandSender sender, Command cmd, String commandLabel, String[] args){
+        if(sender.hasPermission("hardcore.vote."+args[0])){
+            vote = new Vote("start", Bukkit.getPlayer(sender.getName()));
+        vote.addVoteYes(Bukkit.getPlayer(sender.getName()));
+        hc.broadcastMessage(ChatColor.GOLD + sender.getName() + " started a vote to start the game." + "\nVote /vote " + ChatColor.GREEN + ChatColor.BOLD + "yes" + ChatColor.RESET + ChatColor.GOLD + " or " + ChatColor.RED + ChatColor.BOLD + "no");
+
+        }else{
+            hc.badPermissions(sender);
+        }
+    }
+
     private void subCommandYesNo(CommandSender sender, Command cmd, String commandLabel, String[] args)
     {
         if (vote != null && vote.voteOn != null) {
@@ -96,7 +110,7 @@ public class CommandVote implements CommandExecutor {
     {
         if (castvote.equalsIgnoreCase("yes")) {
             vote.addVoteYes(sender);
-            hc.broadcastMessage(ChatColor.GOLD + sender.getName() + " voted " + ChatColor.GREEN + ChatColor.BOLD + castvote.toUpperCase());
+            hc.broadcastMessage(ChatColor.GOLD + sender.getName() + " voted " + ChatColor.GREEN + ChatColor.BOLD + castvote.toUpperCase() );
         } else if (castvote.equalsIgnoreCase("no")) {
             vote.addVoteNo(sender);
             hc.broadcastMessage(ChatColor.GOLD + sender.getName() + " voted " + ChatColor.RED + ChatColor.BOLD + castvote.toUpperCase());
@@ -162,6 +176,9 @@ public class CommandVote implements CommandExecutor {
         {
             if (voteOn.equals("kick")) {
                 kick.kickPlayer(ChatColor.GOLD + "You've been kicked by the other players.");
+            }
+            if (voteOn.equals("start")){
+                hc.game().startGame();
             }
         }
     }
