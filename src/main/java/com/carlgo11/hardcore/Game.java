@@ -140,7 +140,7 @@ public class Game {
                 this.setPlayers(plyrs);
                 hc.broadcastMessage(ChatColor.YELLOW + "Only " + plyrs.size() + " players left!");
             } else if (gamestate == 1) {
-                getGameEndMessage(players, player);
+                getGameEndMessage(plyrs, player);
                 stopGame();
             }
         }
