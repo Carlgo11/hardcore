@@ -23,7 +23,7 @@ public class PlayerDamage implements Listener {
     {
         if (hc.game().getGameState() == 1) {
             DamageCause cause = e.getCause();
-            if (!cause.equals(DamageCause.FALL)) {
+            if (!cause.equals(DamageCause.FALL) && !cause.equals(DamageCause.ENTITY_ATTACK)) {
                 if (e.getEntity() instanceof Player) {
                     double damage = e.getDamage();
                     e.setDamage(damage * hc.game().getDifficulty());
@@ -51,6 +51,9 @@ public class PlayerDamage implements Listener {
             if (hc.getConfig().getBoolean("difficulty.peaceful-first-level") && hc.game().getDifficulty() == hc.getConfig().getInt("difficulty.start-difficulty")) {
                 e.setCancelled(true);
             }
+        } else if (e.getEntity() instanceof Player) {
+            double damage = e.getDamage();
+            e.setDamage(damage * hc.game().getDifficulty());
         }
     }
 }
