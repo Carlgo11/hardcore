@@ -1,0 +1,15 @@
+# This file contains the items to give players when the game difficulty-level changes.
+# The items are randomly selected from the list below.
+#
+# Formatting: 
+# - [<Item>, <amount>, <data value>] (Data value isn't required. See http://minecraft.gamepedia.com/Data_values)
+items:
+  - [GOLDEN_APPLE, 1, 1]
+  - [GOLDEN_APPLE, 1]
+  - [SIGN, 1]
+  - [COBBLESTONE, 32]
+  - [DIAMOND, 1]
+  - [IRON_INGOT, 2]
+  - [BREAD, 5]
+  - [TORCH, 10]
+  - [CAKE, 1]

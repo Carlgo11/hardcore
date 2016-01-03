@@ -11,6 +11,7 @@ import static org.bukkit.Bukkit.getWorlds;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
@@ -26,7 +27,8 @@ public class Hardcore extends JavaPlugin {
     public void onEnable()
     {
         log = getLogger();
-        loadConfig();
+        loadConfigFile("config.yml");
+        loadConfigFile("items.yml");
         game = new Game(this);
         itemdrop = new ItemDrop(this);
         loadCommands();
@@ -57,15 +59,18 @@ public class Hardcore extends JavaPlugin {
         pm.registerEvents(new Warmup(this), this);
     }
 
-    public void loadConfig()
+    /**
+     * Check if a file exist in the plugin's folder. If not then create it.
+     * @param filename Name of the file.
+     */
+    private void loadConfigFile(String filename)
     {
-        File config = new File(getDataFolder(), "config.yml");
-        if (!config.exists()) {
-            saveDefaultConfig();
-            getConfig().options().copyHeader(true);
-            String prefix = getConfig().getString("prefix");
-
-            outputWarning("No config.yml detected, config.yml created");
+        File file = new File(getDataFolder(), filename);
+        if (!file.exists()) {
+            YamlConfiguration configfile = YamlConfiguration.loadConfiguration(new File(getDataFolder()+"/"+filename));
+            this.saveResource(filename, false);
+            configfile.options().copyHeader(true);
+            outputWarning("No "+filename+" detected, file created.");
         }
     }
 
@@ -92,9 +97,10 @@ public class Hardcore extends JavaPlugin {
     {
         return game;
     }
-    
+
     /**
      * Execute a command as the console.
+     *
      * @param cmd Command to execute
      */
     public void executeCommand(String cmd)
