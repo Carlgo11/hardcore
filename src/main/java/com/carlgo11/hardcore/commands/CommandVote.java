@@ -31,8 +31,8 @@ public class CommandVote implements CommandExecutor {
                         subCommandKick(sender, cmd, commandLabel, args);
                         return true;
                     }
-                    if(args[0].equalsIgnoreCase("start")){
-                        subCommandStart(sender,cmd,commandLabel,args);
+                    if (args[0].equalsIgnoreCase("start")) {
+                        subCommandStart(sender, cmd, commandLabel, args);
                     }
                     if (args[0].equalsIgnoreCase("yes") || args[0].equalsIgnoreCase("no")) {
                         subCommandYesNo(sender, cmd, commandLabel, args);
@@ -72,13 +72,14 @@ public class CommandVote implements CommandExecutor {
         }
     }
 
-    private void subCommandStart(CommandSender sender, Command cmd, String commandLabel, String[] args){
-        if(sender.hasPermission("hardcore.vote."+args[0])){
+    private void subCommandStart(CommandSender sender, Command cmd, String commandLabel, String[] args)
+    {
+        if (sender.hasPermission("hardcore.vote." + args[0])) {
             vote = new Vote("start", Bukkit.getPlayer(sender.getName()));
-        vote.addVoteYes(Bukkit.getPlayer(sender.getName()));
-        hc.broadcastMessage(ChatColor.GOLD + sender.getName() + " started a vote to start the game." + "\nVote /vote " + ChatColor.GREEN + ChatColor.BOLD + "yes" + ChatColor.RESET + ChatColor.GOLD + " or " + ChatColor.RED + ChatColor.BOLD + "no");
+            vote.yes.add(Bukkit.getPlayer(sender.getName()));
+            hc.broadcastMessage(ChatColor.GOLD + sender.getName() + " started a vote to start the game." + "\nVote /vote " + ChatColor.GREEN + ChatColor.BOLD + "yes" + ChatColor.RESET + ChatColor.GOLD + " or " + ChatColor.RED + ChatColor.BOLD + "no");
 
-        }else{
+        } else {
             hc.badPermissions(sender);
         }
     }
@@ -109,10 +110,10 @@ public class CommandVote implements CommandExecutor {
     private void onVote(Player sender, String castvote)
     {
         if (castvote.equalsIgnoreCase("yes")) {
-            vote.addVoteYes(sender);
-            hc.broadcastMessage(ChatColor.GOLD + sender.getName() + " voted " + ChatColor.GREEN + ChatColor.BOLD + castvote.toUpperCase() );
+            vote.yes.add(sender);
+            hc.broadcastMessage(ChatColor.GOLD + sender.getName() + " voted " + ChatColor.GREEN + ChatColor.BOLD + castvote.toUpperCase());
         } else if (castvote.equalsIgnoreCase("no")) {
-            vote.addVoteNo(sender);
+            vote.no.add(sender);
             hc.broadcastMessage(ChatColor.GOLD + sender.getName() + " voted " + ChatColor.RED + ChatColor.BOLD + castvote.toUpperCase());
         }
         if ((vote.yes.size() / 2) > hc.getServer().getOnlinePlayers().size()) {
@@ -130,54 +131,34 @@ public class CommandVote implements CommandExecutor {
     {
         vote = new Vote("kick", sender);
         vote.kick = player;
-        vote.addVoteYes(Bukkit.getPlayer(sender.getName()));
-        vote.addVoteNo(player);
+        vote.yes.add(Bukkit.getPlayer(sender.getName()));
+        vote.no.add(player);
         hc.broadcastMessage(ChatColor.GOLD + sender.getName() + " started a vote for kicking " + player.getName() + "\nVote /vote " + ChatColor.GREEN + ChatColor.BOLD + "yes" + ChatColor.RESET + ChatColor.GOLD + " or " + ChatColor.RED + ChatColor.BOLD + "no");
     }
 
-    public class Vote {
+    private class Vote {
 
-        private String voteOn=null;
+        private final String voteOn;
         private final Player voteCaster;
-        public ArrayList<Player> yes = new ArrayList<>();
-        public ArrayList<Player> no = new ArrayList<>();
-        public Player kick;
+        private ArrayList<Player> yes = new ArrayList<>();
+        private ArrayList<Player> no = new ArrayList<>();
+        private Player kick;
 
-        public Vote(String voteon, Player votecaster)
+        private Vote(String voteon, Player votecaster)
         {
             this.voteOn = voteon;
             this.voteCaster = votecaster;
         }
 
-        public ArrayList<Player> getVotesYes()
-        {
-            return yes;
-        }
-
-        public ArrayList<Player> getVotesNo()
-        {
-            return yes;
-        }
-
-        public void addVoteYes(Player player)
-        {
-            yes.add(player);
-        }
-
-        public void addVoteNo(Player player)
-        {
-            no.add(player);
-        }
-
         /**
          * Execute the vote. Should only be passed when the vote have passed
          */
-        public void executeVote()
+        private void executeVote()
         {
             if (voteOn.equals("kick")) {
                 kick.kickPlayer(ChatColor.GOLD + "You've been kicked by the other players.");
             }
-            if (voteOn.equals("start")){
+            if (voteOn.equals("start")) {
                 hc.game().startGame();
             }
         }
