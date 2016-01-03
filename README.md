@@ -1,5 +1,5 @@
 # Hardcore
-[![Build Status](https://travis-ci.org/Carlgo11/hardcore.svg?branch=master)](https://travis-ci.org/Carlgo11/hardcore)
+[![Build Status](https://travis-ci.org/Carlgo11/hardcore.svg?branch=master)](https://travis-ci.org/Carlgo11/hardcore) 
 
 ## What is this?
 Hardcore is a ultra-hardcore Minecraft plugin (Spigot based).
