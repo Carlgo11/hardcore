@@ -9,7 +9,7 @@ import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 
 public class PlayerRegainHealth implements Listener {
 
-    private Hardcore hc;
+    private final Hardcore hc;
 
     public PlayerRegainHealth(Hardcore parent)
     {

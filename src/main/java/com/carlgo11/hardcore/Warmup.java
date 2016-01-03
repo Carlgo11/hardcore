@@ -10,7 +10,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 
 public class Warmup implements Listener {
 
-    private Hardcore hc;
+    private final Hardcore hc;
 
     public Warmup(Hardcore parent)
     {

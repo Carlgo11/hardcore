@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 
 public class CommandDifficulty implements CommandExecutor {
 
-    private Hardcore hc;
+    private final Hardcore hc;
 
     public CommandDifficulty(Hardcore parent)
     {

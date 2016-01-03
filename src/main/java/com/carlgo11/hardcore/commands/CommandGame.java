@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 public class CommandGame implements CommandExecutor {
 
-    private Hardcore hc;
+    private final Hardcore hc;
 
     public CommandGame(Hardcore parent)
     {

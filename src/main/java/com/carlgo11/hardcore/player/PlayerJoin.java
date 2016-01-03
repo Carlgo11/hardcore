@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerJoin implements Listener {
 
-    private Hardcore hc;
+    private final Hardcore hc;
 
     public PlayerJoin(Hardcore parent)
     {

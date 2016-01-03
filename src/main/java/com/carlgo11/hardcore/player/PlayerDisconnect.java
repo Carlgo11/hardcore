@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerDisconnect implements Listener {
 
-    private Hardcore hc;
+    private final Hardcore hc;
 
     public PlayerDisconnect(Hardcore parent)
     {

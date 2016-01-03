@@ -21,7 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class PlayerInteract implements Listener {
 
-    private Hardcore hc;
+    private final Hardcore hc;
 
     public PlayerInteract(Hardcore parent)
     {

@@ -8,7 +8,7 @@ import org.bukkit.event.server.ServerListPingEvent;
 
 public class ServerPing implements Listener {
 
-    private Hardcore hc;
+    private final Hardcore hc;
 
     public ServerPing(Hardcore parent)
     {

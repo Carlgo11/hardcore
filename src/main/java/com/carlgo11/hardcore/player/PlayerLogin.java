@@ -7,7 +7,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 
 public class PlayerLogin implements Listener {
 
-    private Hardcore hc;
+    private final Hardcore hc;
 
     public PlayerLogin(Hardcore parent)
     {

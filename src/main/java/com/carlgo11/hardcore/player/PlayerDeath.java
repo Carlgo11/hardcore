@@ -8,7 +8,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class PlayerDeath implements Listener {
 
-    private Hardcore hc;
+    private final Hardcore hc;
 
     public PlayerDeath(Hardcore parent)
     {
