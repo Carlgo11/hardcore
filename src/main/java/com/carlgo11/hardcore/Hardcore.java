@@ -76,14 +76,7 @@ public class Hardcore extends JavaPlugin {
 
     private void setStartBorder()
     {
-        getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-
-            @Override
-            public void run()
-            {
-                executeCommand("worldborder set " + getConfig().getString("border.start-distance") + " 1");
-            }
-        }, 40L); //Delay command 2 seconds to make sure the server is loaded.
+        getServer().getWorlds().get(0).getWorldBorder().setSize(getConfig().getInt("border.start-distance"));
     }
 
     private void loadCommands()
