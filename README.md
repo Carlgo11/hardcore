@@ -26,3 +26,16 @@ If you want to run the plugin you will need these things:
 * Java 8
 * A spigot server
 * Some knowledge on how Minecraft servers work and how to edit configs.
+
+# Running the code
+
+To run a local server and test/run the code follow these instructions:  
+
+1. Download the project. `git clone https://github.com/Carlgo11/hardcore.git`
+2. Make a directory to run the server in. `mkdir spigot_server`
+3. Copy the startup script and the scripts folder. `cp {scripts,startup_script.sh} spigot`
+4. Go to the spigot directory and agree to the Minecraft EULA. `cd spigot; echo "eula=true" > eula.txt`
+5. Start the server. `./startup_script.sh` This will download the latest Spigot jar as well as the latest Hardcore jar from GitHub.
+
+*Note:*  _You can build the Hardcore.jar and just place it in the `plugins` folder of an existing Minecraft server.
+If you choose to do so, skip the steps above._
