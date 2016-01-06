@@ -20,3 +20,29 @@ commands:
    description: Vote on things.
    usage: /<command>
    permission: hardcore.vote
+
+permissions:
+
+    - hardcore.game.*:
+        description: Gives access to all /game subcommands
+        default: op
+        children:
+            hardcore.game: true
+            hardcore.game.debug: true
+            hardcore.game.info: true
+            hardcore.game.start: true
+            hardcore.game.end: true
+
+    - hardcore.vote.*:
+        description: Give access to all /vote subcommands
+        default: true
+        children:
+            hardcore.vote: true
+            hardcore.vote.kick: true
+            hardcore.vote.start: true
+            hardcore.vote.yes: true
+            hardcore.vote.no: true
+
+    - hardcore.vote.unkickable:
+        description: Player becomes imune from kick votes.
+        default: op

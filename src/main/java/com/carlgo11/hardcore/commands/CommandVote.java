@@ -56,7 +56,7 @@ public class CommandVote implements CommandExecutor {
             if (args.length == 2) {
                 if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline()) {
                     Player player = Bukkit.getPlayer(args[1]);
-                    if (!player.hasPermission("hardcore.unkickable")) {
+                    if (!player.hasPermission("hardcore.vote.unkickable")) {
                         startVoteKick(Bukkit.getPlayer(sender.getName()), player);
                     } else {
                         hc.sendMessage(sender, ChatColor.RED + "Player \"" + player.getName() + "\" is unkickable.");
