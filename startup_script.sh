@@ -6,10 +6,17 @@ delay=5 # Delay between the MC server stopping and the script restarting it agai
 
 while :
 do
+
 if [ ! -f "$spigot" ]; then
 echo "No $spigot found."
 ./scripts/updateSpigot.sh "$spigot"
 fi
+
+if [ ! -f "plugins/Hardcore"*".jar" ]; then
+echo "No Hardcore.jar found."
+./scripts/updateHardcore.sh
+fi
+
 if [ -d "$world" ]; then
 echo "Removing $world"
 rm -rf "$world"
@@ -22,6 +29,7 @@ fi
 
 echo "Starting server ($spigot)"
 java -jar "$spigot"
+
 echo "Restarting in $delay seconds. Press CTRL+C to abort."
 sleep $delay
 done
