@@ -21,6 +21,7 @@ public class Hardcore extends JavaPlugin {
 
     private transient Game game;
     private transient ItemDrop itemdrop;
+    public transient Teams teams;
     private Logger log;
 
     @Override
@@ -31,6 +32,7 @@ public class Hardcore extends JavaPlugin {
         loadConfigFile("items.yml");
         game = new Game(this);
         itemdrop = new ItemDrop(this);
+        teams = new Teams(this);
         loadCommands();
 
         final PluginManager pm = getServer().getPluginManager();
@@ -84,6 +86,7 @@ public class Hardcore extends JavaPlugin {
         getCommand("difficulty").setExecutor(new CommandDifficulty(this));
         getCommand("game").setExecutor(new CommandGame(this));
         getCommand("vote").setExecutor(new CommandVote(this));
+        getCommand("team").setExecutor(new CommandTeam(this));
     }
 
     public Game game()

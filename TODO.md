@@ -2,7 +2,7 @@
 
 - [x] Make game finish when x players have died/left
 - [x] Add 'start game' command
-- [ ] Add ability to add [teams](http://minecraft.gamepedia.com/Scoreboard#teams)
+- [x] Add ability to add [teams](http://minecraft.gamepedia.com/Scoreboard#teams)
 - [ ] Add broadcast-message customization, language files.
 - [x] Add vote feature _(ability to change map, kick players, mute players etc)_
 - [x] Add compass for finding people _(X,Z,Y cords displayed in chat / lightnings over people)_

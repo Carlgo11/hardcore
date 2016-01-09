@@ -32,3 +32,7 @@ game:
   can-join-game: true
   # The time of day that the time should be set to whenever the game starts. (set -1 to disable)
   start-time: 6000
+
+teams:
+ # Allow damage from other team members.
+ friendly-fire: false
