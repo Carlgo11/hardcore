@@ -11,7 +11,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 public class PlayerDamage implements Listener {
 
-    private Hardcore hc;
+    private final Hardcore hc;
 
     public PlayerDamage(Hardcore parent)
     {
