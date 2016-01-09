@@ -116,7 +116,7 @@ public class CommandVote implements CommandExecutor {
             vote.no.add(sender);
             hc.broadcastMessage(ChatColor.GOLD + sender.getName() + " voted " + ChatColor.RED + ChatColor.BOLD + castvote.toUpperCase());
         }
-        if ((vote.yes.size() / 2) > hc.getServer().getOnlinePlayers().size()) {
+        if (vote.yes.size() > (hc.getServer().getOnlinePlayers().size() / 2)) {
             vote.executeVote();
         }
     }
