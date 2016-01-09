@@ -27,11 +27,21 @@ public class Teams {
         return sc;
     }
 
+    /**
+     * Get team specific functions.
+     * @param name Team name
+     * @return Team specific class.
+     */
     public GetTeam getTeam(String name)
     {
         return new GetTeam(name);
     }
 
+    /**
+     * Register a new team.
+     * @param name Team name
+     * @return New team
+     */
     public Team registerTeam(String name)
     {
         for (Team teams : sc.getTeams()) {
@@ -103,6 +113,10 @@ public class Teams {
             this.team = sc.getTeam(team);
         }
 
+        /**
+         * Remove a player from the team.
+         * @param player Player to remove.
+         */
         public void removePlayer(Player player)
         {
             team.removePlayer(player);
