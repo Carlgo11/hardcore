@@ -18,6 +18,6 @@ public class PlayerDisconnect implements Listener {
     @EventHandler
     public void onPlayerDisconnect(PlayerQuitEvent e){
         Player player = e.getPlayer();
-        hc.game().removePlayer(player);
+        hc.game().alivePlayers().removePlayer(player);
     }
 }

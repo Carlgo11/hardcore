@@ -7,18 +7,26 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scoreboard.Team;
 
 public class Game {
-
+    
     private final Hardcore hc;
     private int gamestate; // 0 = warmup, 1 = running, 2 starting, 3 ending
     private ArrayList<Player> players = new ArrayList<>();
     public int difficulty;
     private int loop;
-
+    private final AlivePlayers getplayers;
+    
     public Game(Hardcore parent)
     {
         this.hc = parent;
+        this.getplayers = new AlivePlayers();
+    }
+    
+    public AlivePlayers alivePlayers()
+    {
+        return getplayers;
     }
 
     /**
@@ -27,7 +35,7 @@ public class Game {
     public void startGame()
     {
         ArrayList<Player> plyrs = new ArrayList<>(Bukkit.getOnlinePlayers());
-        setPlayers(plyrs);
+        alivePlayers().setPlayers(plyrs);
         for (Player p : plyrs) {
             p.setGameMode(GameMode.SURVIVAL);
             p.setFlying(false);
@@ -41,7 +49,7 @@ public class Game {
     }
 
     /**
-     * Change the difficulty and give {@link #getPlayers() alive players} an
+     * Change the difficulty and give {@link #alivePlayers() alive players} an
      * item every x minutes
      */
     private void loop()
@@ -81,6 +89,7 @@ public class Game {
     public void stopGame()
     {
         setGameState(3);
+        Bukkit.getScheduler().cancelTask(loop);
         Bukkit.getScheduler().scheduleSyncDelayedTask(hc, new Runnable() {
             @Override
             public void run()
@@ -105,63 +114,6 @@ public class Game {
     }
 
     /**
-     * Get the players that are currently alive.
-     *
-     * @return The alive players. If non are alive then null.
-     */
-    public ArrayList<Player> getPlayers()
-    {
-        return this.players;
-    }
-
-    /**
-     * Set alive players. Should not be used for adding or removing a single
-     * player!
-     *
-     * @param players Alive players
-     */
-    public void setPlayers(ArrayList<Player> players)
-    {
-        this.players = players;
-    }
-
-    /**
-     * Remove a single player from the game.
-     *
-     * @param player Player to remove from the game
-     */
-    public void removePlayer(Player player)
-    {
-        if (this.players.contains(player)) {
-            player.setGameMode(GameMode.SPECTATOR);
-            ArrayList<Player> plyrs = getPlayers();
-            plyrs.remove(player);
-            if (plyrs.size() > (hc.getConfig().getInt("game.game-end") + 1)) {
-                this.setPlayers(plyrs);
-                hc.broadcastMessage(ChatColor.YELLOW + "Only " + plyrs.size() + " players left!");
-            } else if (gamestate == 1) {
-                getGameEndMessage(plyrs, player);
-                stopGame();
-            }
-        }
-    }
-
-    /**
-     * Add a new player to the game.
-     *
-     * @param player New player
-     */
-    public void addPlayer(Player player)
-    {
-        ArrayList<Player> plyrs = getPlayers();
-        plyrs.add(player);
-        this.setPlayers(plyrs);
-        if (getGameState() == 1) {
-            player.setGameMode(GameMode.SURVIVAL);
-        }
-    }
-
-    /**
      * Get the current game state.
      *
      * @return Current game state. 0 = Warmup, 1 = Running, 2 = Starting, 3 =
@@ -181,7 +133,7 @@ public class Game {
     {
         gamestate = newstate;
     }
-
+    
     private void getGameEndMessage(ArrayList<Player> players, Player player)
     {
         if (players.size() >= 1) {
@@ -209,5 +161,70 @@ public class Game {
     {
         player.setHealth(player.getMaxHealth()); //Player might have extra lifes due to custom server settings.
         player.setFoodLevel(20);
+    }
+
+    public class AlivePlayers {
+
+        /**
+         * Get the players that are currently alive.
+         *
+         * @return The alive players. If non are alive then null.
+         */
+        public ArrayList<Player> getPlayers()
+        {
+            return players;
+        }
+
+        /**
+         * Add a new player to the game.
+         *
+         * @param player New player
+         */
+        public void addPlayer(Player player)
+        {
+            ArrayList<Player> plyrs = getPlayers();
+            plyrs.add(player);
+            setPlayers(plyrs);
+            if (getGameState() == 1) {
+                player.setGameMode(GameMode.SURVIVAL);
+            }
+        }
+
+        /**
+         * Remove a single player from the game.
+         *
+         * @param player Player to remove from the game
+         */
+        public void removePlayer(Player player)
+        {
+            if (players.contains(player)) {
+                player.setGameMode(GameMode.SPECTATOR);
+                ArrayList<Player> plyrs = getPlayers();
+                plyrs.remove(player);
+                Team team = hc.teams.inTeam(player);
+                if (team != null) {
+                    hc.teams.getTeam(team.getName()).removePlayer(player);
+                }
+                if (plyrs.size() > (hc.getConfig().getInt("game.game-end") + 1)) {
+                    setPlayers(plyrs);
+                    hc.broadcastMessage(ChatColor.YELLOW + "Only " + plyrs.size() + " players left!");
+                } else if (gamestate == 1) {
+                    getGameEndMessage(plyrs, player);
+                    stopGame();
+                }
+            }
+        }
+
+        /**
+         * Set alive players. Should not be used for adding or removing a single
+         * player!
+         *
+         * @param aliveplayers Alive players
+         */
+        public void setPlayers(ArrayList<Player> aliveplayers)
+        {
+            players = aliveplayers;
+        }
+        
     }
 }

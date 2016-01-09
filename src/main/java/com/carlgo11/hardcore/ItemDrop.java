@@ -20,7 +20,7 @@ public class ItemDrop {
 
     public void dropItems()
     {
-        ArrayList<Player> players = hc.game().getPlayers();
+        ArrayList<Player> players = hc.game().alivePlayers().getPlayers();
         for (Player player : players) {
             player.getInventory().addItem(getItem(player));
         }

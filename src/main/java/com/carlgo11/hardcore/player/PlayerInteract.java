@@ -53,7 +53,7 @@ public class PlayerInteract implements Listener {
      */
     private void itemCompass(Player player, ItemStack item, Action action)
     {
-        List<String> playerList = hc.game().getPlayers()
+        List<String> playerList = hc.game().alivePlayers().getPlayers()
                 .stream()
                 .map(Player::getName)
                 .collect(Collectors.toList());

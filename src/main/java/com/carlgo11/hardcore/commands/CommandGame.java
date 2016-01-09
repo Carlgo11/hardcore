@@ -58,7 +58,7 @@ public class CommandGame implements CommandExecutor {
     private boolean subCommandDebug(CommandSender sender)
     {
         if (sender.hasPermission("hardcore.game.debug")) {
-            hc.sendMessage(sender, "----- Debug Info -----\n\nGamestate: " + hc.game().getGameState() + "\nPlayers alive:" + hc.game().getPlayers().size() + "\nDifficulty: " + hc.game().getDifficulty());
+            hc.sendMessage(sender, "----- Debug Info -----\n\nGamestate: " + hc.game().getGameState() + "\nPlayers alive:" + hc.game().alivePlayers().getPlayers().size() + "\nDifficulty: " + hc.game().getDifficulty());
         } else {
             hc.badPermissions(sender);
         }
@@ -72,8 +72,8 @@ public class CommandGame implements CommandExecutor {
             if (args.length == 2) {
                 if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline()) {
                     Player player = Bukkit.getPlayer(args[1]);
-                    if (!hc.game().getPlayers().contains(player)) {
-                        hc.game().addPlayer(player);
+                    if (!hc.game().alivePlayers().getPlayers().contains(player)) {
+                        hc.game().alivePlayers().addPlayer(player);
                         hc.broadcastMessage(ChatColor.GREEN + sender.getName() + " added " + player.getName());
                     } else {
                         hc.sendMessage(sender, ChatColor.RED + "Player is already alive");
@@ -92,13 +92,12 @@ public class CommandGame implements CommandExecutor {
 
     private boolean subCommandRemove(CommandSender sender, String[] args, String commandLabel)
     {
-
         if (sender.hasPermission("hardcore.game." + args[0])) {
             if (args.length == 2) {
                 if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline()) {
                     Player player = Bukkit.getPlayer(args[1]);
-                    if (hc.game().getPlayers().contains(player)) {
-                        hc.game().removePlayer(player);
+                    if (hc.game().alivePlayers().getPlayers().contains(player)) {
+                        hc.game().alivePlayers().removePlayer(player);
                         hc.broadcastMessage(ChatColor.YELLOW + sender.getName() + " removed " + player.getName());
                     } else {
                         hc.sendMessage(sender, ChatColor.RED + "Player is not alive");

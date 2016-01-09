@@ -23,8 +23,8 @@ public class PlayerJoin implements Listener {
         Player player = e.getPlayer();
         int state = hc.game().getGameState();
         if (state == 0) {
-            hc.game().addPlayer(player);
-            int players = hc.getConfig().getInt("game.start-players") - hc.game().getPlayers().size();
+            hc.game().alivePlayers().addPlayer(player);
+            int players = hc.getConfig().getInt("game.start-players") - hc.game().alivePlayers().getPlayers().size();
             if (players <= 0) {
                 hc.game().startGame();
             } else {
@@ -35,7 +35,7 @@ public class PlayerJoin implements Listener {
             hc.sendMessage(player, ChatColor.GOLD + "Game starting...");
         } else if (state == 1) {
             if (!player.hasPlayedBefore() && hc.getConfig().getBoolean("game.can-join-game")) {
-                hc.game().addPlayer(player);
+                hc.game().alivePlayers().addPlayer(player);
                 e.setJoinMessage(ChatColor.GREEN + player.getName() + " joined the game!");
             } else {
                 player.setGameMode(GameMode.SPECTATOR);
