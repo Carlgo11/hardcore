@@ -23,10 +23,7 @@ public class Warmup implements Listener {
      */
     public boolean isWarmup()
     {
-        if (hc.game().getGameState() == 0) {
-            return true;
-        }
-        return false;
+        return hc.game().getGameState() == 0;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
