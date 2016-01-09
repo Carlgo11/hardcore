@@ -20,10 +20,15 @@ commands:
    description: Vote on things.
    usage: /<command>
    permission: hardcore.vote
+   
+ team:
+   description: Team settings
+   usage: /<command> new (name)
+   permission: hardcore.team
 
 permissions:
 
-    - hardcore.game.*:
+     hardcore.game.*:
         description: Gives access to all /game subcommands
         default: op
         children:
@@ -33,7 +38,7 @@ permissions:
             hardcore.game.start: true
             hardcore.game.end: true
 
-    - hardcore.vote.*:
+     hardcore.vote.*:
         description: Give access to all /vote subcommands
         default: true
         children:
@@ -43,6 +48,6 @@ permissions:
             hardcore.vote.yes: true
             hardcore.vote.no: true
 
-    - hardcore.vote.unkickable:
+     hardcore.vote.unkickable:
         description: Player becomes imune from kick votes.
         default: op
