@@ -1,6 +1,7 @@
 package com.carlgo11.hardcore.commands;
 
 import com.carlgo11.hardcore.Hardcore;
+import com.carlgo11.hardcore.Teams;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -12,10 +13,12 @@ import org.bukkit.scoreboard.Team;
 public class CommandTeam implements CommandExecutor {
 
     private final Hardcore hc;
+    private final Teams teams;
 
     public CommandTeam(Hardcore parent)
     {
         this.hc = parent;
+        this.teams = hc.teams;
     }
 
     @Override
@@ -30,10 +33,10 @@ public class CommandTeam implements CommandExecutor {
                 subCommandAdd(sender, args);
                 return true;
             }
-            /*if (args[0].equalsIgnoreCase("accept")) {
+            if (args[0].equalsIgnoreCase("accept")) {
                 subCommandAccept(sender, args);
                 return true;
-            }*/
+            }
             if (args[0].equalsIgnoreCase("leave")) {
                 subCommandLeave(sender, args);
                 return true;
@@ -64,15 +67,14 @@ public class CommandTeam implements CommandExecutor {
 
     private void subCommandAdd(CommandSender sender, String[] args)
     {
-
         if (sender.hasPermission("hardcore.team." + args[0])) {
             if (args.length == 2) {
                 Team team = hc.teams.inTeam(Bukkit.getPlayer(sender.getName()));
                 if (team != null) {
                     Player invitee = Bukkit.getPlayer(args[1]);
                     if (invitee != null) {
-                        team.addPlayer(Bukkit.getPlayer(args[1]));
-                        hc.sendMessage(sender, ChatColor.GREEN + "You've invited ");
+                        teams.getTeam(team.getName()).addInvite(invitee);
+                        hc.sendMessage(sender, ChatColor.GREEN + "You've invited " + args[1]);
                     } else {
                         hc.sendMessage(sender, ChatColor.RED + "Can't find player \"" + args[1] + "\"");
                     }
@@ -92,9 +94,9 @@ public class CommandTeam implements CommandExecutor {
         if (isPlayer(sender)) {
             Player player = (Player) sender;
             if (sender.hasPermission("hardcore.team." + args[0])) {
-                Team team = hc.teams.inTeam(player);
+                Team team = teams.inTeam(player);
                 if (team != null) {
-                    hc.teams.getTeam(team.getName()).removePlayer(player);
+                    teams.getTeam(team.getName()).removePlayer(player);
                     hc.sendMessage(sender, ChatColor.GREEN + "You've left \"" + team.getDisplayName() + ChatColor.GREEN + "\"");
                 } else {
                     hc.sendMessage(sender, ChatColor.RED + "You're not in a team.");
@@ -107,16 +109,22 @@ public class CommandTeam implements CommandExecutor {
         }
     }
 
-    /*
     private void subCommandAccept(CommandSender sender, String[] args)
     {
         if (isPlayer(sender)) {
-
+            Player player = (Player) sender;
+            Team team = teams.isInvited(player);
+            if (team != null) {
+                team.addPlayer(player);
+                hc.sendMessage(sender, ChatColor.GREEN + "You've joined \"" + team.getDisplayName() + ChatColor.GREEN + "\"");
+            } else {
+                hc.sendMessage(sender, ChatColor.RED + "You're not invited to any team.");
+            }
         } else {
             hc.sendMessage(sender, ChatColor.RED + "Only players can perform this command.");
         }
     }
-     */
+
     private boolean isPlayer(CommandSender sender)
     {
         return sender instanceof Player;

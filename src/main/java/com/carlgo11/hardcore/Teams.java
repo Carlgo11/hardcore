@@ -2,6 +2,8 @@ package com.carlgo11.hardcore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -14,6 +16,7 @@ public class Teams {
     private final Hardcore hc;
     public Scoreboard sc;
     public ScoreboardManager manager;
+    private Map<Team, ArrayList<Player>> invites = new HashMap<>();
 
     public Teams(Hardcore parent)
     {
@@ -29,6 +32,7 @@ public class Teams {
 
     /**
      * Get team specific functions.
+     *
      * @param name Team name
      * @return Team specific class.
      */
@@ -39,6 +43,7 @@ public class Teams {
 
     /**
      * Register a new team.
+     *
      * @param name Team name
      * @return New team
      */
@@ -104,6 +109,21 @@ public class Teams {
         return null;
     }
 
+    public Team isInvited(Player player)
+    {
+        for (Team team : sc.getTeams()) {
+            ArrayList<Player> players = invites.get(team);
+            if (players != null) {
+                for (Player p : players) {
+                    if (p.getUniqueId().equals(player.getUniqueId())) {
+                        return team;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     public class GetTeam {
 
         private final Team team;
@@ -115,6 +135,7 @@ public class Teams {
 
         /**
          * Remove a player from the team.
+         *
          * @param player Player to remove.
          */
         public void removePlayer(Player player)
@@ -124,5 +145,20 @@ public class Teams {
                 sc.getTeams().remove(team);
             }
         }
+
+        public void addInvite(Player player)
+        {
+            if (!team.hasPlayer(player)) {
+                if (invites.containsKey(team)) {
+                    ArrayList<Player> list = invites.get(team);
+                    list.add(player);
+                    invites.put(team, list);
+                }
+                ArrayList<Player> list = new ArrayList<>();
+                list.add(player);
+                invites.put(team, list);
+            }
+        }
     }
+
 }
