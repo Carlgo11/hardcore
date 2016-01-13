@@ -23,7 +23,7 @@ commands:
    
  team:
    description: Team settings
-   usage: /<command> accept/add/leave/new (name)
+   usage: /<command> accept/add/leave/new
    permission: hardcore.team
 
 permissions:
@@ -57,5 +57,6 @@ permissions:
         default: true
         children:
             hardcore.team.new: true
-            hardcore.team.invite: true
+            hardcore.team.add: true
             hardcore.team.leave: true
+            hardcore.team.accept: true
