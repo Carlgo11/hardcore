@@ -5,25 +5,28 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scoreboard.Team;
 
 public class Game {
-    
+
     private final Hardcore hc;
     private int gamestate; // 0 = warmup, 1 = running, 2 starting, 3 ending
     private ArrayList<Player> players = new ArrayList<>();
     public int difficulty;
     private int loop;
     private final AlivePlayers getplayers;
-    
+
     public Game(Hardcore parent)
     {
         this.hc = parent;
         this.getplayers = new AlivePlayers();
     }
-    
+
     public AlivePlayers alivePlayers()
     {
         return getplayers;
@@ -133,7 +136,7 @@ public class Game {
     {
         gamestate = newstate;
     }
-    
+
     private void getGameEndMessage(ArrayList<Player> players, Player player)
     {
         if (players.size() >= 1) {
@@ -144,6 +147,8 @@ public class Game {
                 } else {
                     aliveplayers += ", " + p.getName();
                 }
+                Firework fw = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK);
+                FireworkMeta fwm = fw.getFireworkMeta();
             }
             hc.broadcastMessage(ChatColor.GREEN + "GAME ENDED! The Winners are " + aliveplayers + "!");
         } else {
@@ -206,6 +211,13 @@ public class Game {
                     hc.teams.getTeam(team.getName()).removePlayer(player);
                 }
                 if (plyrs.size() > (hc.getConfig().getInt("game.game-end") + 1)) {
+                    for (Team team2 : hc.teams.sc.getTeams()) {
+                        if (team2.getPlayers().equals(this.getPlayers())) {
+                            getGameEndMessage(plyrs, player);
+                            stopGame();
+                            return;
+                        }
+                    }
                     setPlayers(plyrs);
                     hc.broadcastMessage(ChatColor.YELLOW + "Only " + plyrs.size() + " players left!");
                 } else if (gamestate == 1) {
@@ -225,6 +237,6 @@ public class Game {
         {
             players = aliveplayers;
         }
-        
+
     }
 }
