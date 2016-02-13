@@ -74,6 +74,7 @@ public class CommandTeam implements CommandExecutor {
                     Player invitee = Bukkit.getPlayer(args[1]);
                     if (invitee != null) {
                         teams.getTeam(team.getName()).addInvite(invitee);
+                        hc.sendMessage(invitee, ChatColor.GREEN + sender.getName() + " invited you to  \""+team.getDisplayName()+ChatColor.GREEN+"\".\nAccept by typing "+ChatColor.YELLOW+"/team accept");
                         hc.sendMessage(sender, ChatColor.GREEN + "You've invited " + args[1]);
                     } else {
                         hc.sendMessage(sender, ChatColor.RED + "Can't find player \"" + args[1] + "\"");
