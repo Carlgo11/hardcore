@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -22,7 +23,10 @@ public class ItemDrop {
     {
         ArrayList<Player> players = hc.game().alivePlayers().getPlayers();
         for (Player player : players) {
-            player.getInventory().addItem(getItem(player));
+            ItemStack item = getItem(player);
+            player.getInventory().addItem(item);
+            
+            hc.sendMessage(player, ChatColor.YELLOW + "You got "+item.getAmount()+ " "+item.getItemMeta().getDisplayName()+"."); 
         }
     }
 
