@@ -1,8 +1,12 @@
 package com.carlgo11.hardcore;
 
 import java.util.ArrayList;
+import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.FireworkEffect.Type;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -135,6 +139,7 @@ public class Game {
     public void setGameState(int newstate)
     {
         gamestate = newstate;
+
     }
 
     private void getGameEndMessage(ArrayList<Player> players, Player player)
@@ -150,9 +155,38 @@ public class Game {
                 Firework fw = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK);
                 FireworkMeta fwm = fw.getFireworkMeta();
             }
+            spawnFirework(players);
             hc.broadcastMessage(ChatColor.GREEN + "GAME ENDED! The Winners are " + aliveplayers + "!");
         } else {
+            spawnFirework(players);
             hc.broadcastMessage(ChatColor.GREEN + "GAME ENDED! The Winner is " + player.getName() + "!");
+        }
+    }
+
+    /**
+     * Spawn a firework entity on the player(s)'s location
+     *
+     * @param players Players to spawn firework on.
+     */
+    private void spawnFirework(ArrayList<Player> players)
+    {
+        for (Player player : players) {
+            Firework fw = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);
+            FireworkMeta fwm = fw.getFireworkMeta();
+
+            Random r = new Random();
+
+            Type[] types = Type.values();
+            int type = r.nextInt(types.length);
+
+            Color c1 = Color.fromRGB(r.nextInt(255), r.nextInt(255), r.nextInt(255));
+            Color c2 = Color.fromRGB(r.nextInt(255), r.nextInt(255), r.nextInt(255));
+
+            FireworkEffect effect = FireworkEffect.builder().flicker(r.nextBoolean()).withColor(c1).withFade(c2).with(types[type]).withTrail().build();
+            fwm.addEffect(effect);
+
+            fwm.setPower(0);
+            fw.setFireworkMeta(fwm);
         }
     }
 
@@ -236,7 +270,7 @@ public class Game {
         public void setPlayers(ArrayList<Player> aliveplayers)
         {
             players = aliveplayers;
-        }
 
+        }
     }
 }
