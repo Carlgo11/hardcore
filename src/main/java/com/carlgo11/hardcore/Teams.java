@@ -95,7 +95,7 @@ public class Teams {
     /**
      * Check if a player is in a team or not.
      *
-     * @param player
+     * @param player Player to check
      * @return Return the player's current team; Returns null if player isn't in
      * a team.
      */
