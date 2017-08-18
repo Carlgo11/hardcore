@@ -22,25 +22,29 @@ public class PlayerJoin implements Listener {
     {
         Player player = e.getPlayer();
         int state = hc.game().getGameState();
-        if (state == 0) {
-            hc.game().alivePlayers().addPlayer(player);
-            int players = hc.getConfig().getInt("game.start-players") - hc.game().alivePlayers().getPlayers().size();
-            if (players <= 0) {
-                hc.game().startGame();
-            } else {
-                player.setGameMode(GameMode.ADVENTURE);
-                hc.sendMessage(player, "Waiting for " + players + " more players...");
-            }
-        } else if (state == 2) {
-            hc.sendMessage(player, ChatColor.GOLD + "Game starting...");
-        } else if (state == 1) {
-            if (!player.hasPlayedBefore() && hc.getConfig().getBoolean("game.can-join-game")) {
+        switch (state) {
+            case 0:
                 hc.game().alivePlayers().addPlayer(player);
-                e.setJoinMessage(ChatColor.GREEN + player.getName() + " joined the game!");
-            } else {
-                player.setGameMode(GameMode.SPECTATOR);
-                e.setJoinMessage(ChatColor.YELLOW + player.getName() + " is now spectating.");
-            }
+                int players = hc.getConfig().getInt("game.start-players") - hc.game().alivePlayers().getPlayers().size();
+                if (players <= 0) {
+                    hc.game().startGame();
+                } else {
+                    player.setGameMode(GameMode.ADVENTURE);
+                    hc.sendMessage(player, "Waiting for " + players + " more players...");
+                }   break;
+            case 2:
+                hc.sendMessage(player, ChatColor.GOLD + "Game starting...");
+                break;
+            case 1:
+                if (!player.hasPlayedBefore() && hc.getConfig().getBoolean("game.can-join-game")) {
+                    hc.game().alivePlayers().addPlayer(player);
+                    e.setJoinMessage(ChatColor.GREEN + player.getName() + " joined the game!");
+                } else {
+                    player.setGameMode(GameMode.SPECTATOR);
+                    e.setJoinMessage(ChatColor.YELLOW + player.getName() + " is now spectating.");
+                }   break;
+            default:
+                break;
         }
     }
 }

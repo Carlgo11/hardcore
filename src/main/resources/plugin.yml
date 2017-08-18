@@ -1,13 +1,13 @@
 main: com.carlgo11.hardcore.Hardcore
 name: Hardcore
-version: 1.0
+version: ${project.version}
 author: Carlgo11
+description: Hardcore Minecraft multiplayer server plugin.
 website: https://github.com/Carlgo11/hardcore/
 commands:
-
  difficulty:
    description: Get/Set game-difficulty
-   usage: /<command> [set/get] (number)
+   usage: /<command> [start/end/debug/] (number)
    aliases: [diff]
    permission: hardcore.difficulty
 
@@ -18,16 +18,15 @@ commands:
 
  vote:
    description: Vote on things.
-   usage: /<command>
+   usage: /<command> [yes/no]
    permission: hardcore.vote
-   
+
  team:
    description: Team settings
-   usage: /<command> accept/add/leave/new
+   usage: /<command> [accept/add/leave/new]
    permission: hardcore.team
 
 permissions:
-
      hardcore.game.*:
         description: Gives access to all /game subcommands
         default: op

@@ -22,7 +22,7 @@ public class Hardcore extends JavaPlugin {
     private transient Game game;
     private transient ItemDrop itemdrop;
     public transient Teams teams;
-    private Logger log;
+    private static Logger log;
 
     @Override
     public void onEnable()
@@ -33,12 +33,15 @@ public class Hardcore extends JavaPlugin {
         game = new Game(this);
         itemdrop = new ItemDrop(this);
         teams = new Teams(this);
+        Game.minPlayers = getConfig().getInt("game.game-end");
         loadCommands();
 
         final PluginManager pm = getServer().getPluginManager();
         registerListeners(pm);
         setStartBorder();
         setDifficulty();
+        getServer().addRecipe(CraftingRecipe.setCraftingRecipeTNT());
+        getServer().getWorlds().get(0).setDifficulty(Difficulty.PEACEFUL);
     }
 
     @Override
@@ -59,26 +62,37 @@ public class Hardcore extends JavaPlugin {
         pm.registerEvents(new PlayerRegainHealth(this), this);
         pm.registerEvents(new ServerPing(this), this);
         pm.registerEvents(new Warmup(this), this);
+        pm.registerEvents(new PlayerCraftItem(), this);
+        pm.registerEvents(new PlayerPlaceBlock(), this);
     }
 
     /**
      * Check if a file exist in the plugin's folder. If not then create it.
+     *
      * @param filename Name of the file.
      */
     private void loadConfigFile(String filename)
     {
         File file = new File(getDataFolder(), filename);
         if (!file.exists()) {
-            YamlConfiguration configfile = YamlConfiguration.loadConfiguration(new File(getDataFolder()+"/"+filename));
+            YamlConfiguration configfile = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/" + filename));
             this.saveResource(filename, false);
             configfile.options().copyHeader(true);
-            outputWarning("No "+filename+" detected, file created.");
+            outputWarning("No " + filename + " detected, file created.");
         }
     }
 
     private void setStartBorder()
     {
         getServer().getWorlds().get(0).getWorldBorder().setSize(getConfig().getInt("border.start-distance"));
+        getServer().getWorlds().get(0).getWorldBorder().setWarningDistance(10);
+        getServer().getWorlds().get(0).getWorldBorder().setWarningTime(30);
+        getServer().getWorlds().get(0).getWorldBorder().setDamageAmount(0.1);
+        getServer().getWorlds().get(0).getWorldBorder().setDamageBuffer(10);
+    }
+    
+    public void setEndBorder(){
+        getServer().getWorlds().get(0).getWorldBorder().setSize(getConfig().getInt("border.end-distance"), getConfig().getInt("border.time"));
     }
 
     private void loadCommands()

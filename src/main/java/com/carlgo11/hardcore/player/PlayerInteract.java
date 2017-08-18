@@ -28,7 +28,7 @@ public class PlayerInteract implements Listener {
         this.hc = parent;
     }
 
-    public static Map<Player, Integer> findMap = new HashMap<Player, Integer>();
+    public static Map<Player, Integer> findMap = new HashMap<>();
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerInteract(PlayerInteractEvent event)

@@ -33,7 +33,7 @@ public class ItemDrop {
     /**
      * Return random item to give to a specific player.
      *
-     * @TODO Move to external file. (Json, YML, XML, SQL?)
+     * @TODO Move to external file. (Maybe JSON, YML, XML or SQL?)
      * @return Random item. returns Minecraft Item ID.
      */
     private ItemStack getItem(Player player)

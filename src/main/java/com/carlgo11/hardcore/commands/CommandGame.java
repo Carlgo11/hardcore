@@ -58,7 +58,7 @@ public class CommandGame implements CommandExecutor {
     private boolean subCommandDebug(CommandSender sender)
     {
         if (sender.hasPermission("hardcore.game.debug")) {
-            hc.sendMessage(sender, "----- Debug Info -----\n\nGamestate: " + hc.game().getGameState() + "\nPlayers alive:" + hc.game().alivePlayers().getPlayers().size() + "\nDifficulty: " + hc.game().getDifficulty());
+            hc.sendMessage(sender, "\n----- Debug Info -----\n\nGamestate: " + hc.game().getGameState() + "\nPlayers alive:" + hc.game().alivePlayers().getPlayers().size() + "\nDifficulty: " + hc.game().getDifficulty());
         } else {
             hc.badPermissions(sender);
         }

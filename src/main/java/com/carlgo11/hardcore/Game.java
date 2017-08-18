@@ -5,6 +5,7 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
+import org.bukkit.Difficulty;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.GameMode;
@@ -21,9 +22,11 @@ public class Game {
     private final Hardcore hc;
     private int gamestate; // 0 = warmup, 1 = running, 2 starting, 3 ending
     private ArrayList<Player> players = new ArrayList<>();
-    public int difficulty;
+    public double difficulty;
+    private double difficultyAddition;
     private int loop;
     private final AlivePlayers getplayers;
+    public static int minPlayers;
 
     public Game(Hardcore parent)
     {
@@ -41,6 +44,7 @@ public class Game {
      */
     public void startGame()
     {
+        difficultyAddition = hc.getConfig().getDouble("difficulty.addition");
         ArrayList<Player> plyrs = new ArrayList<>(Bukkit.getOnlinePlayers());
         alivePlayers().setPlayers(plyrs);
         for (Player p : plyrs) {
@@ -52,6 +56,7 @@ public class Game {
         }
         setGameState(1);
         hc.getServer().getWorlds().get(0).setTime(hc.getConfig().getLong("game.start-time"));
+        hc.setEndBorder();
         loop();
     }
 
@@ -69,9 +74,12 @@ public class Game {
                 if (max == -1 || difficulty <= max) {
                     hc.itemDrop();
                     if (getDifficulty() == 0) {
-                        difficulty = hc.getConfig().getInt("difficulty.start-difficulty");
+                        difficulty = hc.getConfig().getDouble("difficulty.start-difficulty");
                         hc.broadcastMessage(ChatColor.GOLD + "Next difficulty: " + getDifficulty());
                     } else {
+                        if (getDifficulty() == 1) {
+                            hc.getServer().getWorlds().get(0).setDifficulty(Difficulty.HARD);
+                        }
                         nextDifficulty();
                         hc.broadcastMessage(ChatColor.GOLD + "Next difficulty: " + getDifficulty());
                     }
@@ -87,7 +95,7 @@ public class Game {
      */
     private void nextDifficulty()
     {
-        difficulty = difficulty + (hc.getConfig().getInt("difficulty.addition"));
+        difficulty = difficulty * difficultyAddition;
     }
 
     /**
@@ -97,15 +105,11 @@ public class Game {
     {
         setGameState(3);
         Bukkit.getScheduler().cancelTask(loop);
-        Bukkit.getScheduler().scheduleSyncDelayedTask(hc, new Runnable() {
-            @Override
-            public void run()
-            {
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    p.kickPlayer("Game restarting...");
-                }
-                Bukkit.getServer().shutdown();
-            }
+        Bukkit.getScheduler().scheduleSyncDelayedTask(hc, () -> {
+            Bukkit.getOnlinePlayers().stream().forEach((p) -> {
+                p.kickPlayer("Game restarting...");
+            });
+            Bukkit.getServer().shutdown();
         }, (hc.getConfig().getInt("game.end-delay") * 20));
     }
 
@@ -115,7 +119,7 @@ public class Game {
      * @return Current difficulty in int value
      * @see #difficulty
      */
-    public int getDifficulty()
+    public double getDifficulty()
     {
         return this.difficulty;
     }
@@ -173,18 +177,13 @@ public class Game {
         for (Player player : players) {
             Firework fw = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);
             FireworkMeta fwm = fw.getFireworkMeta();
-
             Random r = new Random();
-
             Type[] types = Type.values();
             int type = r.nextInt(types.length);
-
             Color c1 = Color.fromRGB(r.nextInt(255), r.nextInt(255), r.nextInt(255));
             Color c2 = Color.fromRGB(r.nextInt(255), r.nextInt(255), r.nextInt(255));
-
             FireworkEffect effect = FireworkEffect.builder().flicker(r.nextBoolean()).withColor(c1).withFade(c2).with(types[type]).withTrail().build();
             fwm.addEffect(effect);
-
             fwm.setPower(0);
             fw.setFireworkMeta(fwm);
         }
@@ -244,7 +243,7 @@ public class Game {
                 if (team != null) {
                     hc.teams.getTeam(team.getName()).removePlayer(player);
                 }
-                if (plyrs.size() > (hc.getConfig().getInt("game.game-end") + 1)) {
+                if (plyrs.size() >= Game.minPlayers) {
                     for (Team team2 : hc.teams.sc.getTeams()) {
                         if (team2.getPlayers().equals(this.getPlayers())) {
                             getGameEndMessage(plyrs, player);
@@ -270,7 +269,6 @@ public class Game {
         public void setPlayers(ArrayList<Player> aliveplayers)
         {
             players = aliveplayers;
-
         }
     }
 }

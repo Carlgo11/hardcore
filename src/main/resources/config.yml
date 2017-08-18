@@ -1,15 +1,18 @@
 prefix: "[Hardcore] "
 
 border:
+  # Border distance when the game starts.
   start-distance: 2000
-  end-distance: 200
-  time: 1000
+  # Border distance at the end of the game.
+  end-distance: 100
+  # Time for border to shrink to end distance.
+  time: 7600
 
 difficulty:
   # Starting difficulty
-  start-difficulty: 1
-  # Value that the difficulty adds every time a new difficulty level is due to be set.
-  addition: 1
+  start-difficulty: 1.0
+  # Value that the difficulty multiplies with every time a new difficulty level is due to be set.
+  addition: 1.25
   # Max difficulty. Set value to -1 if no max value should be set.
   max: -1
   # Delay between difficulty levels. Time in minutes

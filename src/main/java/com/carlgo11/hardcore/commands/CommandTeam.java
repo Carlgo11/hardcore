@@ -29,8 +29,8 @@ public class CommandTeam implements CommandExecutor {
                 subCommandNew(sender, args);
                 return true;
             }
-            if (args[0].equalsIgnoreCase("add")) {
-                subCommandAdd(sender, args);
+            if (args[0].equalsIgnoreCase("invite")) {
+                subCommandInvite(sender, args);
                 return true;
             }
             if (args[0].equalsIgnoreCase("accept")) {
@@ -65,7 +65,7 @@ public class CommandTeam implements CommandExecutor {
         }
     }
 
-    private void subCommandAdd(CommandSender sender, String[] args)
+    private void subCommandInvite(CommandSender sender, String[] args)
     {
         if (sender.hasPermission("hardcore.team." + args[0])) {
             if (args.length == 2) {

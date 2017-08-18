@@ -26,14 +26,21 @@ public class ServerPing implements Listener {
     {
         int state = hc.game().getGameState();
         String motd = event.getMotd() + "";
-        if (state == 0) {
-            event.setMotd(motd + ChatColor.GREEN + "Warmup...");
-        } else if (state == 1) {
-            event.setMotd(motd + ChatColor.RED + "Running...");
-        } else if (state == 2) {
-            event.setMotd(motd + ChatColor.GOLD + "Starting...");
-        } else if (state == 3) {
-            event.setMotd(motd + ChatColor.YELLOW + "Ending...");
+        switch (state) {
+            case 0:
+                event.setMotd(motd + ChatColor.GREEN + "Warmup...");
+                break;
+            case 1:
+                event.setMotd(motd + ChatColor.RED + "Running...");
+                break;
+            case 2:
+                event.setMotd(motd + ChatColor.GOLD + "Starting...");
+                break;
+            case 3:
+                event.setMotd(motd + ChatColor.YELLOW + "Ending...");
+                break;
+            default:
+                break;
         }
     }
 }
