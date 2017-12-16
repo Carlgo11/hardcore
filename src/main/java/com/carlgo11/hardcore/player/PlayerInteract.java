@@ -10,49 +10,49 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Arrow;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class PlayerInteract implements Listener {
 
     private final Hardcore hc;
 
-    public PlayerInteract(Hardcore parent)
-    {
+    public PlayerInteract(Hardcore parent) {
         this.hc = parent;
     }
 
     public static Map<Player, Integer> findMap = new HashMap<>();
 
+    public static int wandability = -1;
+
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onPlayerInteract(PlayerInteractEvent event)
-    {
+    public void onPlayerInteract(PlayerInteractEvent event) {
         // TODO: This can become resource intensive and create NullPointers
         Material material = event.getMaterial();
         if (material.equals(Material.COMPASS)) {
             itemCompass(event.getPlayer(), event.getItem(), event.getAction());
-        } else if (material.equals(Material.WATCH)) {
-            itemWatch(event.getPlayer(), event.getItem(), event.getAction());
+        } else if (material.equals(Material.STICK)) {
+            itemWand(event.getPlayer(), event.getAction());
         }
     }
 
     @EventHandler
-    public void onPlayerChangeItem(PlayerItemHeldEvent event)
-    {
+    public void onPlayerChangeItem(PlayerItemHeldEvent event) {
         findMap.remove(event.getPlayer());
     }
 
     /**
      * {@link Player} uses a compass.
      */
-    private void itemCompass(Player player, ItemStack item, Action action)
-    {
+    private void itemCompass(Player player, ItemStack item, Action action) {
         List<String> playerList = hc.game().alivePlayers().getPlayers()
                 .stream()
                 .map(Player::getName)
@@ -84,15 +84,36 @@ public class PlayerInteract implements Listener {
     }
 
     /**
-     * {@link Player} uses a watch.
+     * {@link Player} uses a wand.
+     *
+     * @param player {@link Player} who used the wand.
+     * @param action Action taken.
      */
-    private void itemWatch(Player player, ItemStack item, Action action)
-    {
-
+    private void itemWand(Player player, Action action) {
+        if (action.equals(Action.RIGHT_CLICK_BLOCK) || action.equals(Action.RIGHT_CLICK_AIR)) {
+            switch (wandability) {
+                case 0:
+                    Arrow arrow = player.launchProjectile(Arrow.class);
+                    arrow.setBounce(false);
+                    arrow.setGravity(false);
+                    arrow.setKnockbackStrength(100);
+                    arrow.setCritical(true);
+                    break;
+                case 1:
+                    Block block = player.getTargetBlock(null, 100);
+                    Location b = block.getLocation();
+                    b.getWorld().createExplosion(b, 10);
+                    break;
+                default:
+                    player.openInventory(PlayerInventoryClick.wandInventory);
+                    break;
+            }
+        } else {
+            player.openInventory(PlayerInventoryClick.wandInventory);
+        }
     }
 
-    private void selectPlayer(Player currentPlayer, ItemStack item, Player facePlayer)
-    {
+    private void selectPlayer(Player currentPlayer, ItemStack item, Player facePlayer) {
         ItemMeta im = item.getItemMeta();
         im.setDisplayName(ChatColor.BOLD + "" + ChatColor.LIGHT_PURPLE + facePlayer.getName());
         item.setItemMeta(im);
@@ -105,8 +126,7 @@ public class PlayerInteract implements Listener {
      *
      * @return next player
      */
-    private int nextPlayer(Player player, int currentIndex, List<String> playerList)
-    {
+    private int nextPlayer(Player player, int currentIndex, List<String> playerList) {
         int newIndex = currentIndex + 1;
         if (playerList.size() > newIndex) {
             if (playerList.get(newIndex).equals(player.getName())) {
@@ -128,8 +148,7 @@ public class PlayerInteract implements Listener {
      *
      * @return previous player
      */
-    private int prevPlayer(Player player, int currentIndex, List<String> playerList)
-    {
+    private int prevPlayer(Player player, int currentIndex, List<String> playerList) {
         int newIndex = currentIndex - 1;
         int size = playerList.size();
         if (newIndex >= 0) {
