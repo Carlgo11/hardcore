@@ -26,7 +26,7 @@ public class ItemDrop {
             ItemStack item = getItem(player);
             player.getInventory().addItem(item);
             
-            hc.sendMessage(player, ChatColor.YELLOW + "You got "+item.getAmount()+ " "+item.getItemMeta().getDisplayName()+"."); 
+            hc.sendMessage(player, ChatColor.YELLOW + "You got "+item.getAmount()+ " "+item.getType().name()+"."); 
         }
     }
 
