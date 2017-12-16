@@ -28,22 +28,19 @@ public class Game {
     private final AlivePlayers getplayers;
     public static int minPlayers;
 
-    public Game(Hardcore parent)
-    {
+    public Game(Hardcore parent) {
         this.hc = parent;
         this.getplayers = new AlivePlayers();
     }
 
-    public AlivePlayers alivePlayers()
-    {
+    public AlivePlayers alivePlayers() {
         return getplayers;
     }
 
     /**
      * Set the game state to 1 = Running and start the {@link #loop loop}.
      */
-    public void startGame()
-    {
+    public void startGame() {
         difficultyAddition = hc.getConfig().getDouble("difficulty.addition");
         ArrayList<Player> plyrs = new ArrayList<>(Bukkit.getOnlinePlayers());
         alivePlayers().setPlayers(plyrs);
@@ -64,9 +61,10 @@ public class Game {
      * Change the difficulty and give {@link #alivePlayers() alive players} an
      * item every x minutes
      */
-    private void loop()
-    {
-        hc.broadcastMessage(ChatColor.GREEN + "Game started!");
+    private void loop() {
+        for (Player p : alivePlayers().getPlayers()) {
+            p.sendTitle(ChatColor.GREEN + "Game started", ChatColor.YELLOW + "Good luck have fun!", 10, 70, 20);
+        }
         long time = 20 * 60 * hc.getConfig().getInt("difficulty.delay");
         loop = hc.getServer().getScheduler().scheduleSyncRepeatingTask(hc, () -> {
             if (gamestate == 1) {
@@ -93,16 +91,14 @@ public class Game {
     /**
      * Change the difficulty to the next level
      */
-    private void nextDifficulty()
-    {
+    private void nextDifficulty() {
         difficulty = difficulty * difficultyAddition;
     }
 
     /**
      * Stop the game, kick all players and stop the server.
      */
-    public void stopGame()
-    {
+    public void stopGame() {
         setGameState(3);
         Bukkit.getScheduler().cancelTask(loop);
         Bukkit.getScheduler().scheduleSyncDelayedTask(hc, () -> {
@@ -119,8 +115,7 @@ public class Game {
      * @return Current difficulty in int value
      * @see #difficulty
      */
-    public double getDifficulty()
-    {
+    public double getDifficulty() {
         return this.difficulty;
     }
 
@@ -130,8 +125,7 @@ public class Game {
      * @return Current game state. 0 = Warmup, 1 = Running, 2 = Starting, 3 =
      * Ending
      */
-    public int getGameState()
-    {
+    public int getGameState() {
         return gamestate;
     }
 
@@ -140,17 +134,16 @@ public class Game {
      *
      * @param newstate The new game state
      */
-    public void setGameState(int newstate)
-    {
+    public void setGameState(int newstate) {
         gamestate = newstate;
 
     }
 
-    private void getGameEndMessage(ArrayList<Player> players, Player player)
-    {
-        if (players.size() >= 1) {
+    private void getGameEndMessage(ArrayList<Player> players, Player player) {
+
+        if (alivePlayers().getPlayers().size() >= 1) {
             String aliveplayers = null;
-            for (Player p : players) {
+            for (Player p : alivePlayers().getPlayers()) {
                 if (aliveplayers == null) {
                     aliveplayers += p.getName();
                 } else {
@@ -160,10 +153,10 @@ public class Game {
                 FireworkMeta fwm = fw.getFireworkMeta();
             }
             spawnFirework(players);
-            hc.broadcastMessage(ChatColor.GREEN + "GAME ENDED! The Winners are " + aliveplayers + "!");
+            hc.broadcastMessage("" + ChatColor.GREEN + ChatColor.BOLD + "GAME ENDED! The Winners are " + aliveplayers + "!");
         } else {
             spawnFirework(players);
-            hc.broadcastMessage(ChatColor.GREEN + "GAME ENDED! The Winner is " + player.getName() + "!");
+            hc.broadcastMessage("" + ChatColor.RED + ChatColor.BOLD + "GAME ENDED! No one wins :(");
         }
     }
 
@@ -172,8 +165,7 @@ public class Game {
      *
      * @param players Players to spawn firework on.
      */
-    private void spawnFirework(ArrayList<Player> players)
-    {
+    private void spawnFirework(ArrayList<Player> players) {
         for (Player player : players) {
             Firework fw = (Firework) player.getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);
             FireworkMeta fwm = fw.getFireworkMeta();
@@ -195,8 +187,7 @@ public class Game {
      *
      * @param player Player to reset health to
      */
-    private void resetPlayerHealth(Player player)
-    {
+    private void resetPlayerHealth(Player player) {
         player.setHealth(player.getMaxHealth()); //Player might have extra lifes due to custom server settings.
         player.setFoodLevel(20);
     }
@@ -208,8 +199,7 @@ public class Game {
          *
          * @return The alive players. If non are alive then null.
          */
-        public ArrayList<Player> getPlayers()
-        {
+        public ArrayList<Player> getPlayers() {
             return players;
         }
 
@@ -218,8 +208,7 @@ public class Game {
          *
          * @param player New player
          */
-        public void addPlayer(Player player)
-        {
+        public void addPlayer(Player player) {
             ArrayList<Player> plyrs = getPlayers();
             plyrs.add(player);
             setPlayers(plyrs);
@@ -233,8 +222,7 @@ public class Game {
          *
          * @param player Player to remove from the game
          */
-        public void removePlayer(Player player)
-        {
+        public void removePlayer(Player player) {
             if (players.contains(player)) {
                 player.setGameMode(GameMode.SPECTATOR);
                 ArrayList<Player> plyrs = getPlayers();
@@ -243,7 +231,8 @@ public class Game {
                 if (team != null) {
                     hc.teams.getTeam(team.getName()).removePlayer(player);
                 }
-                if (plyrs.size() >= Game.minPlayers) {
+                setPlayers(plyrs);
+                if (plyrs.size() > Game.minPlayers) {
                     for (Team team2 : hc.teams.sc.getTeams()) {
                         if (team2.getPlayers().equals(this.getPlayers())) {
                             getGameEndMessage(plyrs, player);
@@ -251,7 +240,6 @@ public class Game {
                             return;
                         }
                     }
-                    setPlayers(plyrs);
                     hc.broadcastMessage(ChatColor.YELLOW + "Only " + plyrs.size() + " players left!");
                 } else if (gamestate == 1) {
                     getGameEndMessage(plyrs, player);
@@ -266,8 +254,7 @@ public class Game {
          *
          * @param aliveplayers Alive players
          */
-        public void setPlayers(ArrayList<Player> aliveplayers)
-        {
+        public void setPlayers(ArrayList<Player> aliveplayers) {
             players = aliveplayers;
         }
     }
