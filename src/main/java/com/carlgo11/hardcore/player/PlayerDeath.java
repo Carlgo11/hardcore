@@ -19,6 +19,6 @@ public class PlayerDeath implements Listener {
     public void onPlayerDeath(PlayerDeathEvent e)
     {
         Player player = e.getEntity().getPlayer();
-        hc.game().alivePlayers().removePlayer(player);
+        hc.players().removePlayer(player);
     }
 }

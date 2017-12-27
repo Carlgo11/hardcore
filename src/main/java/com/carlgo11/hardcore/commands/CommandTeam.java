@@ -1,7 +1,7 @@
 package com.carlgo11.hardcore.commands;
 
 import com.carlgo11.hardcore.Hardcore;
-import com.carlgo11.hardcore.Teams;
+import com.carlgo11.hardcore.objects.Teams;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

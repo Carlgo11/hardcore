@@ -12,14 +12,12 @@ public class CommandGame implements CommandExecutor {
 
     private final Hardcore hc;
 
-    public CommandGame(Hardcore parent)
-    {
+    public CommandGame(Hardcore parent) {
         this.hc = parent;
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
-    {
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if (args[0].equalsIgnoreCase("start")) {
             return subCommandStart(sender, args);
         } else if (args[0].equalsIgnoreCase("end")) {
@@ -30,12 +28,14 @@ public class CommandGame implements CommandExecutor {
             return subCommandAdd(sender, args, commandLabel);
         } else if (args[0].equalsIgnoreCase("remove")) {
             return subCommandRemove(sender, args, commandLabel);
+        } else if (args[0].equalsIgnoreCase("set")) {
+            return subCommandSet(sender, args, commandLabel);
         }
         return false;
     }
 
-    private boolean subCommandStart(CommandSender sender, String[] args)
     {
+    private boolean subCommandStart(CommandSender sender, String[] args) {
         if (sender.hasPermission("hardcore.game." + args[0])) {
             hc.game().startGame();
         } else {
@@ -44,8 +44,7 @@ public class CommandGame implements CommandExecutor {
         return true;
     }
 
-    private boolean subCommandEnd(CommandSender sender, String[] args)
-    {
+    private boolean subCommandEnd(CommandSender sender, String[] args) {
         if (sender.hasPermission("hardcore.game." + args[0])) {
             hc.game().stopGame();
             hc.broadcastMessage(ChatColor.YELLOW + sender.getName() + " stopped the game.");
@@ -55,25 +54,23 @@ public class CommandGame implements CommandExecutor {
         return true;
     }
 
-    private boolean subCommandDebug(CommandSender sender)
-    {
+    private boolean subCommandDebug(CommandSender sender) {
         if (sender.hasPermission("hardcore.game.debug")) {
-            hc.sendMessage(sender, "\n----- Debug Info -----\n\nGamestate: " + hc.game().getGameState() + "\nPlayers alive:" + hc.game().alivePlayers().getPlayers().size() + "\nDifficulty: " + hc.game().getDifficulty());
+            hc.sendMessage(sender, "\n----- Debug Info -----\n\nGamestate: " + hc.game().getGameState() + "\nPlayers alive:" +hc.players().getPlayersAlive().size() + "\nDifficulty: " + hc.game().getDifficulty());
         } else {
             hc.badPermissions(sender);
         }
         return true;
     }
 
-    private boolean subCommandAdd(CommandSender sender, String[] args, String commandLabel)
-    {
+    private boolean subCommandAdd(CommandSender sender, String[] args, String commandLabel) {
 
         if (sender.hasPermission("hardcore.game." + args[0])) {
             if (args.length == 2) {
                 if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline()) {
                     Player player = Bukkit.getPlayer(args[1]);
-                    if (!hc.game().alivePlayers().getPlayers().contains(player)) {
-                        hc.game().alivePlayers().addPlayer(player);
+                    if (!hc.players().getPlayersAlive().contains(player)) {
+                        hc.players().addPlayer(player);
                         hc.broadcastMessage(ChatColor.GREEN + sender.getName() + " added " + player.getName());
                     } else {
                         hc.sendMessage(sender, ChatColor.RED + "Player is already alive");
@@ -90,14 +87,13 @@ public class CommandGame implements CommandExecutor {
         return true;
     }
 
-    private boolean subCommandRemove(CommandSender sender, String[] args, String commandLabel)
-    {
+    private boolean subCommandRemove(CommandSender sender, String[] args, String commandLabel) {
         if (sender.hasPermission("hardcore.game." + args[0])) {
             if (args.length == 2) {
                 if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline()) {
                     Player player = Bukkit.getPlayer(args[1]);
-                    if (hc.game().alivePlayers().getPlayers().contains(player)) {
-                        hc.game().alivePlayers().removePlayer(player);
+                    if (hc.players().getPlayersAlive().contains(player)) {
+                        hc.players().removePlayer(player);
                         hc.broadcastMessage(ChatColor.YELLOW + sender.getName() + " removed " + player.getName());
                     } else {
                         hc.sendMessage(sender, ChatColor.RED + "Player is not alive");
@@ -110,6 +106,17 @@ public class CommandGame implements CommandExecutor {
             }
         } else {
             hc.badPermissions(sender);
+        }
+        return true;
+    }
+
+    private boolean subCommandSet(CommandSender sender, String[] args, String commandLabel) {
+        if (args[1].equalsIgnoreCase("teamglow")) {
+            if (args[2].equalsIgnoreCase("true") || args[2].equalsIgnoreCase("false")) {
+                hc.getServer().getOnlinePlayers().forEach((p) -> {
+                    p.setGlowing(Boolean.valueOf(args[2]));
+                });
+            }
         }
         return true;
     }

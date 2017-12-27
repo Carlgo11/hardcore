@@ -21,12 +21,12 @@ public class ItemDrop {
 
     public void dropItems()
     {
-        ArrayList<Player> players = hc.game().alivePlayers().getPlayers();
+        ArrayList<Player> players = hc.players().getPlayersAlive();
         for (Player player : players) {
             ItemStack item = getItem(player);
             player.getInventory().addItem(item);
-            
-            hc.sendMessage(player, ChatColor.YELLOW + "You got "+item.getAmount()+ " "+item.getType().name()+"."); 
+
+            hc.sendMessage(player, ChatColor.YELLOW + "You got " + item.getAmount() + " " + item.getType().name() + ".");
         }
     }
 
@@ -38,7 +38,7 @@ public class ItemDrop {
      */
     private ItemStack getItem(Player player)
     {
-       YamlConfiguration itemlist = YamlConfiguration.loadConfiguration(new File(hc.getDataFolder()+"/items.yml"));
+        YamlConfiguration itemlist = YamlConfiguration.loadConfiguration(new File(hc.getDataFolder() + "/items.yml"));
         ArrayList<List> items = new ArrayList(itemlist.getList("items"));
         int r = new Random().nextInt(items.size());
         ItemObject i = new ItemObject(items.get(r));
@@ -52,16 +52,18 @@ public class ItemDrop {
     }
 
     private class ItemObject {
+
         private final Material material;
         private final int size;
         private short data;
 
-        private ItemObject(List list){
-            this.material=Material.getMaterial(String.valueOf(list.get(0)));
-            this.size=(int) list.get(1);
-            if(list.size() >= 3){
+        private ItemObject(List list)
+        {
+            this.material = Material.getMaterial(String.valueOf(list.get(0)));
+            this.size = (int) list.get(1);
+            if (list.size() >= 3) {
                 int n = (int) list.get(2);
-            this.data= n > Short.MAX_VALUE ? Short.MAX_VALUE : n < Short.MIN_VALUE ? Short.MIN_VALUE : (short)n;
+                this.data = n > Short.MAX_VALUE ? Short.MAX_VALUE : n < Short.MIN_VALUE ? Short.MIN_VALUE : (short) n;
             }
         }
     }

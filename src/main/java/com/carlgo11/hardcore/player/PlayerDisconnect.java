@@ -7,17 +7,18 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerDisconnect implements Listener {
-
+    
     private final Hardcore hc;
-
+    
     public PlayerDisconnect(Hardcore parent)
     {
         this.hc = parent;
     }
-
+    
     @EventHandler
-    public void onPlayerDisconnect(PlayerQuitEvent e){
+    public void onPlayerDisconnect(PlayerQuitEvent e)
+    {
         Player player = e.getPlayer();
-        hc.game().alivePlayers().removePlayer(player);
+        hc.players().removePlayer(player);
     }
 }

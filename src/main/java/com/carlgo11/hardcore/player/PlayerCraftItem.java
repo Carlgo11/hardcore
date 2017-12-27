@@ -1,6 +1,7 @@
 package com.carlgo11.hardcore.player;
 
 import com.carlgo11.hardcore.CraftingRecipe;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -17,10 +18,12 @@ public class PlayerCraftItem implements Listener {
             if (event.getWhoClicked() instanceof Player) {
                 Player player = (Player) event.getWhoClicked();
                 if (event.getRecipe().getResult().isSimilar(CraftingRecipe.setCraftingRecipeTNT().getResult())) {
-                    if (player.getLevel() >= (3*event.getRecipe().getResult().getAmount())) {
-                        player.setLevel((player.getLevel() - (3*event.getRecipe().getResult().getAmount())));
+                    if (player.getLevel() >= (3 * event.getRecipe().getResult().getAmount())) {
+                        player.setLevel((player.getLevel() - (3 * event.getRecipe().getResult().getAmount())));
                     } else {
                         event.setResult(Event.Result.DENY);
+                        player.closeInventory();
+                        player.sendMessage(ChatColor.RED + "You need at least 3 XP levels to craft TNT.");
                     }
                 }
             }

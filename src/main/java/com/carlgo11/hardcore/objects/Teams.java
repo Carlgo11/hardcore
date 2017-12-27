@@ -1,5 +1,6 @@
-package com.carlgo11.hardcore;
+package com.carlgo11.hardcore.objects;
 
+import com.carlgo11.hardcore.Hardcore;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
