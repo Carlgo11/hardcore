@@ -34,7 +34,6 @@ public class CommandGame implements CommandExecutor {
         return false;
     }
 
-    {
     private boolean subCommandStart(CommandSender sender, String[] args) {
         if (sender.hasPermission("hardcore.game." + args[0])) {
             hc.game().startGame();
