@@ -1,6 +1,7 @@
 package com.carlgo11.hardcore.commands;
 
-import com.carlgo11.hardcore.Hardcore;
+import com.carlgo11.hardcore.api.Game;
+import com.carlgo11.hardcore.*;
 import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,11 +12,13 @@ import org.bukkit.entity.Player;
 
 public class CommandVote implements CommandExecutor {
 
-    private final Hardcore hc;
+    final Hardcore hc;
+    final Game game;
 
-    public CommandVote(Hardcore parent)
+    public CommandVote(Hardcore parent, Game game)
     {
         this.hc = parent;
+        this.game = game;
     }
 
     private Vote vote;
@@ -159,7 +162,7 @@ public class CommandVote implements CommandExecutor {
                 kick.kickPlayer(ChatColor.GOLD + "You've been kicked by the other players.");
             }
             if (voteOn.equals("start")) {
-                hc.game().startGame();
+                game.startGame();
             }
         }
     }

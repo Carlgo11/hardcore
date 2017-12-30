@@ -1,6 +1,7 @@
 package com.carlgo11.hardcore.server;
 
 import com.carlgo11.hardcore.Hardcore;
+import com.carlgo11.hardcore.api.Game;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,10 +10,12 @@ import org.bukkit.event.server.ServerListPingEvent;
 public class ServerPing implements Listener {
 
     private final Hardcore hc;
+    final Game game;
 
-    public ServerPing(Hardcore parent)
+    public ServerPing(Hardcore parent, Game game)
     {
         this.hc = parent;
+        this.game = game;
     }
 
     /**
@@ -24,7 +27,7 @@ public class ServerPing implements Listener {
     @EventHandler
     public void onMOTD(ServerListPingEvent event)
     {
-        int state = hc.game().getGameState();
+        int state = game.getGameState();
         String motd = event.getMotd() + "";
         switch (state) {
             case 0:

@@ -1,6 +1,7 @@
 package com.carlgo11.hardcore.commands;
 
-import com.carlgo11.hardcore.Hardcore;
+import com.carlgo11.hardcore.api.Game;
+import com.carlgo11.hardcore.*;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -9,11 +10,13 @@ import org.bukkit.command.CommandSender;
 
 public class CommandDifficulty implements CommandExecutor {
 
-    private final Hardcore hc;
+    final Hardcore hc;
+    final Game game;
 
-    public CommandDifficulty(Hardcore parent)
+    public CommandDifficulty(Hardcore parent, Game game)
     {
         this.hc = parent;
+        this.game = game;
     }
 
     @Override
@@ -38,8 +41,8 @@ public class CommandDifficulty implements CommandExecutor {
 
     private boolean subCommandGet(CommandSender sender, Command cmd, String commandLabel, String[] args)
     {
-        if (sender.hasPermission("Hardcore.difficulty."+args[0])) {
-            sender.sendMessage(ChatColor.GREEN + "Difficulty: " + hc.game().getDifficulty());
+        if (sender.hasPermission("Hardcore.difficulty." + args[0])) {
+            sender.sendMessage(ChatColor.GREEN + "Difficulty: " + game.getDifficulty());
             return true;
         } else {
             hc.badPermissions(sender);
@@ -49,10 +52,10 @@ public class CommandDifficulty implements CommandExecutor {
 
     private boolean subCommandSet(CommandSender sender, Command cmd, String commandLabel, String[] args)
     {
-        if (sender.hasPermission("Hardcore.difficulty."+args[0])) {
+        if (sender.hasPermission("Hardcore.difficulty." + args[0])) {
             if (StringUtils.isNumeric(args[1])) {
-                hc.game().difficulty = Integer.valueOf(args[1]);
-                hc.sendMessage(sender, ChatColor.GREEN + "Difficulty set to: " + hc.game().getDifficulty());
+                game.difficulty = Integer.valueOf(args[1]);
+                hc.sendMessage(sender, ChatColor.GREEN + "Difficulty set to: " + game.getDifficulty());
                 return true;
             }
         } else {

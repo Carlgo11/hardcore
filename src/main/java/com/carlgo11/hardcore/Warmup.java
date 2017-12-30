@@ -1,5 +1,6 @@
 package com.carlgo11.hardcore;
 
+import com.carlgo11.hardcore.api.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -11,19 +12,22 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 public class Warmup implements Listener {
 
     private final Hardcore hc;
+    final Game game;
 
-    public Warmup(Hardcore parent)
+    public Warmup(Hardcore parent, Game game)
     {
         this.hc = parent;
+        this.game = game;
     }
 
     /**
      * Game state is in "warmup" mode.
+     *
      * @return Warmup state
      */
     public boolean isWarmup()
     {
-        return hc.game().getGameState() == 0;
+        return game.getGameState() == 0;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

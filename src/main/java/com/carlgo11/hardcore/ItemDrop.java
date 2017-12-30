@@ -1,5 +1,6 @@
 package com.carlgo11.hardcore;
 
+import com.carlgo11.hardcore.api.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,19 +14,20 @@ import org.bukkit.configuration.file.YamlConfiguration;
 public class ItemDrop {
 
     private final Hardcore hc;
+    final Players players;
 
-    public ItemDrop(Hardcore parent)
+    public ItemDrop(Hardcore parent, Players players)
     {
         this.hc = parent;
+        this.players = players;
     }
 
     public void dropItems()
     {
-        ArrayList<Player> players = hc.players().getPlayersAlive();
-        for (Player player : players) {
+        ArrayList<Player> plyers = players.getPlayersAlive();
+        for (Player player : players.getPlayersAlive()) {
             ItemStack item = getItem(player);
             player.getInventory().addItem(item);
-
             hc.sendMessage(player, ChatColor.YELLOW + "You got " + item.getAmount() + " " + item.getType().name() + ".");
         }
     }

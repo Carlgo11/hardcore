@@ -1,6 +1,5 @@
-package com.carlgo11.hardcore.objects;
+package com.carlgo11.hardcore.api;
 
-import com.carlgo11.hardcore.Game;
 import com.carlgo11.hardcore.Hardcore;
 import java.util.ArrayList;
 import org.bukkit.ChatColor;
@@ -10,14 +9,15 @@ import org.bukkit.scoreboard.Team;
 
 public class Players {
 
-    private final Hardcore hc;
-
+    final Hardcore hc;
+    final Game game;
     private ArrayList<Player> playersAlive = new ArrayList<>();
     private ArrayList<Player> playersSpectating = new ArrayList<>();
 
-    public Players(Hardcore parent)
+    public Players(Hardcore parent, Game game)
     {
         this.hc = parent;
+        this.game = game;
     }
 
     /**
@@ -59,6 +59,7 @@ public class Players {
     public void removePlayer(Player player)
     {
         if (this.playerIsAlive(player)) {
+            player.setGlowing(false);
             player.setGameMode(GameMode.SPECTATOR);
             ArrayList<Player> plyrs = getPlayersAlive();
             plyrs.remove(player);
@@ -70,15 +71,15 @@ public class Players {
             if (plyrs.size() > Game.minPlayers) {
                 for (Team team2 : hc.teams.sc.getTeams()) {
                     if (team2.getPlayers().equals(plyrs)) {
-                        hc.game().getGameEndMessage(plyrs, player);
-                        hc.game().stopGame();
+                        game.getGameEndMessage(plyrs, player);
+                        game.stopGame();
                         return;
                     }
                 }
                 hc.broadcastMessage(ChatColor.YELLOW + "Only " + plyrs.size() + " players left!");
-            } else if (hc.game().getGameState() == 1) {
-                hc.game().getGameEndMessage(plyrs, player);
-                hc.game().stopGame();
+            } else if (game.getGameState() == 1) {
+                game.getGameEndMessage(plyrs, player);
+                game.stopGame();
             }
         }
     }
@@ -93,7 +94,7 @@ public class Players {
         ArrayList<Player> plyrs = getPlayersAlive();
         plyrs.add(player);
         this.setPlayers(plyrs);
-        if (hc.game().getGameState() == 1) {
+        if (game.getGameState() == 1) {
             player.setGameMode(GameMode.SURVIVAL);
         }
     }

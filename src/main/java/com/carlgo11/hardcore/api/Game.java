@@ -1,5 +1,7 @@
-package com.carlgo11.hardcore;
+package com.carlgo11.hardcore.api;
 
+import com.carlgo11.hardcore.Hardcore;
+import com.carlgo11.hardcore.api.Players;
 import java.util.ArrayList;
 import java.util.Random;
 import org.bukkit.Bukkit;
@@ -38,6 +40,9 @@ public class Game {
         difficultyAddition = hc.getConfig().getDouble("difficulty.addition");
         ArrayList<Player> plyrs = new ArrayList<>(Bukkit.getOnlinePlayers());
         hc.players().setPlayers(plyrs);
+        if (hc.getConfig().getBoolean("difficulty.peaceful-first-level")) {
+            hc.getServer().getWorlds().get(0).setDifficulty(Difficulty.PEACEFUL);
+        }
         for (Player p : plyrs) {
             p.setGameMode(GameMode.SURVIVAL);
             p.setFlying(false);
@@ -52,8 +57,8 @@ public class Game {
     }
 
     /**
-     * Change the difficulty and give {@link #alivePlayers() alive players} an
-     * item every x minutes
+     * Change the difficulty and give {@link #alivePlayers() alive hc.players()}
+     * an item every x minutes
      */
     private void loop()
     {
@@ -68,13 +73,13 @@ public class Game {
                     hc.itemDrop();
                     if (getDifficulty() == 0) {
                         difficulty = hc.getConfig().getDouble("difficulty.start-difficulty");
-                        hc.broadcastMessage(ChatColor.GOLD + "Next difficulty: " + getDifficulty());
+                        hc.broadcastMessage(ChatColor.GOLD + "Next difficulty: x" + String.format("%.2f", getDifficulty()));
                     } else {
                         if (getDifficulty() == 1) {
                             hc.getServer().getWorlds().get(0).setDifficulty(Difficulty.HARD);
                         }
                         nextDifficulty();
-                        hc.broadcastMessage(ChatColor.GOLD + "Next difficulty: " + getDifficulty());
+                        hc.broadcastMessage(ChatColor.GOLD + "Next difficulty: x" + String.format("%.2f", getDifficulty()));
                     }
                 }
             } else {
@@ -92,7 +97,7 @@ public class Game {
     }
 
     /**
-     * Stop the game, kick all players and stop the server.
+     * Stop the game, kick all hc.players() and stop the server.
      */
     public void stopGame()
     {
@@ -142,9 +147,9 @@ public class Game {
     public void getGameEndMessage(ArrayList<Player> players, Player player)
     {
 
-        if (hc.players().getPlayersAlive().size() >= 1) {
+        if (players.size() >= 1) {
             String aliveplayers = null;
-            for (Player p : hc.players().getPlayersAlive()) {
+            for (Player p : players) {
                 if (aliveplayers == null) {
                     aliveplayers += p.getName();
                 } else {
@@ -164,7 +169,7 @@ public class Game {
     /**
      * Spawn a firework entity on the player(s)'s location
      *
-     * @param players Players to spawn firework on.
+     * @param players Array of players to spawn firework on.
      */
     private void spawnFirework(ArrayList<Player> players)
     {

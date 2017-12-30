@@ -1,8 +1,7 @@
 package com.carlgo11.hardcore;
 
-import com.carlgo11.hardcore.objects.Teams;
+import com.carlgo11.hardcore.api.*;
 import com.carlgo11.hardcore.commands.*;
-import com.carlgo11.hardcore.objects.Players;
 import com.carlgo11.hardcore.player.*;
 import com.carlgo11.hardcore.server.*;
 import java.io.File;
@@ -34,9 +33,9 @@ public class Hardcore extends JavaPlugin {
         loadConfigFile("config.yml");
         loadConfigFile("items.yml");
         game = new Game(this);
-        itemdrop = new ItemDrop(this);
         teams = new Teams(this);
-        players = new Players(this);
+        players = new Players(this, game);
+        itemdrop = new ItemDrop(this, players);
         Game.minPlayers = getConfig().getInt("game.game-end");
         loadCommands();
 
@@ -57,15 +56,15 @@ public class Hardcore extends JavaPlugin {
     private void registerListeners(PluginManager pm)
     {
         HandlerList.unregisterAll(this);
-        pm.registerEvents(new PlayerDamage(this), this);
-        pm.registerEvents(new PlayerDeath(this), this);
-        pm.registerEvents(new PlayerDisconnect(this), this);
-        pm.registerEvents(new PlayerInteract(this), this);
-        pm.registerEvents(new PlayerJoin(this), this);
-        pm.registerEvents(new PlayerLogin(this), this);
+        pm.registerEvents(new PlayerDamage(this, game), this);
+        pm.registerEvents(new PlayerDeath(this, players), this);
+        pm.registerEvents(new PlayerDisconnect(this, players), this);
+        pm.registerEvents(new PlayerInteract(this, players), this);
+        pm.registerEvents(new PlayerJoin(this, game, players), this);
+        pm.registerEvents(new PlayerLogin(this, game), this);
         pm.registerEvents(new PlayerRegainHealth(this), this);
-        pm.registerEvents(new ServerPing(this), this);
-        pm.registerEvents(new Warmup(this), this);
+        pm.registerEvents(new ServerPing(this, game), this);
+        pm.registerEvents(new Warmup(this, game), this);
         pm.registerEvents(new PlayerCraftItem(), this);
         pm.registerEvents(new PlayerPlaceBlock(), this);
         pm.registerEvents(new PlayerInventoryClick(this), this);
@@ -103,15 +102,10 @@ public class Hardcore extends JavaPlugin {
 
     private void loadCommands()
     {
-        getCommand("difficulty").setExecutor(new CommandDifficulty(this));
-        getCommand("game").setExecutor(new CommandGame(this));
-        getCommand("vote").setExecutor(new CommandVote(this));
-        getCommand("team").setExecutor(new CommandTeam(this));
-    }
-
-    public Game game()
-    {
-        return game;
+        getCommand("difficulty").setExecutor(new CommandDifficulty(this, game));
+        getCommand("game").setExecutor(new CommandGame(this, game, players));
+        getCommand("vote").setExecutor(new CommandVote(this, game));
+        getCommand("team").setExecutor(new CommandTeam(this, teams));
     }
 
     public Players players()

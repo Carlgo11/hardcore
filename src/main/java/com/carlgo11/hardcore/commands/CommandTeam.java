@@ -1,7 +1,7 @@
 package com.carlgo11.hardcore.commands;
 
 import com.carlgo11.hardcore.Hardcore;
-import com.carlgo11.hardcore.objects.Teams;
+import com.carlgo11.hardcore.api.Teams;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -15,10 +15,10 @@ public class CommandTeam implements CommandExecutor {
     private final Hardcore hc;
     private final Teams teams;
 
-    public CommandTeam(Hardcore parent)
+    public CommandTeam(Hardcore parent, Teams teams)
     {
         this.hc = parent;
-        this.teams = hc.teams;
+        this.teams = teams;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class CommandTeam implements CommandExecutor {
                     Player invitee = Bukkit.getPlayer(args[1]);
                     if (invitee != null) {
                         teams.getTeam(team.getName()).addInvite(invitee);
-                        hc.sendMessage(invitee, ChatColor.GREEN + sender.getName() + " invited you to  \""+team.getDisplayName()+ChatColor.GREEN+"\".\nAccept by typing "+ChatColor.YELLOW+"/team accept");
+                        hc.sendMessage(invitee, ChatColor.GREEN + sender.getName() + " invited you to  \"" + team.getDisplayName() + ChatColor.GREEN + "\".\nAccept by typing " + ChatColor.YELLOW + "/team accept");
                         hc.sendMessage(sender, ChatColor.GREEN + "You've invited " + args[1]);
                     } else {
                         hc.sendMessage(sender, ChatColor.RED + "Can't find player \"" + args[1] + "\"");

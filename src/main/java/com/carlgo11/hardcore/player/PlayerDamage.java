@@ -1,6 +1,7 @@
 package com.carlgo11.hardcore.player;
 
 import com.carlgo11.hardcore.Hardcore;
+import com.carlgo11.hardcore.api.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -12,21 +13,23 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 public class PlayerDamage implements Listener {
 
     private final Hardcore hc;
+    final Game game;
 
-    public PlayerDamage(Hardcore parent)
+    public PlayerDamage(Hardcore parent, Game game)
     {
         this.hc = parent;
+        this.game = game;
     }
 
     @EventHandler(priority = EventPriority.LOW)
     public void onPlayerDamage(EntityDamageEvent e)
     {
-        if (hc.game().getGameState() == 1) {
+        if (game.getGameState() == 1) {
             DamageCause cause = e.getCause();
             if (!cause.equals(DamageCause.FALL) && !cause.equals(DamageCause.ENTITY_ATTACK)) {
                 if (e.getEntity() instanceof Player) {
                     double damage = e.getDamage();
-                    e.setDamage(damage * hc.game().getDifficulty());
+                    e.setDamage(damage * game.getDifficulty());
                 }
             }
         } else {
@@ -48,12 +51,12 @@ public class PlayerDamage implements Listener {
             if (hc.getConfig().getBoolean("difficulty.ignore-player-damage")) {
                 e.setDamage(e.getDamage() * 0.5);
             }
-            if (hc.getConfig().getBoolean("difficulty.peaceful-first-level") && hc.game().getDifficulty() == hc.getConfig().getInt("difficulty.start-difficulty")) {
+            if (hc.getConfig().getBoolean("difficulty.peaceful-first-level") && game.getDifficulty() == hc.getConfig().getInt("difficulty.start-difficulty")) {
                 e.setCancelled(true);
             }
         } else if (e.getEntity() instanceof Player) {
             double damage = e.getDamage();
-            e.setDamage(damage * hc.game().getDifficulty());
+            e.setDamage(damage * game.getDifficulty());
         }
     }
 }

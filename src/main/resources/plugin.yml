@@ -7,13 +7,13 @@ website: https://github.com/Carlgo11/hardcore/
 commands:
  difficulty:
    description: Get/Set game-difficulty
-   usage: /<command> [start/end/debug/] (number)
+   usage: /<command> [set/get] (number)
    aliases: [diff]
    permission: hardcore.difficulty
 
  game:
    description: Start/stop game.
-   usage: /<command> [set/get]
+   usage: /<command> [start/end/debug]
    permission: hardcore.game
 
  vote:

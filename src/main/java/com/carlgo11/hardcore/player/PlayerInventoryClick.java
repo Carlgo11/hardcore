@@ -34,7 +34,7 @@ public class PlayerInventoryClick implements Listener {
         int slot = event.getSlot();
         if (inventory.getName().equals(wandInventory.getName())) {
             event.setCancelled(true);
-            PlayerInteract.wandability = slot;
+            PlayerInteract.setPlayerWandAbility(player, slot);
             player.closeInventory();
         }
     }

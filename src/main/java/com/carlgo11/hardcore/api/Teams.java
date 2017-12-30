@@ -1,4 +1,4 @@
-package com.carlgo11.hardcore.objects;
+package com.carlgo11.hardcore.api;
 
 import com.carlgo11.hardcore.Hardcore;
 import java.util.ArrayList;
