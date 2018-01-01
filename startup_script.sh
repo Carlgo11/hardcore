@@ -8,8 +8,9 @@ while :
 do
 
 if [ ! -f "$spigot" ]; then
-echo "No $spigot found."
-./scripts/updateSpigot.sh "$spigot"
+echo "No $spigot found. Exiting script"
+sleep 5
+break
 fi
 
 if [ ! -f "plugins/Hardcore"*".jar" ]; then

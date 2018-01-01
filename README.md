@@ -1,41 +1,41 @@
 # Hardcore
-[![Build Status](https://travis-ci.org/Carlgo11/hardcore.svg?branch=master)](https://travis-ci.org/Carlgo11/hardcore) 
+
+[![Build Status](https://travis-ci.org/Carlgo11/hardcore.svg?branch=master)](https://travis-ci.org/Carlgo11/hardcore)
 
 ## What is this?
-Hardcore is a ultra-hardcore Minecraft plugin (Spigot based).
-This is a replacement for an old outdated plugin I had a few years ago.
+
+Hardcore is a ultra-hardcore Minecraft plugin (Bukkit based). This is a replacement for an old outdated plugin I had a few years ago.
 
 I decided to completely redesign the plugin from scratch and publish the source code in the process.
 
 ## Can I use the code?
 
-Yes, this project is licensed under CC Attribution-NonCommercial 4.0 International Public License.
-For more information on this license, see [creativecommons.org](https://creativecommons.org/licenses/by-nc/4.0/legalcode), [tldrlegal.com](https://tldrlegal.com/license/creative-commons-attribution-noncommercial-4.0-international-%28cc-by-nc-4.0%29#summary) or [LICENSE](LICENSE.md).
+Yes, this project is licensed under CC Attribution-NonCommercial 4.0 International Public License. For more information on this license, see [creativecommons.org](https://creativecommons.org/licenses/by-nc/4.0/legalcode), [tldrlegal.com](https://tldrlegal.com/license/creative-commons-attribution-noncommercial-4.0-international-%28cc-by-nc-4.0%29#summary) or [LICENSE](LICENSE.md).
 
 For a short summery,
-* You may run my code.
-* You may make changes to my code as long as you give me credit for the contributions I have made.
-* You may __not__ claim that my code is your own or use any other license than CC Attribution-NonCommercial 4.0 International Public License.
-* You may __not__ make any economic profit on my code.
 
+- You may run my code.
+- You may make changes to my code as long as you give me credit for the contributions I have made.
+- You may **not** claim that my code is your own or use any other license than CC Attribution-NonCommercial 4.0 International Public License.
+- You may **not** make any economic profit on my code.
 
 ## Requirements
 
 If you want to run the plugin you will need these things:
 
-* Java 8
-* A spigot server
-* Some knowledge on how Minecraft servers work and how to edit configs.
+- Java 8
+- A Spigot or Bukkit server
+- Some knowledge on how Minecraft servers work and how to edit configs.
 
 # Running the code
 
-To run a local server and test/run the code follow these instructions:  
+To run a local server and test/run the code follow these instructions:
 
-1. Download the project. `git clone https://github.com/Carlgo11/hardcore.git`
-2. Make a directory to run the server in. `mkdir spigot_server`
-3. Copy the startup script and the scripts folder. `cp {scripts,startup_script.sh} spigot`
-4. Go to the spigot directory and agree to the Minecraft EULA. `cd spigot; echo "eula=true" > eula.txt`
-5. Start the server. `./startup_script.sh` This will download the latest Spigot jar as well as the latest Hardcore jar from GitHub.
+1. Download a Spigot or Bukkit build.
+2. Download the project. `git clone https://github.com/Carlgo11/hardcore.git`
+3. Make a directory to run the server in. `mkdir server`
+4. Copy the startup script and the scripts folder. `cp {scripts,startup_script.sh} server`
+5. Go to the spigot directory and agree to the Minecraft EULA. `cd server; echo "eula=true" > eula.txt`
+6. Start the server `./startup_script.sh`. This will download the latest Hardcore jar from GitHub.
 
-*Note:*  _You can build the Hardcore.jar and just place it in the `plugins` folder of an existing Minecraft server.
-If you choose to do so, skip the steps above._
+_Note:_ _You can build the Hardcore.jar and just place it in the `plugins` folder of an existing Minecraft server. If you choose to do so, skip the steps above._
