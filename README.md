@@ -1,6 +1,7 @@
 # Hardcore
 
-[![Build Status](https://travis-ci.org/Carlgo11/hardcore.svg?branch=master)](https://travis-ci.org/Carlgo11/hardcore)
+[![Build Status](https://img.shields.io/github/workflow/status/Carlgo11/hardcore/Java%20CI?style=for-the-badge)](https://github.com/Carlgo11/hardcore/actions)
+[![License](https://img.shields.io/badge/LICENSE-CC%20BY--NC%204.0-ee5b32?style=for-the-badge)](https://github.com/Carlgo11/hardcore/blob/master/LICENSE.md)
 
 ## What is this?
 
