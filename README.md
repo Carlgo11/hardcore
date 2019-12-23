@@ -2,7 +2,7 @@
 
 [![Build Status](https://img.shields.io/github/workflow/status/Carlgo11/hardcore/Java%20CI?style=for-the-badge)](https://github.com/Carlgo11/hardcore/actions)
 [![License](https://img.shields.io/badge/LICENSE-CC%20BY--NC%204.0-ee5b32?style=for-the-badge)](https://github.com/Carlgo11/hardcore/blob/master/LICENSE.md)
-
+![Bukkit](https://img.shields.io/badge/bukkit-v1.15.1-ab7b53?style=for-the-badge)
 ## What is this?
 
 Hardcore is a ultra-hardcore Minecraft plugin (Bukkit based). This is a replacement for an old outdated plugin I had a few years ago.

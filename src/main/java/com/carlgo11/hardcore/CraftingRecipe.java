@@ -10,7 +10,7 @@ public class CraftingRecipe {
     {
         ItemStack TNT = new ItemStack(Material.TNT, 1);
         ShapelessRecipe tntrecipe = new ShapelessRecipe(TNT);
-        tntrecipe.addIngredient(Material.SULPHUR);
+        tntrecipe.addIngredient(Material.GUNPOWDER);
         return tntrecipe;
     }
 

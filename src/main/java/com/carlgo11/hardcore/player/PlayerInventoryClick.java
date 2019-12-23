@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerInventoryClick implements Listener {
@@ -32,7 +33,8 @@ public class PlayerInventoryClick implements Listener {
         ItemStack clicked = event.getCurrentItem();
         Inventory inventory = event.getInventory();
         int slot = event.getSlot();
-        if (inventory.getName().equals(wandInventory.getName())) {
+
+        if (inventory.equals(wandInventory)) {
             event.setCancelled(true);
             PlayerInteract.setPlayerWandAbility(player, slot);
             player.closeInventory();

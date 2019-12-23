@@ -52,7 +52,7 @@ public class CommandTeam implements CommandExecutor {
             if (sender.hasPermission("hardcore.team." + args[0])) {
                 Team team = hc.teams.registerTeam(args[1]);
                 if (team != null) {
-                    team.addPlayer(player);
+                    team.addEntry(player.getName());
                     hc.sendMessage(sender, ChatColor.GREEN + "Team \"" + args[1] + ChatColor.GREEN + "\" registered!");
                 } else {
                     hc.sendMessage(sender, ChatColor.RED + "A team with that name already exists.");
@@ -82,8 +82,6 @@ public class CommandTeam implements CommandExecutor {
                 } else {
                     hc.sendMessage(sender, ChatColor.RED + "You're not in a team.");
                 }
-            } else {
-
             }
         } else {
             hc.badPermissions(sender);
@@ -116,7 +114,7 @@ public class CommandTeam implements CommandExecutor {
             Player player = (Player) sender;
             Team team = teams.isInvited(player);
             if (team != null) {
-                team.addPlayer(player);
+                team.addEntry(player.getName());
                 hc.sendMessage(sender, ChatColor.GREEN + "You've joined \"" + team.getDisplayName() + ChatColor.GREEN + "\"");
             } else {
                 hc.sendMessage(sender, ChatColor.RED + "You're not invited to any team.");
