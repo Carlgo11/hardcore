@@ -17,8 +17,8 @@ difficulty:
   max: -1
   # Delay between difficulty levels. Time in minutes
   delay: 5
-  # Difficulty mode. (0 = Peaceful, 1 = Easy, 2 = Normal, 3 = Hard)
-  mode: 3
+  # Difficulty mode. (Peaceful, Easy, Normal, Hard)
+  mode: Hard
   # Should the game ignore multiplying damage when it's caused by a player to another player.
   ignore-player-damage: true
   # Should player-to-player damage be ignored under the first level? (Helps the game move forward.)
@@ -31,7 +31,7 @@ game:
   start-players: 3
   # Time between the last death and the server restarting. (In seconds)
   end-delay: 10
-  # Wheter a new player can join an already started game or not.
+  # Whether a new player can join an already started game or not.
   can-join-game: true
   # The time of day that the time should be set to whenever the game starts. (set -1 to disable)
   start-time: 6000

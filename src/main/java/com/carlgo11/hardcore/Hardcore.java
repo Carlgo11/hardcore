@@ -193,7 +193,7 @@ public class Hardcore extends JavaPlugin {
      */
     private void setDifficulty()
     {
-        getWorlds().get(0).setDifficulty(Difficulty.getByValue(getConfig().getInt("difficulty.mode")));
+        getWorlds().get(0).setDifficulty(Difficulty.valueOf(getConfig().getString("difficulty.mode").toUpperCase()));
         outputInfo("World difficulty set to " + getWorlds().get(0).getDifficulty());
     }
 }
