@@ -58,6 +58,6 @@ permissions:
         children:
             hardcore.team: true
             hardcore.team.new: true
-            hardcore.team.add: true
+            hardcore.team.invite: true
             hardcore.team.leave: true
             hardcore.team.accept: true
