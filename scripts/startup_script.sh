@@ -1,6 +1,6 @@
 #!/bin/bash
 world="world" # The default world
-userdata="/plugins/Essentials/userdata" # Essentials' userdata directory
+userdata="plugins/Essentials/userdata" # Essentials' userdata directory
 spigot="spigot.jar" # Spigot jar
 delay=5 # Delay between the MC server stopping and the script restarting it again.
 
