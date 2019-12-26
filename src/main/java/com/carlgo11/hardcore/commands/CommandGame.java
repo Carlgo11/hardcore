@@ -1,8 +1,9 @@
 package com.carlgo11.hardcore.commands;
 
+import com.carlgo11.hardcore.Hardcore;
 import com.carlgo11.hardcore.api.Game;
-import com.carlgo11.hardcore.*;
 import com.carlgo11.hardcore.api.Players;
+import com.carlgo11.report.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -34,7 +35,21 @@ public class CommandGame implements CommandExecutor {
             return subCommandAdd(sender, args, commandLabel);
         } else if (args[0].equalsIgnoreCase("remove")) {
             return subCommandRemove(sender, args, commandLabel);
+        }else if (args[0].equalsIgnoreCase("report")){
+            return subCommandReport(sender, args, commandLabel, hc);
         }
+        return false;
+    }
+
+    private boolean subCommandReport(CommandSender sender, String[] args, String commandLabel, Hardcore hc) {
+        try {
+            Report report = new Report(hc, "44407136b4a38be15b60a97da7ecc9d7", "174314164f147aa4a66d9608644139c2");
+            String URL = report.makeReport();
+            hc.sendMessage(sender, ChatColor.GREEN + "Include this link in your bug report: " + ChatColor.BLUE + URL);
+        }catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
         return false;
     }
 

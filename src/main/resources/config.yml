@@ -39,3 +39,7 @@ game:
 teams:
  # Allow damage from other team members.
  friendly-fire: false
+
+report:
+  report-log: true
+  report-config: true

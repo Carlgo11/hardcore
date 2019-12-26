@@ -5,6 +5,12 @@ author: Carlgo11
 description: Hardcore Minecraft multiplayer server plugin.
 website: https://github.com/Carlgo11/hardcore/
 api-version: "1.15"
+depend:
+  - Report-API
+loadbefore:
+  - Report-API
+load: POSTWORLD
+
 commands:
  difficulty:
    description: Get/Set game-difficulty
@@ -14,12 +20,12 @@ commands:
 
  game:
    description: Start/stop game.
-   usage: /<command> [start/end/debug]
+   usage: /<command> [start/end/debug/report]
    permission: hardcore.game
 
  vote:
    description: Vote on things.
-   usage: /<command> [yes/no]
+   usage: /<command> [start/kick/yes/no]
    permission: hardcore.vote
 
  team:
@@ -37,6 +43,7 @@ permissions:
             hardcore.game.info: true
             hardcore.game.start: true
             hardcore.game.end: true
+            hardcore.game.report: true
 
      hardcore.vote.*:
         description: Give access to all /vote subcommands
