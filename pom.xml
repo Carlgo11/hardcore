@@ -51,6 +51,11 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+        <repository>
+            <id>github</id>
+            <name>GitHub Carlgo11 Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/carlgo11/report</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -60,11 +65,12 @@
             <artifactId>bukkit</artifactId>
             <version>1.15.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+
         </dependency>
         <dependency>
             <groupId>com.carlgo11</groupId>
             <artifactId>report</artifactId>
-            <version>1.2</version>
+            <version>2.0</version>
         </dependency>
     </dependencies>
 

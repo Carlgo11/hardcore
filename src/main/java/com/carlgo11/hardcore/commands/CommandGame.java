@@ -11,6 +11,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.net.URL;
+
 public class CommandGame implements CommandExecutor {
 
     private final Hardcore hc;
@@ -44,8 +46,9 @@ public class CommandGame implements CommandExecutor {
     private boolean subCommandReport(CommandSender sender, String[] args, String commandLabel, Hardcore hc) {
         try {
             Report report = new Report(hc, "44407136b4a38be15b60a97da7ecc9d7", "174314164f147aa4a66d9608644139c2");
-            String URL = report.makeReport();
-            hc.sendMessage(sender, ChatColor.GREEN + "Include this link in your bug report: " + ChatColor.BLUE + URL);
+            report.makeReport();
+            URL url = report.getURL();
+            hc.sendMessage(sender, ChatColor.GREEN + "Include this link in your bug report: " + ChatColor.BLUE + url.toString());
         }catch (Exception ex) {
             ex.printStackTrace();
         }
