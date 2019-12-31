@@ -1,70 +1,69 @@
 main: com.carlgo11.hardcore.Hardcore
-name: Hardcore
+name: ${project.artifactId}
 version: ${project.version}
 author: Carlgo11
-description: Hardcore Minecraft multiplayer server plugin.
-website: https://github.com/Carlgo11/hardcore/
+description: ${project.description}
+website: ${project.url}
 api-version: "1.15"
 depend:
   - Report-API
-loadbefore:
-  - Report-API
 load: POSTWORLD
+database: false
 
 commands:
- difficulty:
-   description: Get/Set game-difficulty
-   usage: /<command> [set/get] (number)
-   aliases: [diff]
-   permission: hardcore.difficulty
+  difficulty:
+    description: Get/Set game-difficulty
+    usage: /<command> <set|get> [number]
+    aliases: [diff]
+    permission: hardcore.difficulty
 
- game:
-   description: Start/stop game.
-   usage: /<command> [start/end/debug/report]
-   permission: hardcore.game
+  game:
+    description: Start/stop game.
+    usage: /<command> <start|end|debug|report>
+    permission: hardcore.game
 
- vote:
-   description: Vote on things.
-   usage: /<command> [start/kick/yes/no]
-   permission: hardcore.vote
+  vote:
+    description: Vote on things.
+    usage: /<command> <start|kick|yes|no>
+    permission: hardcore.vote
 
- team:
-   description: Team settings
-   usage: /<command> [accept/add/leave/new]
-   permission: hardcore.team
+  team:
+    description: Team settings
+    usage: /<command> <accept|add|leave|new>
+    permission: hardcore.team
 
 permissions:
-     hardcore.game.*:
-        description: Gives access to all /game subcommands
-        default: op
-        children:
-            hardcore.game: true
-            hardcore.game.debug: true
-            hardcore.game.info: true
-            hardcore.game.start: true
-            hardcore.game.end: true
-            hardcore.game.report: true
+  hardcore.game.*:
+    description: Give access to all /game subcommands
+    default: op
+    children:
+      hardcore.game: true
+      hardcore.game.debug: true
+      hardcore.game.info: true
+      hardcore.game.start: true
+      hardcore.game.end: true
+      hardcore.game.report: true
 
-     hardcore.vote.*:
-        description: Give access to all /vote subcommands
-        default: true
-        children:
-            hardcore.vote: true
-            hardcore.vote.kick: true
-            hardcore.vote.start: true
-            hardcore.vote.yes: true
-            hardcore.vote.no: true
+  hardcore.vote.*:
+    description: Give access to all /vote subcommands
+    default: true
+    children:
+      hardcore.vote: true
+      hardcore.vote.kick: true
+      hardcore.vote.start: true
+      hardcore.vote.yes: true
+      hardcore.vote.no: true
 
-     hardcore.vote.unkickable:
-        description: Player becomes imune from kick votes.
-        default: op
+  hardcore.vote.unkickable:
+    description: Player becomes imune from kick votes.
+    default: op
 
-     hardcore.team.*:
-        description: Give acess to all /team subcommands
-        default: true
-        children:
-            hardcore.team: true
-            hardcore.team.new: true
-            hardcore.team.invite: true
-            hardcore.team.leave: true
-            hardcore.team.accept: true
+  hardcore.team.*:
+    description: Give acess to all /team subcommands
+    default: true
+    children:
+      hardcore.team: true
+      hardcore.team.new: true
+      hardcore.team.invite: true
+      hardcore.team.leave: true
+      hardcore.team.accept: true

@@ -38,12 +38,12 @@ public class CommandGame implements CommandExecutor {
         } else if (args[0].equalsIgnoreCase("remove")) {
             return subCommandRemove(sender, args, commandLabel);
         }else if (args[0].equalsIgnoreCase("report")){
-            return subCommandReport(sender, args, commandLabel, hc);
+            return subCommandReport(sender, commandLabel, hc);
         }
         return false;
     }
 
-    private boolean subCommandReport(CommandSender sender, String[] args, String commandLabel, Hardcore hc) {
+    private boolean subCommandReport(CommandSender sender, String commandLabel, Hardcore hc) {
         try {
             Report report = new Report(hc, "44407136b4a38be15b60a97da7ecc9d7", "174314164f147aa4a66d9608644139c2");
             report.makeReport();

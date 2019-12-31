@@ -108,7 +108,7 @@ public class CommandVote implements CommandExecutor {
      * Add a new vote to an existing vote
      *
      * @param sender Player making the vote
-     * @param vote What the vote is on
+     * @param castvote What the vote is on
      */
     private void onVote(Player sender, String castvote)
     {

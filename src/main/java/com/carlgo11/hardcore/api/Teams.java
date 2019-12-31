@@ -1,16 +1,17 @@
 package com.carlgo11.hardcore.api;
 
 import com.carlgo11.hardcore.Hardcore;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Teams {
 
@@ -19,15 +20,13 @@ public class Teams {
     public ScoreboardManager manager;
     private Map<Team, ArrayList<Player>> invites = new HashMap<>();
 
-    public Teams(Hardcore parent)
-    {
+    public Teams(Hardcore parent) {
         this.hc = parent;
         manager = Bukkit.getScoreboardManager();
         sc = manager.getMainScoreboard();
     }
 
-    public Scoreboard getScoreBoard()
-    {
+    public Scoreboard getScoreBoard() {
         return sc;
     }
 
@@ -37,8 +36,7 @@ public class Teams {
      * @param name Team name
      * @return Team specific class.
      */
-    public GetTeam getTeam(String name)
-    {
+    public GetTeam getTeam(String name) {
         return new GetTeam(name);
     }
 
@@ -48,8 +46,7 @@ public class Teams {
      * @param name Team name
      * @return New team
      */
-    public Team registerTeam(String name)
-    {
+    public Team registerTeam(String name) {
         for (Team teams : sc.getTeams()) {
             if (teams.getName().equalsIgnoreCase(name)) {
                 return null;
@@ -75,8 +72,7 @@ public class Teams {
      *
      * @return random team color code; Returns null if no color is available.
      */
-    private ChatColor getRandomTeamColor()
-    {
+    private ChatColor getRandomTeamColor() {
         ArrayList<String> teamcolors = new ArrayList<>();
         for (Team teams : sc.getTeams()) {
             teamcolors.add(teams.getPrefix());
@@ -84,11 +80,10 @@ public class Teams {
         if (teamcolors.size() == (ChatColor.values().length - 6)) {
             return null;
         }
-        ArrayList<ChatColor> chatcolors = new ArrayList<>();
-        chatcolors.addAll(Arrays.asList(ChatColor.values()));
+        ArrayList<ChatColor> chatcolors = new ArrayList<>(Arrays.asList(ChatColor.values()));
         ChatColor color = null;
         while (color == null || teamcolors.contains("" + color)) {
-            color = chatcolors.get(0 + (int) (Math.random() * (chatcolors.size() - 7)));
+            color = chatcolors.get((int) (Math.random() * (chatcolors.size() - 7)));
         }
         return color;
     }
@@ -100,8 +95,7 @@ public class Teams {
      * @return Return the player's current team; Returns null if player isn't in
      * a team.
      */
-    public Team inTeam(Player player)
-    {
+    public Team inTeam(Player player) {
         for (Team team : sc.getTeams()) {
             if (team.hasPlayer(player)) {
                 return team;
@@ -110,8 +104,7 @@ public class Teams {
         return null;
     }
 
-    public Team isInvited(Player player)
-    {
+    public Team isInvited(Player player) {
         for (Team team : sc.getTeams()) {
             ArrayList<Player> players = invites.get(team);
             if (players != null) {
@@ -129,8 +122,7 @@ public class Teams {
 
         private final Team team;
 
-        public GetTeam(String team)
-        {
+        public GetTeam(String team) {
             this.team = sc.getTeam(team);
         }
 
@@ -139,16 +131,14 @@ public class Teams {
          *
          * @param player Player to remove.
          */
-        public void removePlayer(Player player)
-        {
+        public void removePlayer(Player player) {
             team.removePlayer(player);
             if (team.getEntries().isEmpty()) {
                 sc.getTeams().remove(team);
             }
         }
 
-        public void addInvite(Player player)
-        {
+        public void addInvite(Player player) {
             if (!team.hasPlayer(player)) {
                 if (invites.containsKey(team)) {
                     ArrayList<Player> list = invites.get(team);

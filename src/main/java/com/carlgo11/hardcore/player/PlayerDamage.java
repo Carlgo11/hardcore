@@ -2,6 +2,7 @@ package com.carlgo11.hardcore.player;
 
 import com.carlgo11.hardcore.Hardcore;
 import com.carlgo11.hardcore.api.*;
+import com.carlgo11.hardcore.gamestate.GameState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,7 +25,7 @@ public class PlayerDamage implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onPlayerDamage(EntityDamageEvent e)
     {
-        if (game.getGameState() == 1) {
+        if (game.getGameState() == GameState.Running) {
             DamageCause cause = e.getCause();
             if (!cause.equals(DamageCause.FALL) && !cause.equals(DamageCause.ENTITY_ATTACK)) {
                 if (e.getEntity() instanceof Player) {

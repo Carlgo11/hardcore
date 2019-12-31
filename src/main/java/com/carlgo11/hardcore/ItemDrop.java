@@ -24,7 +24,6 @@ public class ItemDrop {
 
     public void dropItems()
     {
-        ArrayList<Player> plyers = players.getPlayersAlive();
         for (Player player : players.getPlayersAlive()) {
             ItemStack item = getItem(player);
             player.getInventory().addItem(item);

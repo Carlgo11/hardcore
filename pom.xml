@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.carlgo11</groupId>
     <artifactId>Hardcore</artifactId>
     <version>1.3</version>
+    <description>Hardcore Minecraft multiplayer server plugin.</description>
+    <url>https://github.com/Carlgo11/hardcore/</url>
 
     <packaging>jar</packaging>
-
-    <name>Hardcore</name>
-
-    <url>https://carlgo11.github.io/hardcore/</url>
 
     <licenses>
         <license>
@@ -18,7 +17,7 @@
             <url>https://creativecommons.org/licenses/by-nc/4.0/</url>
         </license>
     </licenses>
-    
+
     <build>
         <finalName>${project.name}_v${project.version}</finalName>
         <resources>
@@ -65,8 +64,9 @@
             <artifactId>bukkit</artifactId>
             <version>1.15.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-
         </dependency>
+
+        <!-- Report-API -->
         <dependency>
             <groupId>com.carlgo11</groupId>
             <artifactId>report</artifactId>
