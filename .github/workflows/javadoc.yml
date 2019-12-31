@@ -18,8 +18,8 @@ jobs:
 
       - name: Generate Javadoc
         run: |
-          mvn install
-          mvn javadoc:javadoc
+          mvn install --settings settings.xml
+          mvn javadoc:javadoc --settings settings.xml
 
       - name: Push Javadoc to gh-pages
         working-directory: target/site/apidocs
