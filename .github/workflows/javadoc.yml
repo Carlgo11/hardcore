@@ -20,6 +20,9 @@ jobs:
         run: |
           mvn install --settings settings.xml
           mvn javadoc:javadoc --settings settings.xml
+        env:
+          GITHUB_USERNAME: x-access-token
+          GITHUB_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push Javadoc to gh-pages
         working-directory: target/site/apidocs
