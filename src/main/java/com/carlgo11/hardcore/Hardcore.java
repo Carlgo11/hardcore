@@ -58,7 +58,7 @@ public class Hardcore extends JavaPlugin {
         HandlerList.unregisterAll(this);
         pm.registerEvents(new PlayerDamage(this, game), this);
         pm.registerEvents(new PlayerDeath(players), this);
-        pm.registerEvents(new PlayerDisconnect(this, players), this);
+        pm.registerEvents(new PlayerDisconnect(players), this);
         pm.registerEvents(new PlayerInteract(this, players), this);
         pm.registerEvents(new PlayerJoin(this, game, players), this);
         pm.registerEvents(new PlayerLogin(game), this);
@@ -126,10 +126,16 @@ public class Hardcore extends JavaPlugin {
     /**
      * Give all the alive players a new random item.
      */
-    public void itemDrop()
+    public void dropItems()
     {
         itemdrop.dropItems();
     }
+
+    public ItemDrop itemDrop(){
+        return itemdrop;
+    }
+
+
 
     public void outputInfo(String msg)
     {

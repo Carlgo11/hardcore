@@ -18,7 +18,7 @@ public class Game {
     public static int minPlayers;
     private final Hardcore hc;
     public double difficulty;
-    private GameState gamestate;
+    private GameState gamestate = GameState.Warmup;
     private double difficultyAddition;
     private int loop;
 
@@ -27,7 +27,7 @@ public class Game {
     }
 
     /**
-     * Set the game state to 1 = Running and start the {@link #loop loop}.
+     * Set the game state to Running and start the {@link #loop loop}.
      */
     public void startGame() {
         difficultyAddition = hc.getConfig().getDouble("difficulty.addition");
@@ -37,15 +37,21 @@ public class Game {
             hc.getServer().getWorlds().get(0).setDifficulty(Difficulty.PEACEFUL);
         }
         for (Player p : plyrs) {
+            hc.broadcastMessage(p.getName());
             p.setGameMode(GameMode.SURVIVAL);
             p.setFlying(false);
             p.getInventory().clear();
             p.getInventory().addItem(new ItemStack(Material.COMPASS, 1));
             hc.players().resetPlayerHealth(p);
+            if (!hc.players().getPlayersAlive().contains(p))
+                hc.players().addPlayer(p);
         }
         setGameState(GameState.Running);
+        if (hc.getConfig().getBoolean("difficulty.peaceful-first-level"))
+            hc.getServer().getWorlds().get(0).setDifficulty(Difficulty.PEACEFUL);
         hc.getServer().getWorlds().get(0).setTime(hc.getConfig().getLong("game.start-time"));
         hc.setEndBorder();
+
         loop();
     }
 
@@ -59,10 +65,11 @@ public class Game {
         }
         long time = 20 * 60 * hc.getConfig().getInt("difficulty.delay");
         loop = hc.getServer().getScheduler().scheduleSyncRepeatingTask(hc, () -> {
+
             if (getGameState() == GameState.Running) {
                 int max = hc.getConfig().getInt("difficulty.max");
                 if (max == -1 || difficulty <= max) {
-                    hc.itemDrop();
+                    hc.dropItems();
                     if (getDifficulty() == 0) {
                         difficulty = hc.getConfig().getDouble("difficulty.start-difficulty");
                     } else {
@@ -73,9 +80,7 @@ public class Game {
                     }
                     hc.broadcastMessage(ChatColor.GOLD + "Next difficulty: x" + String.format("%.2f", getDifficulty()));
                 }
-            } else {
-                Bukkit.getScheduler().cancelTask(loop);
-            }
+            } else Bukkit.getScheduler().cancelTask(loop);
         }, 20L, time);
     }
 
@@ -93,7 +98,7 @@ public class Game {
         setGameState(GameState.Ending);
         Bukkit.getScheduler().cancelTask(loop);
         Bukkit.getScheduler().scheduleSyncDelayedTask(hc, () -> {
-            Bukkit.getOnlinePlayers().stream().forEach((p) -> {
+            Bukkit.getOnlinePlayers().forEach((p) -> {
                 p.kickPlayer("Game restarting...");
             });
             Bukkit.getServer().shutdown();

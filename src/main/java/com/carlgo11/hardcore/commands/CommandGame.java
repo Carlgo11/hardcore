@@ -3,6 +3,7 @@ package com.carlgo11.hardcore.commands;
 import com.carlgo11.hardcore.Hardcore;
 import com.carlgo11.hardcore.api.Game;
 import com.carlgo11.hardcore.api.Players;
+import com.carlgo11.hardcore.gamestate.GameState;
 import com.carlgo11.report.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -77,7 +78,7 @@ public class CommandGame implements CommandExecutor {
 
     private boolean subCommandDebug(CommandSender sender) {
         if (sender.hasPermission("hardcore.game.debug")) {
-            hc.sendMessage(sender, "\n----- Debug Info -----\n\nGamestate: " + game.getGameState() + "\nPlayers alive:" + players.getPlayersAlive().size() + "\nDifficulty: " + game.getDifficulty());
+            hc.sendMessage(sender, "\n----- Debug Info -----\n\nGamestate: " + game.getGameState().toString() + "\nPlayers alive:" + players.getPlayersAlive().size() + "\nDifficulty: " + game.getDifficulty());
         } else {
             hc.badPermissions(sender);
         }

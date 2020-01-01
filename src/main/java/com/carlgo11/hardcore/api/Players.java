@@ -4,8 +4,10 @@ import com.carlgo11.hardcore.Hardcore;
 import com.carlgo11.hardcore.gamestate.GameState;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;

@@ -5,7 +5,7 @@ author: Carlgo11
 description: ${project.description}
 website: ${project.url}
 api-version: "1.15"
-depend:
+softdepend:
   - Report-API
 load: POSTWORLD
 database: false
@@ -31,6 +31,12 @@ commands:
     description: Team settings
     usage: /<command> <accept|add|leave|new>
     permission: hardcore.team
+
+  itemdrop:
+    description: Get a random item
+    usage: /<command>
+    permission: hardcore.itemdrop
+    aliases: [item, drop]
 
 permissions:
   hardcore.game.*:
@@ -67,3 +73,7 @@ permissions:
       hardcore.team.invite: true
       hardcore.team.leave: true
       hardcore.team.accept: true
+
+  hardcore.itemdrop:
+    description: Give access to /itemdrop
+    default: true
