@@ -3,8 +3,7 @@ package com.carlgo11.hardcore.commands;
 import com.carlgo11.hardcore.Hardcore;
 import com.carlgo11.hardcore.api.Game;
 import com.carlgo11.hardcore.api.Players;
-import com.carlgo11.hardcore.gamestate.GameState;
-import com.carlgo11.report.*;
+import com.carlgo11.report.Report;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -13,12 +12,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 
 public class CommandGame implements CommandExecutor {
 
-    private final Hardcore hc;
     final Game game;
     final Players players;
+    private final Hardcore hc;
 
     public CommandGame(Hardcore parent, Game game, Players players) {
         this.hc = parent;
@@ -28,19 +29,13 @@ public class CommandGame implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        if (args[0].equalsIgnoreCase("start")) {
-            return subCommandStart(sender, args);
-        } else if (args[0].equalsIgnoreCase("end")) {
-            return subCommandEnd(sender, args);
-        } else if (args[0].equalsIgnoreCase("debug") || args[0].equalsIgnoreCase("info")) {
-            return subCommandDebug(sender);
-        } else if (args[0].equalsIgnoreCase("add")) {
-            return subCommandAdd(sender, args, commandLabel);
-        } else if (args[0].equalsIgnoreCase("remove")) {
-            return subCommandRemove(sender, args, commandLabel);
-        }else if (args[0].equalsIgnoreCase("report")){
-            return subCommandReport(sender, commandLabel, hc);
-        }
+        List<String> debug = Arrays.asList("debug", "info");
+        if (args[0].equalsIgnoreCase("start")) return subCommandStart(sender, args);
+        else if (args[0].equalsIgnoreCase("end")) return subCommandEnd(sender, args);
+        else if (debug.contains(args[0].toLowerCase())) return subCommandDebug(sender);
+        else if (args[0].equalsIgnoreCase("add")) return subCommandAdd(sender, args, commandLabel);
+        else if (args[0].equalsIgnoreCase("remove")) return subCommandRemove(sender, args, commandLabel);
+        else if (args[0].equalsIgnoreCase("report")) return subCommandReport(sender, commandLabel, hc);
         return false;
     }
 
@@ -50,19 +45,15 @@ public class CommandGame implements CommandExecutor {
             report.makeReport();
             URL url = report.getURL();
             hc.sendMessage(sender, ChatColor.GREEN + "Include this link in your bug report: " + ChatColor.BLUE + url.toString());
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-
         return false;
     }
 
     private boolean subCommandStart(CommandSender sender, String[] args) {
-        if (sender.hasPermission("hardcore.game." + args[0])) {
-            game.startGame();
-        } else {
-            hc.badPermissions(sender);
-        }
+        if (sender.hasPermission("hardcore.game." + args[0])) game.startGame();
+        else hc.badPermissions(sender);
         return true;
     }
 
@@ -77,11 +68,9 @@ public class CommandGame implements CommandExecutor {
     }
 
     private boolean subCommandDebug(CommandSender sender) {
-        if (sender.hasPermission("hardcore.game.debug")) {
+        if (sender.hasPermission("hardcore.game.debug"))
             hc.sendMessage(sender, "\n----- Debug Info -----\n\nGamestate: " + game.getGameState().toString() + "\nPlayers alive:" + players.getPlayersAlive().size() + "\nDifficulty: " + game.getDifficulty());
-        } else {
-            hc.badPermissions(sender);
-        }
+        else hc.badPermissions(sender);
         return true;
     }
 

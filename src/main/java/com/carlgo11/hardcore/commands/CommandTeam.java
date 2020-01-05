@@ -15,15 +15,13 @@ public class CommandTeam implements CommandExecutor {
     private final Hardcore hc;
     private final Teams teams;
 
-    public CommandTeam(Hardcore parent, Teams teams)
-    {
+    public CommandTeam(Hardcore parent, Teams teams) {
         this.hc = parent;
         this.teams = teams;
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
-    {
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if (args.length > 0) {
             if (args[0].equalsIgnoreCase("new")) {
                 subCommandNew(sender, args);
@@ -45,8 +43,7 @@ public class CommandTeam implements CommandExecutor {
         return false;
     }
 
-    private void subCommandNew(CommandSender sender, String[] args)
-    {
+    private void subCommandNew(CommandSender sender, String[] args) {
         if (isPlayer(sender)) {
             Player player = (Player) sender;
             if (sender.hasPermission("hardcore.team." + args[0])) {
@@ -65,8 +62,7 @@ public class CommandTeam implements CommandExecutor {
         }
     }
 
-    private void subCommandInvite(CommandSender sender, String[] args)
-    {
+    private void subCommandInvite(CommandSender sender, String[] args) {
         if (sender.hasPermission("hardcore.team." + args[0])) {
             if (args.length == 2) {
                 Team team = hc.teams.inTeam(Bukkit.getPlayer(sender.getName()));
@@ -88,8 +84,7 @@ public class CommandTeam implements CommandExecutor {
         }
     }
 
-    private void subCommandLeave(CommandSender sender, String[] args)
-    {
+    private void subCommandLeave(CommandSender sender, String[] args) {
         if (isPlayer(sender)) {
             Player player = (Player) sender;
             if (sender.hasPermission("hardcore.team." + args[0])) {
@@ -108,24 +103,18 @@ public class CommandTeam implements CommandExecutor {
         }
     }
 
-    private void subCommandAccept(CommandSender sender, String[] args)
-    {
+    private void subCommandAccept(CommandSender sender, String[] args) {
         if (isPlayer(sender)) {
             Player player = (Player) sender;
             Team team = teams.isInvited(player);
             if (team != null) {
                 team.addEntry(player.getName());
                 hc.sendMessage(sender, ChatColor.GREEN + "You've joined \"" + team.getDisplayName() + ChatColor.GREEN + "\"");
-            } else {
-                hc.sendMessage(sender, ChatColor.RED + "You're not invited to any team.");
-            }
-        } else {
-            hc.sendMessage(sender, ChatColor.RED + "Only players can perform this command.");
-        }
+            } else hc.sendMessage(sender, ChatColor.RED + "You're not invited to any team.");
+        } else hc.sendMessage(sender, ChatColor.RED + "Only players can perform this command.");
     }
 
-    private boolean isPlayer(CommandSender sender)
-    {
+    private boolean isPlayer(CommandSender sender) {
         return sender instanceof Player;
     }
 }

@@ -4,10 +4,8 @@ import com.carlgo11.hardcore.Hardcore;
 import com.carlgo11.hardcore.gamestate.GameState;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
@@ -63,21 +61,20 @@ public class Players {
             ArrayList<Player> plyrs = getPlayersAlive();
             plyrs.remove(player);
             Team team = hc.teams.inTeam(player);
-            if (team != null) {
-                hc.teams.getTeam(team.getName()).removePlayer(player);
-            }
+            if (team != null) hc.teams.getTeam(team.getName()).removePlayer(player);
+
             setPlayers(plyrs);
             if (plyrs.size() > Game.minPlayers) {
                 for (Team team2 : hc.teams.sc.getTeams()) {
                     if (team2.getPlayers().equals(plyrs)) {
-                        game.getGameEndMessage(plyrs, player);
+                        game.getGameEndMessage(plyrs);
                         game.stopGame();
                         return;
                     }
                 }
                 hc.broadcastMessage(ChatColor.YELLOW + "Only " + plyrs.size() + " players left!");
             } else if (game.getGameState() == GameState.Running) {
-                game.getGameEndMessage(plyrs, player);
+                game.getGameEndMessage(plyrs);
                 game.stopGame();
             }
         }
@@ -92,8 +89,7 @@ public class Players {
         ArrayList<Player> plyrs = getPlayersAlive();
         plyrs.add(player);
         this.setPlayers(plyrs);
-        if (game.getGameState() == GameState.Running)
-            player.setGameMode(GameMode.SURVIVAL);
+        if (game.getGameState() == GameState.Running) player.setGameMode(GameMode.SURVIVAL);
     }
 
     /**

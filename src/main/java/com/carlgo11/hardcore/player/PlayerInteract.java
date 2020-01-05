@@ -36,14 +36,9 @@ public class PlayerInteract implements Listener {
 
     public static void setPlayerWandAbility(Player player, int i) {
         if (wandability.containsKey(player)) {
-            if (wandability.get(player) == -1) {
-                wandability.remove(player);
-            } else {
-                wandability.replace(player, i);
-            }
-        } else {
-            wandability.put(player, i);
-        }
+            if (wandability.get(player) == -1) wandability.remove(player);
+            else wandability.replace(player, i);
+        } else wandability.put(player, i);
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -51,10 +46,9 @@ public class PlayerInteract implements Listener {
         // TODO: This can become resource intensive and create NullPointers
         Material material = event.getMaterial();
         if (material.equals(Material.COMPASS)) {
-            itemCompass(event.getPlayer(), event.getItem(), event.getAction());
-        } else if (material.equals(Material.STICK)) {
-            itemWand(event.getPlayer(), event.getAction());
-        }
+            if (hc.players().getPlayersAlive().size() > 1)
+                itemCompass(event.getPlayer(), event.getItem(), event.getAction());
+        } else if (material.equals(Material.STICK)) itemWand(event.getPlayer(), event.getAction());
     }
 
     @EventHandler
@@ -66,14 +60,10 @@ public class PlayerInteract implements Listener {
      * {@link Player} uses a compass.
      */
     private void itemCompass(Player player, ItemStack item, Action action) {
-        List<String> playerList = players.getPlayersAlive()
-                .stream()
-                .map(Player::getName).sorted().collect(Collectors.toList());
+        List<String> playerList = players.getPlayersAlive().stream().map(Player::getName).sorted().collect(Collectors.toList());
 
         int currentIndex = 0;
-        if (findMap.containsKey(player)) {
-            currentIndex = findMap.get(player);
-        }
+        if (findMap.containsKey(player)) currentIndex = findMap.get(player);
 
         // Get next player
         if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
@@ -122,16 +112,14 @@ public class PlayerInteract implements Listener {
                     player.openInventory(PlayerInventoryClick.wandInventory);
                     break;
             }
-        } else {
+        } else
             player.openInventory(PlayerInventoryClick.wandInventory);
-        }
     }
 
     private void selectPlayer(Player currentPlayer, ItemStack item, Player facePlayer) {
         ItemMeta im = item.getItemMeta();
         im.setDisplayName(ChatColor.BOLD + "" + ChatColor.LIGHT_PURPLE + facePlayer.getName());
         item.setItemMeta(im);
-        //currentPlayer.getLocation().setYaw(Utilities.lookAt(currentPlayer.getLocation(), facePlayer.getLocation()).getYaw());
         currentPlayer.setCompassTarget(facePlayer.getLocation());
     }
 
@@ -144,16 +132,10 @@ public class PlayerInteract implements Listener {
         int newIndex = currentIndex + 1;
         if (playerList.size() > newIndex) {
             if (playerList.get(newIndex).equals(player.getName())) {
-                if (playerList.size() > newIndex + 1) {
-                    return newIndex + 1;
-                }
-            } else {
-                return newIndex;
-            }
+                if (playerList.size() > newIndex + 1) return newIndex + 1;
+            } else return newIndex;
         }
-        if (playerList.get(0).equals(player.getName())) {
-            return 1;
-        }
+        if (playerList.get(0).equals(player.getName())) return 1;
         return 0;
     }
 
@@ -167,16 +149,10 @@ public class PlayerInteract implements Listener {
         int size = playerList.size();
         if (newIndex >= 0) {
             if (playerList.get(newIndex).equals(player.getName())) {
-                if (newIndex - 1 >= 0) {
-                    return newIndex - 1;
-                }
-            } else {
-                return newIndex;
-            }
+                if (newIndex - 1 >= 0) return newIndex - 1;
+            } else return newIndex;
         }
-        if (playerList.get(size - 1).equals(player.getName())) {
-            return size - 2;
-        }
+        if (playerList.get(size - 1).equals(player.getName())) return size - 2;
         return size - 1;
     }
 }

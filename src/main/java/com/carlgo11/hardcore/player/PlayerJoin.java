@@ -39,8 +39,7 @@ public class PlayerJoin implements Listener {
             }
         }
 
-        if (state == GameState.Starting)
-            hc.sendMessage(player, ChatColor.GOLD + "Game starting...");
+        if (state == GameState.Starting) hc.sendMessage(player, ChatColor.GOLD + "Game starting...");
 
         if (state == GameState.Running) {
             if (!player.hasPlayedBefore() && hc.getConfig().getBoolean("game.can-join-game")) {

@@ -1,14 +1,12 @@
 package com.carlgo11.hardcore;
 
-import com.carlgo11.hardcore.api.*;
+import com.carlgo11.hardcore.api.Game;
+import com.carlgo11.hardcore.api.Players;
+import com.carlgo11.hardcore.api.Teams;
 import com.carlgo11.hardcore.commands.*;
 import com.carlgo11.hardcore.player.*;
-import com.carlgo11.hardcore.server.*;
-import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.carlgo11.hardcore.server.ServerPing;
 import org.bukkit.Bukkit;
-import static org.bukkit.Bukkit.getWorlds;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
 import org.bukkit.command.CommandSender;
@@ -18,17 +16,22 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static org.bukkit.Bukkit.getWorlds;
+
 public class Hardcore extends JavaPlugin {
 
+    private static Logger log;
+    public transient Teams teams;
     private transient Game game;
     private transient ItemDrop itemdrop;
-    public transient Teams teams;
-    private static Logger log;
     private transient Players players;
 
     @Override
-    public void onEnable()
-    {
+    public void onEnable() {
         log = getLogger();
         loadConfigFile("config.yml");
         loadConfigFile("items.yml");
@@ -48,13 +51,11 @@ public class Hardcore extends JavaPlugin {
     }
 
     @Override
-    public void onDisable()
-    {
+    public void onDisable() {
 
     }
 
-    private void registerListeners(PluginManager pm)
-    {
+    private void registerListeners(PluginManager pm) {
         HandlerList.unregisterAll(this);
         pm.registerEvents(new PlayerDamage(this, game), this);
         pm.registerEvents(new PlayerDeath(players), this);
@@ -62,7 +63,7 @@ public class Hardcore extends JavaPlugin {
         pm.registerEvents(new PlayerInteract(this, players), this);
         pm.registerEvents(new PlayerJoin(this, game, players), this);
         pm.registerEvents(new PlayerLogin(game), this);
-        pm.registerEvents(new PlayerRegainHealth(this), this);
+        pm.registerEvents(new PlayerRegainHealth(), this);
         pm.registerEvents(new ServerPing(game), this);
         pm.registerEvents(new Warmup(this, game), this);
         pm.registerEvents(new PlayerCraftItem(), this);
@@ -75,8 +76,7 @@ public class Hardcore extends JavaPlugin {
      *
      * @param filename Name of the file.
      */
-    private void loadConfigFile(String filename)
-    {
+    private void loadConfigFile(String filename) {
         File file = new File(getDataFolder(), filename);
         if (!file.exists()) {
             YamlConfiguration configfile = YamlConfiguration.loadConfiguration(new File(getDataFolder() + "/" + filename));
@@ -86,8 +86,7 @@ public class Hardcore extends JavaPlugin {
         }
     }
 
-    private void setStartBorder()
-    {
+    private void setStartBorder() {
         getServer().getWorlds().get(0).getWorldBorder().setSize(getConfig().getInt("border.start-distance"));
         getServer().getWorlds().get(0).getWorldBorder().setWarningDistance(10);
         getServer().getWorlds().get(0).getWorldBorder().setWarningTime(30);
@@ -95,21 +94,19 @@ public class Hardcore extends JavaPlugin {
         getServer().getWorlds().get(0).getWorldBorder().setDamageBuffer(10);
     }
 
-    public void setEndBorder()
-    {
+    public void setEndBorder() {
         getServer().getWorlds().get(0).getWorldBorder().setSize(getConfig().getInt("border.end-distance"), getConfig().getInt("border.time"));
     }
 
-    private void loadCommands()
-    {
+    private void loadCommands() {
         getCommand("difficulty").setExecutor(new CommandDifficulty(this, game));
         getCommand("game").setExecutor(new CommandGame(this, game, players));
         getCommand("vote").setExecutor(new CommandVote(this, game));
         getCommand("team").setExecutor(new CommandTeam(this, teams));
+        getCommand("itemdrop").setExecutor(new CommandItemDrop(this));
     }
 
-    public Players players()
-    {
+    public Players players() {
         return players;
     }
 
@@ -118,32 +115,27 @@ public class Hardcore extends JavaPlugin {
      *
      * @param cmd Command to execute
      */
-    public void executeCommand(String cmd)
-    {
+    public void executeCommand(String cmd) {
         getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd);
     }
 
     /**
      * Give all the alive players a new random item.
      */
-    public void dropItems()
-    {
+    public void dropItems() {
         itemdrop.dropItems();
     }
 
-    public ItemDrop itemDrop(){
+    public ItemDrop itemDrop() {
         return itemdrop;
     }
 
 
-
-    public void outputInfo(String msg)
-    {
+    public void outputInfo(String msg) {
         log.log(Level.INFO, msg);
     }
 
-    public void outputWarning(String msg)
-    {
+    public void outputWarning(String msg) {
         log.log(Level.WARNING, msg);
     }
 
@@ -152,8 +144,7 @@ public class Hardcore extends JavaPlugin {
      *
      * @param player Player to send error-message to.
      */
-    public void badPermissions(CommandSender player)
-    {
+    public void badPermissions(CommandSender player) {
         sendMessage(player, ChatColor.RED + "You don't have permission to use that command");
     }
 
@@ -163,8 +154,7 @@ public class Hardcore extends JavaPlugin {
      *
      * @param message Message to broadcast
      */
-    public void broadcastMessage(String message)
-    {
+    public void broadcastMessage(String message) {
         String prefix = getConfig().getString("prefix");
         getServer().broadcastMessage(ChatColor.GREEN + prefix + ChatColor.YELLOW + message);
     }
@@ -172,11 +162,10 @@ public class Hardcore extends JavaPlugin {
     /**
      * Send a message to a specific player.
      *
-     * @param player Player to send message to.
+     * @param player  Player to send message to.
      * @param message Message to send.
      */
-    public void sendMessage(Player player, String message)
-    {
+    public void sendMessage(Player player, String message) {
         String prefix = getConfig().getString("prefix");
         player.sendMessage(ChatColor.GREEN + prefix + ChatColor.YELLOW + message);
     }
@@ -184,11 +173,10 @@ public class Hardcore extends JavaPlugin {
     /**
      * Send a message to a specific player.
      *
-     * @param player Player to send message to.
+     * @param player  Player to send message to.
      * @param message Message to send.
      */
-    public void sendMessage(CommandSender player, String message)
-    {
+    public void sendMessage(CommandSender player, String message) {
         String prefix = getConfig().getString("prefix");
         player.sendMessage(ChatColor.GREEN + prefix + ChatColor.YELLOW + message);
     }
@@ -197,8 +185,7 @@ public class Hardcore extends JavaPlugin {
      * Set <a href="http://minecraft.gamepedia.com/Difficulty">Minecraft
      * difficulty</a>. Not the same as game difficulty!
      */
-    private void setDifficulty()
-    {
+    private void setDifficulty() {
         getWorlds().get(0).setDifficulty(Difficulty.valueOf(getConfig().getString("difficulty.mode").toUpperCase()));
         outputInfo("World difficulty set to " + getWorlds().get(0).getDifficulty());
     }

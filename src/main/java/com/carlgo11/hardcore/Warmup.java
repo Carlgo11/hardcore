@@ -1,6 +1,6 @@
 package com.carlgo11.hardcore;
 
-import com.carlgo11.hardcore.api.*;
+import com.carlgo11.hardcore.api.Game;
 import com.carlgo11.hardcore.gamestate.GameState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,8 +14,7 @@ public class Warmup implements Listener {
 
     final Game game;
 
-    public Warmup(Hardcore parent, Game game)
-    {
+    public Warmup(Hardcore parent, Game game) {
         this.game = game;
     }
 
@@ -24,40 +23,27 @@ public class Warmup implements Listener {
      *
      * @return Warmup state
      */
-    public boolean isWarmup()
-    {
+    public boolean isWarmup() {
         return game.getGameState() == GameState.Warmup;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onEntityInteract(EntityInteractEvent e)
-    {
-        if (isWarmup()) {
-            e.setCancelled(true);
-        }
+    public void onEntityInteract(EntityInteractEvent e) {
+        if (isWarmup()) e.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onEntityTarget(EntityTargetEvent e)
-    {
-        if (isWarmup()) {
-            e.setCancelled(true);
-        }
+    public void onEntityTarget(EntityTargetEvent e) {
+        if (isWarmup()) e.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onEntityDamage(EntityDamageEvent e)
-    {
-        if (isWarmup()) {
-            e.setCancelled(true);
-        }
+    public void onEntityDamage(EntityDamageEvent e) {
+        if (isWarmup()) e.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onEntityFoodLevelChange(FoodLevelChangeEvent e)
-    {
-        if (isWarmup()) {
-            e.setCancelled(true);
-        }
+    public void onEntityFoodLevelChange(FoodLevelChangeEvent e) {
+        if (isWarmup()) e.setCancelled(true);
     }
 }

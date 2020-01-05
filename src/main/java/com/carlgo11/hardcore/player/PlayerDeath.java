@@ -23,6 +23,7 @@ public class PlayerDeath implements Listener {
         Player player = e.getEntity().getPlayer();
         players.removePlayer(player);
         Location l = player.getLocation().getBlock().getLocation();
+        l.setY(0);
         l.getWorld().spawnEntity(l, EntityType.LIGHTNING);
     }
 }

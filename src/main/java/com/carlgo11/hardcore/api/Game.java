@@ -33,9 +33,9 @@ public class Game {
         difficultyAddition = hc.getConfig().getDouble("difficulty.addition");
         ArrayList<Player> plyrs = new ArrayList<>(Bukkit.getOnlinePlayers());
         hc.players().setPlayers(plyrs);
-        if (hc.getConfig().getBoolean("difficulty.peaceful-first-level")) {
+        if (hc.getConfig().getBoolean("difficulty.peaceful-first-level"))
             hc.getServer().getWorlds().get(0).setDifficulty(Difficulty.PEACEFUL);
-        }
+
         for (Player p : plyrs) {
             hc.broadcastMessage(p.getName());
             p.setGameMode(GameMode.SURVIVAL);
@@ -43,8 +43,7 @@ public class Game {
             p.getInventory().clear();
             p.getInventory().addItem(new ItemStack(Material.COMPASS, 1));
             hc.players().resetPlayerHealth(p);
-            if (!hc.players().getPlayersAlive().contains(p))
-                hc.players().addPlayer(p);
+            if (!hc.players().getPlayersAlive().contains(p)) hc.players().addPlayer(p);
         }
         setGameState(GameState.Running);
         if (hc.getConfig().getBoolean("difficulty.peaceful-first-level"))
@@ -60,9 +59,9 @@ public class Game {
      * an item every x minutes
      */
     private void loop() {
-        for (Player p : hc.players().getPlayersAlive()) {
+        for (Player p : hc.players().getPlayersAlive())
             p.sendTitle(ChatColor.GREEN + "Game started", ChatColor.YELLOW + "Good luck have fun!", 10, 70, 20);
-        }
+
         long time = 20 * 60 * hc.getConfig().getInt("difficulty.delay");
         loop = hc.getServer().getScheduler().scheduleSyncRepeatingTask(hc, () -> {
 
@@ -70,12 +69,9 @@ public class Game {
                 int max = hc.getConfig().getInt("difficulty.max");
                 if (max == -1 || difficulty <= max) {
                     hc.dropItems();
-                    if (getDifficulty() == 0) {
-                        difficulty = hc.getConfig().getDouble("difficulty.start-difficulty");
-                    } else {
-                        if (getDifficulty() == 1) {
-                            hc.getServer().getWorlds().get(0).setDifficulty(Difficulty.HARD);
-                        }
+                    if (getDifficulty() == 0) difficulty = hc.getConfig().getDouble("difficulty.start-difficulty");
+                    else {
+                        if (getDifficulty() == 1) hc.getServer().getWorlds().get(0).setDifficulty(Difficulty.HARD);
                         nextDifficulty();
                     }
                     hc.broadcastMessage(ChatColor.GOLD + "Next difficulty: x" + String.format("%.2f", getDifficulty()));
@@ -98,9 +94,7 @@ public class Game {
         setGameState(GameState.Ending);
         Bukkit.getScheduler().cancelTask(loop);
         Bukkit.getScheduler().scheduleSyncDelayedTask(hc, () -> {
-            Bukkit.getOnlinePlayers().forEach((p) -> {
-                p.kickPlayer("Game restarting...");
-            });
+            Bukkit.getOnlinePlayers().forEach((p) -> p.kickPlayer("Game restarting..."));
             Bukkit.getServer().shutdown();
         }, (hc.getConfig().getInt("game.end-delay") * 20));
     }
@@ -134,16 +128,14 @@ public class Game {
         gamestate = newstate;
     }
 
-    public void getGameEndMessage(ArrayList<Player> players, Player player) {
+    public void getGameEndMessage(ArrayList<Player> players) {
 
         if (players.size() >= 1) {
             String aliveplayers = null;
             for (Player p : players) {
-                if (aliveplayers == null) {
-                    aliveplayers += p.getName();
-                } else {
-                    aliveplayers += ", " + p.getName();
-                }
+                if (aliveplayers == null) aliveplayers += p.getName();
+                else aliveplayers += ", " + p.getName();
+
                 Firework fw = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK);
                 FireworkMeta fwm = fw.getFireworkMeta();
             }

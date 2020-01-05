@@ -1,8 +1,7 @@
 package com.carlgo11.hardcore.commands;
 
+import com.carlgo11.hardcore.Hardcore;
 import com.carlgo11.hardcore.api.Game;
-import com.carlgo11.hardcore.*;
-import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -10,22 +9,21 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+
 public class CommandVote implements CommandExecutor {
 
     final Hardcore hc;
     final Game game;
+    private Vote vote;
 
-    public CommandVote(Hardcore parent, Game game)
-    {
+    public CommandVote(Hardcore parent, Game game) {
         this.hc = parent;
         this.game = game;
     }
 
-    private Vote vote;
-
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
-    {
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if (sender instanceof Player) {
             if (args.length > 0) {
                 if (sender.hasPermission("hardcore.vote")) {
@@ -53,8 +51,7 @@ public class CommandVote implements CommandExecutor {
         return false;
     }
 
-    private void subCommandKick(CommandSender sender, Command cmd, String commandLabel, String[] args)
-    {
+    private void subCommandKick(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if (sender.hasPermission("hardcore.vote." + args[0])) {
             if (args.length == 2) {
                 if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]).isOnline()) {
@@ -75,8 +72,7 @@ public class CommandVote implements CommandExecutor {
         }
     }
 
-    private void subCommandStart(CommandSender sender, Command cmd, String commandLabel, String[] args)
-    {
+    private void subCommandStart(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if (sender.hasPermission("hardcore.vote." + args[0])) {
             vote = new Vote("start", Bukkit.getPlayer(sender.getName()));
             vote.yes.add(Bukkit.getPlayer(sender.getName()));
@@ -87,8 +83,7 @@ public class CommandVote implements CommandExecutor {
         }
     }
 
-    private void subCommandYesNo(CommandSender sender, Command cmd, String commandLabel, String[] args)
-    {
+    private void subCommandYesNo(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if (vote != null && vote.voteOn != null) {
             if (sender.hasPermission("hardcore.vote." + args[0])) {
                 if (!vote.yes.contains(Bukkit.getPlayer(sender.getName())) && !vote.no.contains(Bukkit.getPlayer(sender.getName()))) {
@@ -107,11 +102,10 @@ public class CommandVote implements CommandExecutor {
     /**
      * Add a new vote to an existing vote
      *
-     * @param sender Player making the vote
+     * @param sender   Player making the vote
      * @param castvote What the vote is on
      */
-    private void onVote(Player sender, String castvote)
-    {
+    private void onVote(Player sender, String castvote) {
         if (castvote.equalsIgnoreCase("yes")) {
             vote.yes.add(sender);
             hc.broadcastMessage(ChatColor.GOLD + sender.getName() + " voted " + ChatColor.GREEN + ChatColor.BOLD + castvote.toUpperCase());
@@ -130,8 +124,7 @@ public class CommandVote implements CommandExecutor {
      * @param sender Player making the kick request.
      * @param player Player voted on being kicked.
      */
-    private void startVoteKick(Player sender, Player player)
-    {
+    private void startVoteKick(Player sender, Player player) {
         vote = new Vote("kick", sender);
         vote.kick = player;
         vote.yes.add(Bukkit.getPlayer(sender.getName()));
@@ -147,8 +140,7 @@ public class CommandVote implements CommandExecutor {
         private ArrayList<Player> no = new ArrayList<>();
         private Player kick;
 
-        private Vote(String voteon, Player votecaster)
-        {
+        private Vote(String voteon, Player votecaster) {
             this.voteOn = voteon;
             this.voteCaster = votecaster;
         }
@@ -156,14 +148,9 @@ public class CommandVote implements CommandExecutor {
         /**
          * Execute the vote. Should only be passed when the vote have passed
          */
-        private void executeVote()
-        {
-            if (voteOn.equals("kick")) {
-                kick.kickPlayer(ChatColor.GOLD + "You've been kicked by the other players.");
-            }
-            if (voteOn.equals("start")) {
-                game.startGame();
-            }
+        private void executeVote() {
+            if (voteOn.equals("kick")) kick.kickPlayer(ChatColor.GOLD + "You've been kicked by the other players.");
+            else if (voteOn.equals("start")) game.startGame();
         }
     }
 }

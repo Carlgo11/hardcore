@@ -55,11 +55,9 @@ public class Teams {
         Team t = sc.registerNewTeam(name);
         ChatColor teamColorCode = getRandomTeamColor();
         String teamColor;
-        if (teamColorCode != null) {
-            teamColor = teamColorCode + "";
-        } else {
-            teamColor = "";
-        }
+        if (teamColorCode != null) teamColor = teamColorCode + "";
+        else teamColor = "";
+
         t.setDisplayName(teamColor + ChatColor.GREEN + name);
         t.setPrefix(teamColor);
         t.setAllowFriendlyFire(hc.getConfig().getBoolean("teams.friendly-fire"));
@@ -74,17 +72,15 @@ public class Teams {
      */
     private ChatColor getRandomTeamColor() {
         ArrayList<String> teamcolors = new ArrayList<>();
-        for (Team teams : sc.getTeams()) {
-            teamcolors.add(teams.getPrefix());
-        }
-        if (teamcolors.size() == (ChatColor.values().length - 6)) {
-            return null;
-        }
+        for (Team teams : sc.getTeams()) teamcolors.add(teams.getPrefix());
+
+        if (teamcolors.size() == (ChatColor.values().length - 6)) return null;
+
         ArrayList<ChatColor> chatcolors = new ArrayList<>(Arrays.asList(ChatColor.values()));
         ChatColor color = null;
-        while (color == null || teamcolors.contains("" + color)) {
+        while (color == null || teamcolors.contains("" + color))
             color = chatcolors.get((int) (Math.random() * (chatcolors.size() - 7)));
-        }
+
         return color;
     }
 
@@ -97,9 +93,7 @@ public class Teams {
      */
     public Team inTeam(Player player) {
         for (Team team : sc.getTeams()) {
-            if (team.hasPlayer(player)) {
-                return team;
-            }
+            if (team.hasPlayer(player)) return team;
         }
         return null;
     }
@@ -109,9 +103,7 @@ public class Teams {
             ArrayList<Player> players = invites.get(team);
             if (players != null) {
                 for (Player p : players) {
-                    if (p.getUniqueId().equals(player.getUniqueId())) {
-                        return team;
-                    }
+                    if (p.getUniqueId().equals(player.getUniqueId())) return team;
                 }
             }
         }
@@ -133,9 +125,7 @@ public class Teams {
          */
         public void removePlayer(Player player) {
             team.removePlayer(player);
-            if (team.getEntries().isEmpty()) {
-                sc.getTeams().remove(team);
-            }
+            if (team.getEntries().isEmpty()) sc.getTeams().remove(team);
         }
 
         public void addInvite(Player player) {

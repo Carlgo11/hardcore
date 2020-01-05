@@ -25,14 +25,10 @@ public class ServerPing implements Listener {
     public void onMOTD(ServerListPingEvent event) {
         GameState state = game.getGameState();
         String motd = event.getMotd() + "";
-        if (state == GameState.Warmup)
-            event.setMotd(motd + ChatColor.GREEN + "Warmup...");
-        else if (state == GameState.Running)
-            event.setMotd(motd + ChatColor.RED + "Running...");
-        else if (state == GameState.Starting)
-            event.setMotd(motd + ChatColor.GOLD + "Starting...");
-        else if (state == GameState.Ending)
-            event.setMotd(motd + ChatColor.YELLOW + "Ending...");
+        if (state == GameState.Warmup) event.setMotd(motd + ChatColor.GREEN + "Warmup...");
+        else if (state == GameState.Running) event.setMotd(motd + ChatColor.RED + "Running...");
+        else if (state == GameState.Starting) event.setMotd(motd + ChatColor.GOLD + "Starting...");
+        else if (state == GameState.Ending) event.setMotd(motd + ChatColor.YELLOW + "Ending...");
     }
 }
 
