@@ -6,8 +6,7 @@ import org.bukkit.inventory.ShapelessRecipe;
 
 public class CraftingRecipe {
 
-    public static ShapelessRecipe setCraftingRecipeTNT()
-    {
+    public static ShapelessRecipe setCraftingRecipeTNT() {
         ItemStack TNT = new ItemStack(Material.TNT, 1);
         ShapelessRecipe tntrecipe = new ShapelessRecipe(TNT);
         tntrecipe.addIngredient(Material.GUNPOWDER);

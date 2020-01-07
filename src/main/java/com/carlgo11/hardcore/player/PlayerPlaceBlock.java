@@ -10,8 +10,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 public class PlayerPlaceBlock implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onPlayerPlaceBlock(BlockPlaceEvent event)
-    {
+    public void onPlayerPlaceBlock(BlockPlaceEvent event) {
         if (!event.isCancelled()) {
             if (event.getBlock().getType().equals(Material.TNT)) {
                 event.getBlock().setType(Material.AIR);

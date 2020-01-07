@@ -12,14 +12,12 @@ public class PlayerDeath implements Listener {
 
     final Players players;
 
-    public PlayerDeath(Players players)
-    {
+    public PlayerDeath(Players players) {
         this.players = players;
     }
 
     @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent e)
-    {
+    public void onPlayerDeath(PlayerDeathEvent e) {
         Player player = e.getEntity().getPlayer();
         players.removePlayer(player);
         Location l = player.getLocation().getBlock().getLocation();

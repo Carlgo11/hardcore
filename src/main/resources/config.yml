@@ -15,7 +15,7 @@ difficulty:
   addition: 1.25
   # Max difficulty. Set value to -1 if no max value should be set.
   max: -1
-  # Delay between difficulty levels. Time in minutes
+  # Delay between difficulty levels. Time in minutes.
   delay: 5
   # Difficulty mode. (Peaceful, Easy, Normal, Hard)
   mode: Hard
@@ -37,9 +37,15 @@ game:
   start-time: 6000
 
 teams:
- # Allow damage from other team members.
- friendly-fire: false
+  # Allow damage from other team members.
+  friendly-fire: false
 
 report:
+  # Send latest-log.txt when uploading a report.
   report-log: true
+  # Send plugin config when uploading a report.
   report-config: true
+
+itemdrops:
+  # XP levels needed to initiate a personal item drop.
+  needed-xp: 10

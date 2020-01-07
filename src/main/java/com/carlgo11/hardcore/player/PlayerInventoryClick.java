@@ -12,11 +12,11 @@ import org.bukkit.inventory.ItemStack;
 
 public class PlayerInventoryClick implements Listener {
 
+    public static Inventory wandInventory = Bukkit.createInventory(null, 9, "Choose Wand Effect");
+
     public PlayerInventoryClick(Hardcore parent) {
         this.setWandInventoryItems();
     }
-
-    public static Inventory wandInventory = Bukkit.createInventory(null, 9, "Choose Wand Effect");
 
     private void setWandInventoryItems() {
         wandInventory.setItem(0, new ItemStack(Material.ARROW));

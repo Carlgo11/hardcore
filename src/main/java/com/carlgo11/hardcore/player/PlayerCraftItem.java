@@ -12,8 +12,7 @@ import org.bukkit.event.inventory.CraftItemEvent;
 public class PlayerCraftItem implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void onPlayerCraftItem(CraftItemEvent event)
-    {
+    public void onPlayerCraftItem(CraftItemEvent event) {
         if (!event.isCancelled()) {
             if (event.getWhoClicked() instanceof Player) {
                 Player player = (Player) event.getWhoClicked();

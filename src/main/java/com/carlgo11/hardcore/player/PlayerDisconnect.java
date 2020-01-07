@@ -1,6 +1,6 @@
 package com.carlgo11.hardcore.player;
 
-import com.carlgo11.hardcore.api.*;
+import com.carlgo11.hardcore.api.Players;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,14 +10,12 @@ public class PlayerDisconnect implements Listener {
 
     final Players players;
 
-    public PlayerDisconnect(Players players)
-    {
+    public PlayerDisconnect(Players players) {
         this.players = players;
     }
 
     @EventHandler
-    public void onPlayerDisconnect(PlayerQuitEvent e)
-    {
+    public void onPlayerDisconnect(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         players.removePlayer(player);
     }

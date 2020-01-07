@@ -35,8 +35,8 @@ To run a local server and test/run the code follow these instructions:
 1. Download a Spigot or Bukkit build.
 2. Download the project. `git clone https://github.com/Carlgo11/hardcore.git`
 3. Make a directory to run the server in. `mkdir server`
-4. Copy the startup script and the scripts folder. `cp {scripts,startup_script.sh} server`
+4. Copy the startup script and the scripts folder. `cp {scripts} server`
 5. Go to the spigot directory and agree to the Minecraft EULA. `cd server; echo "eula=true" > eula.txt`
 6. Start the server `./startup_script.sh`. This will download the latest Hardcore jar from GitHub.
 
-_Note:_ _You can build the Hardcore.jar and just place it in the `plugins` folder of an existing Minecraft server. If you choose to do so, skip the steps above._
+_Note: You can build the Hardcore.jar and just place it in the `plugins` folder of an existing Minecraft server. If you choose to do so, skip the steps above._

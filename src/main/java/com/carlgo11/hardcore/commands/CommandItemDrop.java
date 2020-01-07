@@ -17,9 +17,10 @@ public class CommandItemDrop implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (player.getLevel() >= 20) {
+            int needed_xp = hc.getConfig().getInt("itemdrops.needed-xp");
+            if (player.getLevel() >= needed_xp) {
                 hc.itemDrop().dropItem(player);
-                player.setLevel(player.getLevel() - 20);
+                player.setLevel(player.getLevel() - needed_xp);
             } else hc.sendMessage(sender, "You need more XP to call in an item drop.");
         } else hc.sendMessage(sender, "Command can only be used by players.");
         return true;
